@@ -51,6 +51,9 @@ $route['logout'] = "authenticate/logout";
 
 //Admission
 $route['admission'] = "admission/dashboard/index";
+$route['admission/forms'] = "admission/forms/index";
+$route['admission/list_forms_json'] = "admission/forms/getListJson";
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

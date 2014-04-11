@@ -64,7 +64,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="<?php echo ADMISSION_URL . 'admission_forms' ?>">Forms</a></li>
+                        <li><a href="<?php echo ADMISSION_URL . 'forms' ?>">Forms</a></li>
                         <li><a href="<?php echo ADMISSION_URL . 'eet' ?>">Entrance Exam Test</a></li>
                         <li><a href="<?php echo ADMISSION_URL . 'merit_list' ?>">Merit List</a></li>
                         <li><a href="<?php echo ADMISSION_URL . 'counselling' ?>">counselling</a></li>

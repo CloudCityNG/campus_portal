@@ -29,6 +29,9 @@
 .icon-trash{display:inline-block; height:26px; width:26px; background:url('../images/icons-delete.png') no-repeat -26px 0px; transition:ease-in-out .2s; -moz-transition:ease-in-out .2s; -o-transition:ease-in-out .2s; }
 .icon-trash:hover{background:url('../images/icons-delete.png') no-repeat 0px 0px;}
 
+.icon-edit{display:inline-block; height:26px; width:35px; background:url('../images/icons-edit.png') no-repeat -26px 0px; transition:ease-in-out .2s; -moz-transition:ease-in-out .2s; -o-transition:ease-in-out .2s; }
+.icon-edit:hover{background:url('../images/icons-edit.png') no-repeat 5px 0px;}
+
 .add_button {margin:0 0 15px 0;}
 
 label.error { color: #b94a48;}

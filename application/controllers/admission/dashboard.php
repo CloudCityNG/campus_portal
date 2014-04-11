@@ -23,7 +23,7 @@ class dashboard extends CI_Controller {
         $session = $this->session->userdata('admin_session');
         if (empty($session) && $session->type != 'admin') {
             $this->session->flashdata('error', 'Please Login First');
-            redirect(ADMIN_URL . 'login', 'refresh');
+            redirect(base_url() . 'login', 'refresh');
         } else {
             $this->admin_layout->view('admission/dashobard');
         }
