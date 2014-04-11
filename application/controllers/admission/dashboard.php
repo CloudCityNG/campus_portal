@@ -7,25 +7,25 @@ class dashboard extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->admin_layout->setLayout('admin/template/layout_admission');
-        
-        
+        $this->admin_layout->setLayout('template/layout_admission');
+
+
         $session = $this->session->userdata('admin_session');
-        if (empty($session)) {
+        if (empty($session) && $session->type != 'admission') {
             $this->session->set_flashdata('error', 'Login First');
-            redirect(ADMIN_URL . 'login', 'refresh');
+            redirect(base_url() . 'login', 'refresh');
         }
     }
 
     public function index() {
         $this->admin_layout->setField('page_title', 'Admission Section');
-        
+
         $session = $this->session->userdata('admin_session');
         if (empty($session) && $session->type != 'admin') {
             $this->session->flashdata('error', 'Please Login First');
             redirect(ADMIN_URL . 'login', 'refresh');
         } else {
-            $this->admin_layout->view('admin/admission/dashobard');
+            $this->admin_layout->view('admission/dashobard');
         }
     }
 

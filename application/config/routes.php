@@ -41,15 +41,16 @@ if (!defined('BASEPATH'))
   |
  */
 
-$route['default_controller'] = "admin/dashboard/index";
+$route['default_controller'] = "index/index";
 $route['404_override'] = '';
 
 //Admin
-$route['admin/login'] = "admin/authenticate/index";
-$route['admin/validate'] = "admin/authenticate/validateUser";
-$route['admin/logout'] = "admin/authenticate/logout";
+$route['login'] = "authenticate/index";
+$route['validate'] = "authenticate/validateUser";
+$route['logout'] = "authenticate/logout";
 
 //Admission
-$route['admin/admission'] = "admin/admission/dashboard/index";
+$route['admission'] = "admission/dashboard/index";
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

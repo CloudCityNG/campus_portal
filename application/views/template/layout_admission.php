@@ -30,7 +30,7 @@
         <script src="<?php echo JS_URL; ?>jquery-ui-timepicker-addon.js" type="text/javascript"></script>
 
         <script type="text/javascript">
-            var http_host_js = '<?php echo ADMIN_URL; ?>';
+            var http_host_js = '<?php echo ADMISSION_URL; ?>';
         </script>
     </head>
     <body>
@@ -64,10 +64,10 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="<?php echo ADMIN_URL . 'admission_forms' ?>">Forms</a></li>
-                        <li><a href="<?php echo ADMIN_URL . 'eet' ?>">Entrance Exam Test</a></li>
-                        <li><a href="<?php echo ADMIN_URL . 'merit_list' ?>">Merit List</a></li>
-                        <li><a href="<?php echo ADMIN_URL . 'counselling' ?>">counselling</a></li>
+                        <li><a href="<?php echo ADMISSION_URL . 'admission_forms' ?>">Forms</a></li>
+                        <li><a href="<?php echo ADMISSION_URL . 'eet' ?>">Entrance Exam Test</a></li>
+                        <li><a href="<?php echo ADMISSION_URL . 'merit_list' ?>">Merit List</a></li>
+                        <li><a href="<?php echo ADMISSION_URL . 'counselling' ?>">counselling</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">
@@ -78,7 +78,7 @@
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo ADMIN_URL . 'logout'; ?>">Logout</a></li>
+                                <li><a href="<?php echo base_url() . 'logout'; ?>">Logout</a></li>
                             </ul>
                         </li>
                     </ul>

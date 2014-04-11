@@ -22,8 +22,8 @@ $config['base_url'] = 'http://localhost/campus_portal/';
 if (!defined('STUDENT_URL'))
     define('STUDENT_URL', $config['base_url'] . 'student/');
 
-if (!defined('ADMIN_URL'))
-    define('ADMIN_URL', $config['base_url'] . 'admin/');
+if (!defined('ADMISSION_URL'))
+    define('ADMISSION_URL', $config['base_url'] . 'admission/');
 
 
 if (!defined('CSS_URL'))
