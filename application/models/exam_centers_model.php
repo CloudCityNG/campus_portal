@@ -9,6 +9,7 @@ Class exam_centers_model extends CI_model {
     public $name;
     public $code;
     public $address;
+    public $status;
     public $create_id;
     public $create_date_time;
     public $modify_id;
@@ -30,6 +31,7 @@ Class exam_centers_model extends CI_model {
         $new->name = $old->name;
         $new->code = $old->code;
         $new->address = $old->address;
+        $new->status = $old->status;
         $new->create_id = $old->create_id;
         $new->create_date_time = $old->create_date_time;
         $new->modify_id = $old->modify_id;
@@ -50,6 +52,9 @@ Class exam_centers_model extends CI_model {
 
         if ($this->address != '')
             $arr['address'] = $this->address;
+
+        if ($this->status != '')
+            $arr['status'] = $this->status;
 
         if ($this->create_id != '')
             $arr['create_id'] = $this->create_id;

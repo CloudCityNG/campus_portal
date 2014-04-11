@@ -61,7 +61,7 @@
 </div>
 <?php if ($session->role == 2 || $session->role == 3) { ?>
     <div class="col-md-12 add_button">
-        <a href="<?php echo ADMISSION_URL . 'manage_form/0'; ?>" class="btn btn-default">
+        <a href="<?php echo ADMISSION_URL . 'forms/add_ug'; ?>" class="btn btn-default">
             Add New Form
         </a>
     </div>

@@ -53,6 +53,8 @@ $route['logout'] = "authenticate/logout";
 $route['admission'] = "admission/dashboard/index";
 $route['admission/forms'] = "admission/forms/index";
 $route['admission/list_forms_json'] = "admission/forms/getListJson";
+$route['admission/forms/add_ug'] = "admission/forms/addUGNewForm";
+$route['admission/forms/save_ug'] = "admission/forms/saveUGNewForm";
 
 
 /* End of file routes.php */

@@ -17,6 +17,9 @@ class forms extends CI_Controller {
         }
 
         //$this->output->enable_profiler(TRUE);
+
+        $this->load->model('courses_model');
+        $this->load->model('exam_centers_model');
     }
 
     public function index() {
@@ -58,6 +61,18 @@ class forms extends CI_Controller {
         }
         echo json_encode($this->datatable->output);
         exit();
+    }
+
+    function addUGNewForm() {
+        $this->admin_layout->setField('page_title', 'UG New Admission');
+        
+        $data['course_details'] = $this->courses_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
+        $data['center_details'] = $this->exam_centers_model->getWhere(array('status' => 'A'));
+        $this->admin_layout->view('admission/forms/add', $data);
+    }
+
+    function saveUGNewForm() {
+        var_dump($_POST);
     }
 
 }
