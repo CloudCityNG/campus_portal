@@ -1,8 +1,16 @@
 <script>
     $(function() {
-        $('#add_new_form a[href="#basic_info"]').tab('show')
+        $('#add_new_form a[href="#<?php echo @$tab; ?>"]').tab('show')
 
-        $('#manage').validate();
+<?php if (@$tab == '') { ?>
+            $('#manage_basic_info').validate();
+<?php } else if (@$tab == 'edu_info') { ?>
+            $('#manage_edu_info').validate({
+                'year[]': {
+                    required: true
+                }
+            });
+<?php } ?>
 
 <?php $date = date('m/d/Y', strtotime(get_current_date_time()->get_date_for_db())); ?>
         $("#dob").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
@@ -40,16 +48,16 @@
 
 <ul id="add_new_form" class="nav nav-tabs">
     <li class=""><a href="#basic_info" data-toggle="tab">Basic Information</a></li>
-    <li class=""><a href="#edu_info">Education Information</a></li>
-    <li class=""><a href="#languages">Languages Know</a></li>
-    <li class=""><a href="#foreign_detials">Foreign Details</a></li>
-    <li class=""><a href="#require_doc">Require Documents</a></li>
+    <li class=""><a href="#edu_info" data-toggle="tab">Education Information</a></li>
+    <li class=""><a href="#languages" data-toggle="tab">Languages Know</a></li>
+    <li class=""><a href="#foreign_detials" data-toggle="tab">Foreign Details</a></li>
+    <li class=""><a href="#require_doc" data-toggle="tab">Require Documents</a></li>
 </ul>
 
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane in active" id="basic_info">
         <h3 class="text-center">Basic Information</h3>
-        <form action="<?php echo ADMISSION_URL . 'forms/save_ug' ?>" method="post" id="manage" class="form-horizontal">
+        <form action="<?php echo ADMISSION_URL . 'forms/update_ug/' . $student_id . '/basic_info' ?>" method="post" id="manage_basic_info" class="form-horizontal">
             <div class="form-group">
                 <div class="col-md-12 text-center">
                     Fields marked with  <span class="text-danger">*</span>  are mandatory.
@@ -97,26 +105,32 @@
                                 <td class="text-center"><?php echo @$center->code; ?></td>
                                 <th>
                                     <label for="<?php echo $i; ?>" >
-                                        <input type="checkbox" name="p1[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php echo $i;
-                        $i++; ?>, 'p1[]', '1')">
+                                        <input type="checkbox" name="p1[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php
+                                        echo $i;
+                                        $i++;
+                                        ?>, 'p1[]', '1')">
                                     </label>
                                 </th>
                                 <th>
                                     <label for="<?php echo $i; ?>" >
-                                        <input type="checkbox" name="p2[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php echo $i;
-                        $i++; ?>, 'p2[]', '1')">
+                                        <input type="checkbox" name="p2[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php
+                                        echo $i;
+                                        $i++;
+                                        ?>, 'p2[]', '1')">
                                     </label>
                                 </th>
                                 <th>
                                     <label for="<?php echo $i; ?>" >
-                                        <input type="checkbox" name="p3[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php echo $i;
-                        $i++; ?>, 'p3[]', '1')">
+                                        <input type="checkbox" name="p3[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php
+                                        echo $i;
+                                        $i++;
+                                        ?>, 'p3[]', '1')">
                                     </label>
                                 </th>
                             </tr>
-    <?php
-}
-?>
+                            <?php
+                        }
+                        ?>
                     </table>
                 </div>
             </div>
@@ -359,6 +373,58 @@
                 </div>
             </div>
 
+        </form>
+    </div>
+
+    <div class="tab-pane in active" id="edu_info">
+        <h3 class="text-center">Education Information</h3>
+        <form action="<?php echo ADMISSION_URL . 'forms/update_ug/' . $student_id . '/edu_info' ?>" method="post" id="manage_edu_info" class="form-horizontal">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Course</th>
+                        <th>Result Waiting</th>
+                        <th>Year</th>
+                        <th>Institute</th>
+                        <th>University / Board</th>
+                        <th>From <br /> (dd-mm-yyyy)</th>
+                        <th>To <br /> (dd-mm-yyyy)</th>
+                        <th>Percentage / Grade</th>
+                        <th>Rank</th>
+                    </tr>
+                    <tr>
+                        <td>S.S.C <input type="hidden" name="course[]" value="S.S.C" /></td>
+                        <td class="text-center"><input type="hidden" name="result_wating[]" value="Y"/></td>
+                        <td><input type="text" name="year[]" value="" class="form-control required"/></td>
+                        <td><input type="text" name="uni_institute[]" value="" class="form-control required"/></td>
+                        <td><input type="text" name="board[]" value="" class="form-control required"/></td>
+                        <td><input type="text" name="from_date[]" value="" class="form-control required"/></td>
+                        <td><input type="text" name="to_date[]" value="" class="form-control required"/></td>
+                        <td><input type="text" name="percentage[]" value="" class="form-control required"/></td>
+                        <td><input type="text" name="rank[]" value="" class="form-control required"/></td>
+                    </tr>
+
+                    <tr>
+                        <td>H.S.C <input type="hidden" name="course[]" value="H.S.C" /></td>
+                        <td class="text-center"><input type="checkbox" name="result_wating[]" value='Y' onclick="addClassRequired()"/></td>
+                        <td><input type="text" name="year[]" value="" class="hsc_input form-control required"/></td>
+                        <td><input type="text" name="uni_institute[]" value="" class="hsc_input form-control required"/></td>
+                        <td><input type="text" name="board[]" value="" class="hsc_input form-control required"/></td>
+                        <td><input type="text" name="from_date[]" value="" class="hsc_input form-control required"/></td>
+                        <td><input type="text" name="to_date[]" value="" class="hsc_input form-control required"/></td>
+                        <td><input type="text" name="percentage[]" value="" class="hsc_input form-control required"/></td>
+                        <td><input type="text" name="rank[]" value="" class="hsc_input form-control required"/></td>
+                    </tr>
+
+                </table>
+
+                <div class="form-group">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-primary">Next &nbsp; <i class="glyphicon glyphicon-arrow-right"></i></button>
+                        <a href="<?php echo ADMISSION_URL . 'forms'; ?>" class="btn btn-inverse">Cancel</a>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>

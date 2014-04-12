@@ -3,18 +3,24 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-Class courses_model extends CI_model {
+Class student_edu_master_model extends CI_model {
 
-    public $course_id;
-    public $name;
-    public $degree;
-    public $seats;
-    public $status;
+    public $edu_master_id;
+    public $student_id;
+    public $course;
+    public $year;
+    public $uni_institute;
+    public $board;
+    public $from_date;
+    public $to_date;
+    public $percentage;
+    public $rank;
+    public $result_wating;
     public $create_id;
     public $create_date_time;
     public $modify_id;
     public $modify_date_time;
-    private $table_name = 'courses';
+    private $table_name = 'student_edu_master';
 
     function __construct() {
         parent::__construct();
@@ -26,12 +32,18 @@ Class courses_model extends CI_model {
     }
 
     function convertObject($old) {
-        $new = new courses_model();
-        $new->course_id = $old->course_id;
-        $new->name = $old->name;
-        $new->degree = $old->degree;
-        $new->seats = $old->seats;
-        $new->status = $old->status;
+        $new = new student_edu_master_model();
+        $new->edu_master_id = $old->edu_master_id;
+        $new->student_id = $old->student_id;
+        $new->course = $old->course;
+        $new->year = $old->year;
+        $new->uni_institute = $old->uni_institute;
+        $new->board = $old->board;
+        $new->from_date = $old->from_date;
+        $new->to_date = $old->to_date;
+        $new->percentage = $old->percentage;
+        $new->rank = $old->rank;
+        $new->result_wating = $old->result_wating;
         $new->create_id = $old->create_id;
         $new->create_date_time = $old->create_date_time;
         $new->modify_id = $old->modify_id;
@@ -41,20 +53,38 @@ Class courses_model extends CI_model {
 
     function toArray() {
         $arr = array();
-        if ($this->course_id != '')
-            $arr['course_id'] = $this->course_id;
+        if ($this->edu_master_id != '')
+            $arr['edu_master_id'] = $this->edu_master_id;
 
-        if ($this->name != '')
-            $arr['name'] = $this->name;
+        if ($this->student_id != '')
+            $arr['student_id'] = $this->student_id;
 
-        if ($this->degree != '')
-            $arr['degree'] = $this->degree;
+        if ($this->course != '')
+            $arr['course'] = $this->course;
 
-        if ($this->seats != '')
-            $arr['seats'] = $this->seats;
+        if ($this->year != '')
+            $arr['year'] = $this->year;
 
-        if ($this->status != '')
-            $arr['status'] = $this->status;
+        if ($this->uni_institute != '')
+            $arr['uni_institute'] = $this->uni_institute;
+
+        if ($this->board != '')
+            $arr['board'] = $this->board;
+
+        if ($this->from_date != '')
+            $arr['from_date'] = $this->from_date;
+
+        if ($this->to_date != '')
+            $arr['to_date'] = $this->to_date;
+
+        if ($this->percentage != '')
+            $arr['percentage'] = $this->percentage;
+
+        if ($this->rank != '')
+            $arr['rank'] = $this->rank;
+
+        if ($this->result_wating != '')
+            $arr['result_wating'] = $this->result_wating;
 
         if ($this->create_id != '')
             $arr['create_id'] = $this->create_id;
@@ -77,7 +107,7 @@ Class courses_model extends CI_model {
         $this->db->from($this->table_name);
         $this->db->where($where);
         if (is_null($orderby)) {
-            $orderby = 'course_id';
+            $orderby = 'edu_master_id';
         }
         if (is_null($ordertype)) {
             $ordertype = 'desc;';
@@ -99,7 +129,7 @@ Class courses_model extends CI_model {
         $this->db->select(' * ');
         $this->db->from($this->table_name);
         if (is_null($orderby)) {
-            $orderby = 'course_id';
+            $orderby = 'edu_master_id';
         }
         if (is_null($ordertype)) {
             $ordertype = 'desc';
@@ -129,33 +159,20 @@ Class courses_model extends CI_model {
 
     function updateData() {
         $array = $this->toArray();
-        unset($array['course_id']);
-        $this->db->where('course_id', $this->course_id);
+        unset($array['edu_master_id']);
+        $this->db->where('edu_master_id', $this->edu_master_id);
         $this->db->update($this->table_name, $array);
         return TRUE;
     }
 
     function deleteData() {
-        $this->db->where('course_id', $this->course_id);
+        $this->db->where('edu_master_id', $this->edu_master_id);
         $this->db->delete($this->table_name);
         $check = $this->db->affected_rows();
         if ($check > 0) {
             return TRUE;
         } else {
             return FALSE;
-        }
-    }
-
-    function getCourseShortCode($id) {
-        $this->db->select('short_code');
-        $this->db->from($this->table_name);
-        $this->db->where('course_id', $id);
-        $res = $this->db->get();
-        if ($res->num_rows > 0) {
-            $result = $res->result();
-            return $result[0]->short_code;
-        } else {
-            return false;
         }
     }
 

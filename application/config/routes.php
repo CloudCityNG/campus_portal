@@ -55,6 +55,8 @@ $route['admission/forms'] = "admission/forms/index";
 $route['admission/list_forms_json'] = "admission/forms/getListJson";
 $route['admission/forms/add_ug'] = "admission/forms/addUGNewForm";
 $route['admission/forms/save_ug'] = "admission/forms/saveUGNewForm";
+$route['admission/forms/edit_ug/(:num)/(:any)'] = "admission/forms/editUGForm/$1/$2";
+$route['admission/forms/update_ug/(:num)/(:any)'] = "admission/forms/updateUGForm/$1/$2";
 
 
 /* End of file routes.php */
