@@ -40,7 +40,7 @@
                 <div class="container padding-killer">
                     <div class="project-logo-area">
                         <div class="col-md-6">
-                            <img src="<?php echo IMAGE_URL . 'logo.png'; ?>" class="logo-img"/>
+                            <img src="<?php echo IMAGE_URL . 'logo.png'; ?>" class="logo-img img-responsive"/>
                         </div>
                         <div class="col-md-6 text-center cursive-font">
                             <h3>Campus Portal</h3>

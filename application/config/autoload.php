@@ -77,7 +77,8 @@ $autoload['helper'] = array(
     'file',
     'date',
     'date_time',
-    'sending_mail'
+    'sending_mail',
+    'common_function'
 );
 
 

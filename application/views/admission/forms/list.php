@@ -86,8 +86,8 @@
                 <th width="150">Form No</th>
                 <th width="125">Hall Ticket</th>
                 <th>Name</th>
-                <th>Course</th>
-                <th>Status</th>
+                <th width="150">Course</th>
+                <th width="200">Status</th>
                 <?php if ($session->role == 3) { ?>
                     <th>&nbsp;</th>
                 <?php } ?>

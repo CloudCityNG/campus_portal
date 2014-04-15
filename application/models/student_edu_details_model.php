@@ -100,7 +100,7 @@ Class student_edu_details_model extends CI_model {
             $orderby = 'edu_detail_id';
         }
         if (is_null($ordertype)) {
-            $ordertype = 'desc;';
+            $ordertype = 'desc';
         }
         $this->db->order_by($orderby, $ordertype);
         if ($limit != null) {
@@ -141,7 +141,7 @@ Class student_edu_details_model extends CI_model {
         $this->db->insert($this->table_name, $array);
         $check = $this->db->affected_rows();
         if ($check > 0) {
-            return TRUE;
+            return $this->db->insert_id();
         } else {
             return FALSE;
         }

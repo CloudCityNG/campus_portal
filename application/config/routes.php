@@ -56,7 +56,12 @@ $route['admission/list_forms_json'] = "admission/forms/getListJson";
 $route['admission/forms/add_ug'] = "admission/forms/addUGNewForm";
 $route['admission/forms/save_ug'] = "admission/forms/saveUGNewForm";
 $route['admission/forms/edit_ug/(:num)/(:any)'] = "admission/forms/editUGForm/$1/$2";
-$route['admission/forms/update_ug/(:num)/(:any)'] = "admission/forms/updateUGForm/$1/$2";
+$route['admission/forms/update_ug_basic/(:num)'] = "admission/forms/updateUGBasicForm/$1";
+$route['admission/forms/update_ug_education/(:num)'] = "admission/forms/updateUGEduForm/$1";
+$route['admission/forms/update_ug_language/(:num)'] = "admission/forms/updateUGLanguagesForm/$1";
+$route['admission/forms/update_ug_foreign/(:num)'] = "admission/forms/updateUGForeignForm/$1";
+$route['admission/forms/update_ug_images/(:num)'] = "admission/forms/updateUGImagesForm/$1";
+$route['admission/forms/view_image/(:num)/(:any)'] = "admission/forms/viewStudentImages/$1/$2";
 
 
 /* End of file routes.php */

@@ -3,24 +3,23 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-Class student_edu_master_model extends CI_model {
+Class studnet_images_model extends CI_model {
 
-    public $edu_master_id;
+    public $image_id;
     public $student_id;
-    public $course;
-    public $year;
-    public $uni_institute;
-    public $board;
-    public $from_date;
-    public $to_date;
-    public $percentage;
-    public $rank;
-    public $result_wating;
+    public $student_image;
+    public $sign;
+    public $ssc_marksheet;
+    public $hsc_marksheet;
+    public $migration_certificate;
+    public $leaving_certificate;
+    public $cast_certificate;
+    public $aids_certificate;
     public $create_id;
     public $create_date_time;
     public $modify_id;
     public $modify_date_time;
-    private $table_name = 'student_edu_master';
+    private $table_name = 'studnet_images';
 
     function __construct() {
         parent::__construct();
@@ -32,18 +31,17 @@ Class student_edu_master_model extends CI_model {
     }
 
     function convertObject($old) {
-        $new = new student_edu_master_model();
-        $new->edu_master_id = $old->edu_master_id;
+        $new = new studnet_images_model();
+        $new->image_id = $old->image_id;
         $new->student_id = $old->student_id;
-        $new->course = $old->course;
-        $new->year = $old->year;
-        $new->uni_institute = $old->uni_institute;
-        $new->board = $old->board;
-        $new->from_date = $old->from_date;
-        $new->to_date = $old->to_date;
-        $new->percentage = $old->percentage;
-        $new->rank = $old->rank;
-        $new->result_wating = $old->result_wating;
+        $new->student_image = $old->student_image;
+        $new->sign = $old->sign;
+        $new->ssc_marksheet = $old->ssc_marksheet;
+        $new->hsc_marksheet = $old->hsc_marksheet;
+        $new->migration_certificate = $old->migration_certificate;
+        $new->leaving_certificate = $old->leaving_certificate;
+        $new->cast_certificate = $old->cast_certificate;
+        $new->aids_certificate = $old->aids_certificate;
         $new->create_id = $old->create_id;
         $new->create_date_time = $old->create_date_time;
         $new->modify_id = $old->modify_id;
@@ -53,38 +51,35 @@ Class student_edu_master_model extends CI_model {
 
     function toArray() {
         $arr = array();
-        if ($this->edu_master_id != '')
-            $arr['edu_master_id'] = $this->edu_master_id;
+        if ($this->image_id != '')
+            $arr['image_id'] = $this->image_id;
 
         if ($this->student_id != '')
             $arr['student_id'] = $this->student_id;
 
-        if ($this->course != '')
-            $arr['course'] = $this->course;
+        if ($this->student_image != '')
+            $arr['student_image'] = $this->student_image;
 
-        if ($this->year != '')
-            $arr['year'] = $this->year;
+        if ($this->sign != '')
+            $arr['sign'] = $this->sign;
 
-        if ($this->uni_institute != '')
-            $arr['uni_institute'] = $this->uni_institute;
+        if ($this->ssc_marksheet != '')
+            $arr['ssc_marksheet'] = $this->ssc_marksheet;
 
-        if ($this->board != '')
-            $arr['board'] = $this->board;
+        if ($this->hsc_marksheet != '')
+            $arr['hsc_marksheet'] = $this->hsc_marksheet;
 
-        if ($this->from_date != '')
-            $arr['from_date'] = $this->from_date;
+        if ($this->migration_certificate != '')
+            $arr['migration_certificate'] = $this->migration_certificate;
 
-        if ($this->to_date != '')
-            $arr['to_date'] = $this->to_date;
+        if ($this->leaving_certificate != '')
+            $arr['leaving_certificate'] = $this->leaving_certificate;
 
-        if ($this->percentage != '')
-            $arr['percentage'] = $this->percentage;
+        if ($this->cast_certificate != '')
+            $arr['cast_certificate'] = $this->cast_certificate;
 
-        if ($this->rank != '')
-            $arr['rank'] = $this->rank;
-
-        if ($this->result_wating != '')
-            $arr['result_wating'] = $this->result_wating;
+        if ($this->aids_certificate != '')
+            $arr['aids_certificate'] = $this->aids_certificate;
 
         if ($this->create_id != '')
             $arr['create_id'] = $this->create_id;
@@ -107,7 +102,7 @@ Class student_edu_master_model extends CI_model {
         $this->db->from($this->table_name);
         $this->db->where($where);
         if (is_null($orderby)) {
-            $orderby = 'edu_master_id';
+            $orderby = 'image_id';
         }
         if (is_null($ordertype)) {
             $ordertype = 'desc';
@@ -129,7 +124,7 @@ Class student_edu_master_model extends CI_model {
         $this->db->select(' * ');
         $this->db->from($this->table_name);
         if (is_null($orderby)) {
-            $orderby = 'edu_master_id';
+            $orderby = 'image_id';
         }
         if (is_null($ordertype)) {
             $ordertype = 'desc';
@@ -159,14 +154,14 @@ Class student_edu_master_model extends CI_model {
 
     function updateData() {
         $array = $this->toArray();
-        unset($array['edu_master_id']);
-        $this->db->where('edu_master_id', $this->edu_master_id);
+        unset($array['image_id']);
+        $this->db->where('image_id', $this->image_id);
         $this->db->update($this->table_name, $array);
         return TRUE;
     }
 
     function deleteData() {
-        $this->db->where('edu_master_id', $this->edu_master_id);
+        $this->db->where('image_id', $this->image_id);
         $this->db->delete($this->table_name);
         $check = $this->db->affected_rows();
         if ($check > 0) {
