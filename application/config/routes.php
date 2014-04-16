@@ -65,6 +65,11 @@ $route['admission/forms/update_ug_foreign/(:num)'] = "admission/forms/updateUGFo
 $route['admission/forms/update_ug_images/(:num)'] = "admission/forms/updateUGImagesForm/$1";
 $route['admission/forms/view_image/(:num)/(:any)'] = "admission/forms/viewStudentImages/$1/$2";
 
+//Entrance Exam Test
+$route['admission/eet'] = "admission/eet/index";
+$route['admission/eet/json'] = "admission/eet/getJsonList";
+$route['admission/eet/edit_marks/(:num)'] = "admission/eet/editMarks/$1";
+$route['admission/eet/update_marks/(:num)'] = "admission/eet/UpdateMarks/$1";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

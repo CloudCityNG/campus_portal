@@ -635,9 +635,12 @@ class forms extends CI_Controller {
     }
 
     function updateUGStudentStatus($student_id) {
+        $session = $this->session->userdata('admin_session');
         $obj = new student_basic_info_model();
         $obj->status = $this->input->post('admission_status_id');
         $obj->student_id = $student_id;
+        $obj->modify_id = $session->admin_id;
+        $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
         $obj->updateData();
 
         redirect(ADMISSION_URL . 'forms', 'refresh');
