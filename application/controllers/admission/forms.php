@@ -56,7 +56,7 @@ class forms extends CI_Controller {
             $temp_arr[] = $aRow['hall_ticket'];
             $temp_arr[] = ucwords($aRow['student_name']);
             $temp_arr[] = $aRow['course_name'];
-            $temp_arr[] = $aRow['status_name'];
+            $temp_arr[] = '<a data-target="#update_student_status" data-toggle="modal" href="' . ADMISSION_URL . 'forms/edit_ug_status/' . $aRow['student_id'] . '"/aids_certificate" class="link">' . $aRow['status_name'] . '</a>';
 
             if ($session->role == 3) {
                 $temp_arr[] = '<a href="' . ADMISSION_URL . 'forms/edit_ug/' . $aRow['student_id'] . '/basic_info"  class="icon-edit" id="' . $aRow['student_id'] . '"></a> &nbsp; <a href="javascript:;" onclick="deleteRow(this)" class="deletepage icon-trash" id="' . $aRow['student_id'] . '"></a>';
@@ -625,6 +625,22 @@ class forms extends CI_Controller {
         }
 
         echo $this->load->view('admission/forms/view_images', $data, TRUE);
+    }
+
+    function editUGStudentStatus($student_id) {
+        $this->load->model('admission_candidate_status_model');
+        $data['basic_info'] = $this->student_basic_info_model->getWhere(array('student_id' => $student_id));
+        $data['candidate_status_info'] = $this->admission_candidate_status_model->getWhere(array('status' => 'A'));
+        $this->load->view('admission/forms/update_status', $data);
+    }
+
+    function updateUGStudentStatus($student_id) {
+        $obj = new student_basic_info_model();
+        $obj->status = $this->input->post('admission_status_id');
+        $obj->student_id = $student_id;
+        $obj->updateData();
+
+        redirect(ADMISSION_URL . 'forms', 'refresh');
     }
 
 }

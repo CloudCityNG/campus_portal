@@ -15,10 +15,10 @@
                     , {"sClass": "text-center"}
 <?php } ?>
                 ],
-                "sAjaxSource"
-                : "<?php echo ADMISSION_URL . "list_forms_json"; ?>"
+                "sAjaxSource": "<?php echo ADMISSION_URL . "list_forms_json"; ?>"
     });
     });
+    
             function deleteRow(ele) {
                 var current_id = $(ele).attr('id');
                 var parent = $(ele).parent().parent();
@@ -106,4 +106,11 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+<div class="modal fade" id="update_student_status" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+        </div>
+    </div>
 </div>
