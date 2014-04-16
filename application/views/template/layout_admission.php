@@ -23,6 +23,7 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="<?php echo JS_URL; ?>jquery-1.7.2.min.js" type="text/javascript"></script>
         <script src="<?php echo JS_URL; ?>jquery.validate.js" type="text/javascript"></script>
+        <script src="<?php echo JS_URL; ?>additional_jquery_validation.js" type="text/javascript"></script>
         <script src="<?php echo JS_URL; ?>jquery.confirm.js" type="text/javascript"></script>
         <script src="<?php echo JS_URL; ?>jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="<?php echo JS_URL; ?>DT_bootstrap.js" type="text/javascript"></script>

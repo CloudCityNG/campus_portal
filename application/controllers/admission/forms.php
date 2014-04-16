@@ -10,7 +10,7 @@ class forms extends CI_Controller {
         $this->admin_layout->setLayout('template/layout_admission');
 
         $session = $this->session->userdata('admin_session');
-        if (empty($session) && $session->type != 'admission') {
+        if (empty($session) || $session->type != 'admission') {
             $this->session->set_flashdata('error', 'Login First');
             redirect(base_url() . 'login', 'refresh');
         }
@@ -109,7 +109,7 @@ class forms extends CI_Controller {
         $obj->category = ($this->input->post('category') == '') ? NULL : $this->input->post('category');
         $obj->hostel = $this->input->post('hostel');
         $obj->transoprt = $this->input->post('transoprt');
-        $obj->status = 'A';
+        $obj->status = 1;
         $obj->create_id = $obj->form_number;
         $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
         $obj->modify_id = $obj->form_number;
@@ -286,26 +286,28 @@ class forms extends CI_Controller {
             $obj = new student_language_model();
             $detail = $obj->getWhere(array('name' => strtolower($language), 'student_id' => $student_id));
 
-            $obj->name = strtolower($language);
-            $obj->student_id = $student_id;
-            $obj->speaking = $this->input->post('speaking' . $i);
-            $obj->reading = $this->input->post('reading' . $i);
-            $obj->writing = $this->input->post('writing' . $i);
+            if (!empty($language)) {
+                $obj->name = strtolower($language);
+                $obj->student_id = $student_id;
+                $obj->speaking = $this->input->post('speaking' . $i);
+                $obj->reading = $this->input->post('reading' . $i);
+                $obj->writing = $this->input->post('writing' . $i);
 
-            if (empty($detail)) {
-                $obj->create_id = $student_id;
-                $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
-                $obj->modify_id = $student_id;
-                $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
-                $obj->insertData();
-            } else {
-                $obj->modify_id = $student_id;
-                $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
-                $obj->language_id = $detail[0]->language_id;
-                $obj->updateData();
+                if (empty($detail)) {
+                    $obj->create_id = $student_id;
+                    $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
+                    $obj->modify_id = $student_id;
+                    $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
+                    $obj->insertData();
+                } else {
+                    $obj->modify_id = $student_id;
+                    $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
+                    $obj->language_id = $detail[0]->language_id;
+                    $obj->updateData();
+                }
+
+                $i++;
             }
-
-            $i++;
         }
         redirect(ADMISSION_URL . 'forms/edit_ug/' . $student_id . '/foreign_detials', 'refresh');
     }
@@ -351,7 +353,7 @@ class forms extends CI_Controller {
             $upload_status = $this->do_upload('student_image', 'student_image', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
-                    if (count($details) == 1) {
+                    if (!empty($details)) {
                         $old_location = $details[0]->student_image;
                         if ($old_location != null && $old_location != 'no_image.png') {
                             $full_path_of_old = './assets/students/' . $student_id . '/' . $old_location;
@@ -370,7 +372,7 @@ class forms extends CI_Controller {
             $upload_status = $this->do_upload('sign', 'sign', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
-                    if (count($details) == 1) {
+                    if (!empty($details)) {
                         $old_location = $details[0]->sign;
                         if ($old_location != null && $old_location != 'no_image.png') {
                             $full_path_of_old = './assets/students/' . $student_id . '/' . $old_location;
@@ -389,8 +391,8 @@ class forms extends CI_Controller {
             $upload_status = $this->do_upload('ssc_marksheet', 'sign', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
-                    if (count($details) == 1) {
-                        $old_location = $details[0]->sign;
+                    if (!empty($details)) {
+                        $old_location = $details[0]->ssc_marksheet;
                         if ($old_location != null && $old_location != 'no_image.png') {
                             $full_path_of_old = './assets/students/' . $student_id . '/' . $old_location;
                             $path_to_be_removed = substr($full_path_of_old, 2);
@@ -408,8 +410,8 @@ class forms extends CI_Controller {
             $upload_status = $this->do_upload('hsc_marksheet', 'sign', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
-                    if (count($details) == 1) {
-                        $old_location = $details[0]->sign;
+                    if (!empty($details)) {
+                        $old_location = $details[0]->hsc_marksheet;
                         if ($old_location != null && $old_location != 'no_image.png') {
                             $full_path_of_old = './assets/students/' . $student_id . '/' . $old_location;
                             $path_to_be_removed = substr($full_path_of_old, 2);
@@ -418,7 +420,7 @@ class forms extends CI_Controller {
                             }
                         }
                     }
-                    $obj->ssc_marksheet = $upload_status['upload_data']['file_name'];
+                    $obj->hsc_marksheet = $upload_status['upload_data']['file_name'];
                 }
             }
         }
@@ -427,8 +429,8 @@ class forms extends CI_Controller {
             $upload_status = $this->do_upload('migration_certificate', 'sign', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
-                    if (count($details) == 1) {
-                        $old_location = $details[0]->sign;
+                    if (!empty($details)) {
+                        $old_location = $details[0]->migration_certificate;
                         if ($old_location != null && $old_location != 'no_image.png') {
                             $full_path_of_old = './assets/students/' . $student_id . '/' . $old_location;
                             $path_to_be_removed = substr($full_path_of_old, 2);
@@ -437,7 +439,7 @@ class forms extends CI_Controller {
                             }
                         }
                     }
-                    $obj->ssc_marksheet = $upload_status['upload_data']['file_name'];
+                    $obj->migration_certificate = $upload_status['upload_data']['file_name'];
                 }
             }
         }
@@ -446,8 +448,8 @@ class forms extends CI_Controller {
             $upload_status = $this->do_upload('leaving_certificate', 'sign', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
-                    if (count($details) == 1) {
-                        $old_location = $details[0]->sign;
+                    if (!empty($details)) {
+                        $old_location = $details[0]->leaving_certificate;
                         if ($old_location != null && $old_location != 'no_image.png') {
                             $full_path_of_old = './assets/students/' . $student_id . '/' . $old_location;
                             $path_to_be_removed = substr($full_path_of_old, 2);
@@ -456,7 +458,7 @@ class forms extends CI_Controller {
                             }
                         }
                     }
-                    $obj->ssc_marksheet = $upload_status['upload_data']['file_name'];
+                    $obj->leaving_certificate = $upload_status['upload_data']['file_name'];
                 }
             }
         }
@@ -465,8 +467,8 @@ class forms extends CI_Controller {
             $upload_status = $this->do_upload('cast_certificate', 'sign', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
-                    if (count($details) == 1) {
-                        $old_location = $details[0]->sign;
+                    if (!empty($details)) {
+                        $old_location = $details[0]->cast_certificate;
                         if ($old_location != null && $old_location != 'no_image.png') {
                             $full_path_of_old = './assets/students/' . $student_id . '/' . $old_location;
                             $path_to_be_removed = substr($full_path_of_old, 2);
@@ -475,7 +477,7 @@ class forms extends CI_Controller {
                             }
                         }
                     }
-                    $obj->ssc_marksheet = $upload_status['upload_data']['file_name'];
+                    $obj->cast_certificate = $upload_status['upload_data']['file_name'];
                 }
             }
         }
@@ -484,8 +486,8 @@ class forms extends CI_Controller {
             $upload_status = $this->do_upload('aids_certificate', 'sign', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
-                    if (count($details) == 1) {
-                        $old_location = $details[0]->sign;
+                    if (!empty($details)) {
+                        $old_location = $details[0]->aids_certificate;
                         if ($old_location != null && $old_location != 'no_image.png') {
                             $full_path_of_old = './assets/students/' . $student_id . '/' . $old_location;
                             $path_to_be_removed = substr($full_path_of_old, 2);
@@ -494,7 +496,7 @@ class forms extends CI_Controller {
                             }
                         }
                     }
-                    $obj->ssc_marksheet = $upload_status['upload_data']['file_name'];
+                    $obj->aids_certificate = $upload_status['upload_data']['file_name'];
                 }
             }
         }
