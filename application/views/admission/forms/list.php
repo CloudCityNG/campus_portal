@@ -10,7 +10,7 @@
                 "bSort": false,
                 "aoColumns": [
                 {"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": ""},
-                {"sClass": "text-center"}, {"sClass": "text-center"}
+                {"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": "text-center"}
 <?php if ($session->role == 3) { ?>
                     , {"sClass": "text-center"}
 <?php } ?>
@@ -88,6 +88,7 @@
                 <th>Name</th>
                 <th width="150">Course</th>
                 <th width="200">Status</th>
+                <th width="200">Hall Ticket</th>
                 <?php if ($session->role == 3) { ?>
                     <th>&nbsp;</th>
                 <?php } ?>
@@ -95,6 +96,7 @@
         </thead>
         <tbody>
             <tr>
+                <td>etc</td>
                 <td>etc</td>
                 <td>etc</td>
                 <td>etc</td>

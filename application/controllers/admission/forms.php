@@ -42,7 +42,7 @@ class forms extends CI_Controller {
     public function getListJson() {
         $session = $this->session->userdata('admin_session');
         $this->load->library('datatable');
-        $this->datatable->aColumns = array('form_number, hall_ticket, CONCAT(firstname, " ", lastname) AS student_name, courses.name AS course_name, admission_candidate_status.name AS status_name');
+        $this->datatable->aColumns = array('form_number, hall_ticket, CONCAT(firstname, " ", lastname) AS student_name, courses.name AS course_name, student_basic_info.status, admission_candidate_status.name AS status_name');
         $this->datatable->eColumns = array('student_id');
         $this->datatable->sIndexColumn = "student_id";
         $this->datatable->sTable = " student_basic_info, courses, admission_candidate_status";
@@ -58,6 +58,11 @@ class forms extends CI_Controller {
             $temp_arr[] = $aRow['course_name'];
             $temp_arr[] = '<a data-target="#update_student_status" data-toggle="modal" href="' . ADMISSION_URL . 'forms/edit_ug_status/' . $aRow['student_id'] . '"/aids_certificate" class="link">' . $aRow['status_name'] . '</a>';
 
+            if ($aRow['status'] !== 1) {
+                $temp_arr[] = '<a href="' . ADMISSION_URL . 'forms/hall_ticket/' . $aRow['student_id'] . '" class="link">Generate HallTicket</a>';
+            } else {
+                
+            }
             if ($session->role == 3) {
                 $temp_arr[] = '<a href="' . ADMISSION_URL . 'forms/edit_ug/' . $aRow['student_id'] . '/basic_info"  class="icon-edit" id="' . $aRow['student_id'] . '"></a> &nbsp; <a href="javascript:;" onclick="deleteRow(this)" class="deletepage icon-trash" id="' . $aRow['student_id'] . '"></a>';
             }
@@ -66,6 +71,25 @@ class forms extends CI_Controller {
         }
         echo json_encode($this->datatable->output);
         exit();
+    }
+
+    function viewHallTicket($student_id) {
+        $detail = $this->student_basic_info_model->getWhere(array('student_id' => $student_id));
+
+        if (empty($detail)) {
+            $this->session->flashdata('error', 'Invalid Student ID');
+            redirect(ADMISSION_URL . 'forms', 'refresh');
+        } else {
+            if ($detail[0]->status == 1) {
+                $this->session->flashdata('error', 'Payment Not Done');
+                redirect(ADMISSION_URL . 'forms', 'refresh');
+            } else {
+                $data['detail'] = $detail[0];
+                $data['image_details'] = $this->studnet_images_model->getWhere(array('student_id' => $student_id));
+                $data['center_details'] = $this->exam_centers_model->getWhere(array('status' => 'A', 'center_id' => $detail[0]->center_pref_1));
+                $this->admin_layout->view('admission/forms/hall_ticket_view', $data);
+            }
+        }
     }
 
     function addUGNewForm() {

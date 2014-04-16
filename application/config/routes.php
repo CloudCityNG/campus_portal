@@ -53,6 +53,7 @@ $route['logout'] = "authenticate/logout";
 $route['admission'] = "admission/dashboard/index";
 $route['admission/forms'] = "admission/forms/index";
 $route['admission/list_forms_json'] = "admission/forms/getListJson";
+$route['admission/forms/hall_ticket/(:num)'] = "admission/forms/viewHallTicket/$1";
 $route['admission/forms/add_ug'] = "admission/forms/addUGNewForm";
 $route['admission/forms/save_ug'] = "admission/forms/saveUGNewForm";
 $route['admission/forms/edit_ug/(:num)/(:any)'] = "admission/forms/editUGForm/$1/$2";
