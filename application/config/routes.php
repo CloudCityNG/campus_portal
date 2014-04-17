@@ -54,6 +54,7 @@ $route['admission'] = "admission/dashboard/index";
 $route['admission/forms'] = "admission/forms/index";
 $route['admission/list_forms_json'] = "admission/forms/getListJson";
 $route['admission/forms/hall_ticket/(:num)'] = "admission/forms/viewHallTicket/$1";
+$route['admission/forms/hall_ticket_pdf/(:num)'] = "admission/forms/hallicketPDF/$1";
 $route['admission/forms/add_ug'] = "admission/forms/addUGNewForm";
 $route['admission/forms/save_ug'] = "admission/forms/saveUGNewForm";
 $route['admission/forms/edit_ug/(:num)/(:any)'] = "admission/forms/editUGForm/$1/$2";
@@ -65,6 +66,7 @@ $route['admission/forms/update_ug_language/(:num)'] = "admission/forms/updateUGL
 $route['admission/forms/update_ug_foreign/(:num)'] = "admission/forms/updateUGForeignForm/$1";
 $route['admission/forms/update_ug_images/(:num)'] = "admission/forms/updateUGImagesForm/$1";
 $route['admission/forms/view_image/(:num)/(:any)'] = "admission/forms/viewStudentImages/$1/$2";
+
 
 //Entrance Exam Test
 $route['admission/eet'] = "admission/eet/index";

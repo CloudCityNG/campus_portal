@@ -6,6 +6,7 @@ if (!defined('BASEPATH'))
 Class student_basic_info_model extends CI_model {
 
     public $student_id;
+    public $admission_id;
     public $form_number;
     public $hall_ticket;
     public $course_id;
@@ -51,6 +52,7 @@ Class student_basic_info_model extends CI_model {
     function convertObject($old) {
         $new = new student_basic_info_model();
         $new->student_id = $old->student_id;
+        $new->admission_id = $old->admission_id;
         $new->form_number = $old->form_number;
         $new->hall_ticket = $old->hall_ticket;
         $new->course_id = $old->course_id;
@@ -89,6 +91,9 @@ Class student_basic_info_model extends CI_model {
         $arr = array();
         if ($this->student_id != '')
             $arr['student_id'] = $this->student_id;
+        
+        if ($this->admission_id != '')
+            $arr['admission_id'] = $this->admission_id;
 
         if ($this->form_number != '')
             $arr['form_number'] = $this->form_number;

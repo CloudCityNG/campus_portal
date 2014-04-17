@@ -919,15 +919,12 @@
                 $('#info_images').validate({
                     rules: {
                         student_image: {
-                            required: true,
                             extension: "jpg|jpeg|png"
                         },
                         sign: {
-                            required: true,
                             extension: "jpg|jpeg|png"
                         },
                         ssc_marksheet: {
-                            required: true,
                             extension: "jpg|jpeg|png"
                         },
                         hsc_marksheet: {
@@ -979,7 +976,12 @@
                     <span class="text-danger">*</span>
                 </label>
                 <div class = "col-md-8">
-                    <input type="file" name="student_image" id="student_image" class="form-control required" />
+                    <?php if (@$image_details[0]->student_image != '') { ?>
+                        <input type="file" name="student_image" id="student_image" class="form-control" />
+                    <?php } else { ?>
+                        <input type="file" name="student_image" id="student_image" class="form-control required" />
+                    <?php } ?>
+
                 </div>
                 <div class = "col-md-2">
                     <?php if (@$image_details[0]->student_image != '') { ?>
@@ -996,7 +998,12 @@
                     <span class="text-danger">*</span>
                 </label>
                 <div class = "col-md-8">
-                    <input type="file" name="sign" class="form-control required"/>
+
+                    <?php if (@$image_details[0]->sign != '') { ?>
+                        <input type="file" name="sign" class="form-control"/>
+                    <?php } else { ?>
+                        <input type="file" name="sign" class="form-control required"/>
+                    <?php } ?>
                 </div>
                 <div class = "col-md-2">
                     <?php if (@$image_details[0]->sign != '') { ?>
@@ -1013,7 +1020,12 @@
                     <span class="text-danger">&nbsp;</span>
                 </label>
                 <div class = "col-md-8">
-                    <input type="file" name="ssc_marksheet" class="form-control required"/>
+
+                    <?php if (@$image_details[0]->ssc_marksheet != '') { ?>
+                        <input type="file" name="ssc_marksheet" class="form-control"/>
+                    <?php } else { ?>
+                        <input type="file" name="ssc_marksheet" class="form-control required"/>
+                    <?php } ?>
                 </div>
                 <div class = "col-md-2">
                     <?php if (@$image_details[0]->ssc_marksheet != '') { ?>
