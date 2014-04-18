@@ -15,7 +15,7 @@
             ],
             "sAjaxSource": "<?php echo ADMISSION_URL . "eet/json"; ?>",
             'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                if (aData[3] == null) {
+                if (aData[3] == null || aData[3] == '0.00') {
                     nRow.className = "danger";
                 }
             }
