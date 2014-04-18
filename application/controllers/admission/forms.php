@@ -55,11 +55,11 @@ class forms extends CI_Controller {
 
             $temp_arr[] = $aRow['form_number'];
             $temp_arr[] = $aRow['hall_ticket'];
-            $temp_arr[] = ucwords($aRow['student_name']);
+            $temp_arr[] = ucwords($aRow['student_name']) . $aRow['status'];
             $temp_arr[] = $aRow['course_name'];
             $temp_arr[] = '<a data-target="#update_student_status" data-toggle="modal" href="' . ADMISSION_URL . 'forms/edit_ug_status/' . $aRow['student_id'] . '"/aids_certificate" class="link">' . $aRow['status_name'] . '</a>';
 
-            if ($aRow['status'] !== 1) {
+            if ($aRow['status'] != 1) {
                 $temp_arr[] = '<a  href="' . ADMISSION_URL . 'forms/hall_ticket/' . $aRow['student_id'] . '" class="link" target="_blank">HallTicket</a>';
             } else {
                 $temp_arr[] = '';
@@ -78,11 +78,11 @@ class forms extends CI_Controller {
         $detail = $this->student_basic_info_model->getWhere(array('student_id' => $student_id));
 
         if (empty($detail)) {
-            $this->session->flashdata('error', 'Invalid Student ID');
+            $this->session->set_flashdata('error', 'Invalid Student ID');
             redirect(ADMISSION_URL . 'forms', 'refresh');
         } else {
             if ($detail[0]->status == 1) {
-                $this->session->flashdata('error', 'Payment Not Done');
+                $this->session->set_flashdata('error', 'Hall Ticket Not Generated as Payment Not Done');
                 redirect(ADMISSION_URL . 'forms', 'refresh');
             } else {
                 $data['detail'] = $detail[0];
@@ -98,11 +98,11 @@ class forms extends CI_Controller {
         $detail = $this->student_basic_info_model->getWhere(array('student_id' => $student_id));
 
         if (empty($detail)) {
-            $this->session->flashdata('error', 'Invalid Student ID');
+            $this->session->set_flashdata('error', 'Invalid Student ID');
             redirect(ADMISSION_URL . 'forms', 'refresh');
         } else {
             if ($detail[0]->status == 1) {
-                $this->session->flashdata('error', 'Payment Not Done');
+                $this->session->set_flashdata('error', 'Payment Not Done');
                 redirect(ADMISSION_URL . 'forms', 'refresh');
             } else {
                 $data['detail'] = $detail[0];
