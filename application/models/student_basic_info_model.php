@@ -18,10 +18,11 @@ Class student_basic_info_model extends CI_model {
     public $lastname;
     public $address;
     public $pincode;
-    public $phone_no;
-    public $mobile_no;
+    public $mobile_p;
+    public $mobile_s;
     public $gender;
-    public $email;
+    public $email_p;
+    public $email_s;
     public $parent_1;
     public $parent_1_occupation;
     public $parent_2;
@@ -64,10 +65,11 @@ Class student_basic_info_model extends CI_model {
         $new->lastname = $old->lastname;
         $new->address = $old->address;
         $new->pincode = $old->pincode;
-        $new->phone_no = $old->phone_no;
-        $new->mobile_no = $old->mobile_no;
+        $new->mobile_p = $old->mobile_p;
+        $new->mobile_s = $old->mobile_s;
         $new->gender = $old->gender;
-        $new->email = $old->email;
+        $new->email_p = $old->email_p;
+        $new->email_s = $old->email_s;
         $new->parent_1 = $old->parent_1;
         $new->parent_1_occupation = $old->parent_1_occupation;
         $new->parent_2 = $old->parent_2;
@@ -91,7 +93,7 @@ Class student_basic_info_model extends CI_model {
         $arr = array();
         if ($this->student_id != '')
             $arr['student_id'] = $this->student_id;
-        
+
         if ($this->admission_id != '')
             $arr['admission_id'] = $this->admission_id;
 
@@ -128,17 +130,20 @@ Class student_basic_info_model extends CI_model {
         if ($this->pincode != '')
             $arr['pincode'] = $this->pincode;
 
-        if ($this->phone_no != '')
-            $arr['phone_no'] = $this->phone_no;
+        if ($this->mobile_p != '')
+            $arr['mobile_p'] = $this->mobile_p;
 
-        if ($this->mobile_no != '')
-            $arr['mobile_no'] = $this->mobile_no;
+        if ($this->mobile_s != '')
+            $arr['mobile_s'] = $this->mobile_s;
 
         if ($this->gender != '')
             $arr['gender'] = $this->gender;
 
-        if ($this->email != '')
-            $arr['email'] = $this->email;
+        if ($this->email_p != '')
+            $arr['email_p'] = $this->email_p;
+
+        if ($this->email_s != '')
+            $arr['email_s'] = $this->email_s;
 
         if ($this->parent_1 != '')
             $arr['parent_1'] = $this->parent_1;
@@ -200,7 +205,7 @@ Class student_basic_info_model extends CI_model {
             $orderby = 'student_id';
         }
         if (is_null($ordertype)) {
-            $ordertype = 'desc;';
+            $ordertype = 'desc';
         }
         $this->db->order_by($orderby, $ordertype);
         if ($limit != null) {
@@ -266,12 +271,9 @@ Class student_basic_info_model extends CI_model {
         }
     }
 
-    function generateFormNumber($course_id) {
+    function generateFormNumber($course_id, $year, $month, $day) {
         $this->load->model('courses_model');
-        $year = date('y', strtotime(get_current_date_time()->year));
-        $month = get_current_date_time()->month;
         $short_code = $this->courses_model->getCourseShortCode($course_id);
-        $day = get_current_date_time()->day;
 
         $res = $this->getAll(1, 'student_id', 'desc');
         if (!empty($res)) {
@@ -285,7 +287,7 @@ Class student_basic_info_model extends CI_model {
         return $id;
     }
 
-    function generateHallTicketNumber($center_peref_1) {
+    function generateHallTicketNumber($center_peref_1, $year) {
         $res = $this->getWhere(array('center_pref_1' => $center_peref_1), 1, 'student_id', 'desc');
 
         if (!empty($res)) {
@@ -296,7 +298,7 @@ Class student_basic_info_model extends CI_model {
             $last_id = $exam[0]->code;
         }
 
-        return get_current_date_time()->year . ($last_id + 1);
+        return $year . ($last_id + 1);
     }
 
 }

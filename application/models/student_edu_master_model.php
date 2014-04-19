@@ -11,9 +11,9 @@ Class student_edu_master_model extends CI_model {
     public $year;
     public $uni_institute;
     public $board;
-    public $from_date;
-    public $to_date;
-    public $percentage;
+    public $pcb_percentage;
+    public $pcbe_percentage;
+    public $total_percentage;
     public $rank;
     public $result_wating;
     public $create_id;
@@ -39,9 +39,9 @@ Class student_edu_master_model extends CI_model {
         $new->year = $old->year;
         $new->uni_institute = $old->uni_institute;
         $new->board = $old->board;
-        $new->from_date = $old->from_date;
-        $new->to_date = $old->to_date;
-        $new->percentage = $old->percentage;
+        $new->pcb_percentage = $old->pcb_percentage;
+        $new->pcbe_percentage = $old->pcbe_percentage;
+        $new->total_percentage = $old->total_percentage;
         $new->rank = $old->rank;
         $new->result_wating = $old->result_wating;
         $new->create_id = $old->create_id;
@@ -71,14 +71,14 @@ Class student_edu_master_model extends CI_model {
         if ($this->board != '')
             $arr['board'] = $this->board;
 
-        if ($this->from_date != '')
-            $arr['from_date'] = $this->from_date;
+        if ($this->pcb_percentage != '')
+            $arr['pcb_percentage'] = $this->pcb_percentage;
 
-        if ($this->to_date != '')
-            $arr['to_date'] = $this->to_date;
+        if ($this->pcbe_percentage != '')
+            $arr['pcbe_percentage'] = $this->pcbe_percentage;
 
-        if ($this->percentage != '')
-            $arr['percentage'] = $this->percentage;
+        if ($this->total_percentage != '')
+            $arr['total_percentage'] = $this->total_percentage;
 
         if ($this->rank != '')
             $arr['rank'] = $this->rank;

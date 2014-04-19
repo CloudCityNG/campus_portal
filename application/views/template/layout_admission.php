@@ -22,16 +22,17 @@
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="<?php echo JS_URL; ?>jquery-1.7.2.min.js" type="text/javascript"></script>
-        <script src="<?php echo JS_URL; ?>jquery.validate.js" type="text/javascript"></script>
-        <script src="<?php echo JS_URL; ?>additional_jquery_validation.js" type="text/javascript"></script>
-        <script src="<?php echo JS_URL; ?>jquery.confirm.js" type="text/javascript"></script>
-        <script src="<?php echo JS_URL; ?>jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="<?php echo JS_URL; ?>DT_bootstrap.js" type="text/javascript"></script>
-        <script src="<?php echo JS_URL; ?>jquery-ui.js" type="text/javascript"></script>
-        <script src="<?php echo JS_URL; ?>jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+        
 
         <script type="text/javascript">
             var http_host_js = '<?php echo ADMISSION_URL; ?>';
+
+            $(document).ready(function() {
+                jQuery(document).bind('keydown', 'Ctrl+l', function() {
+                   window.location = "<?php echo base_url() . 'logout'; ?>";
+                    return false;
+                });
+            });
         </script>
     </head>
     <body>
@@ -102,5 +103,13 @@
 
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="<?php echo JS_URL; ?>bootstrap.min.js"></script>
+        <script src="<?php echo JS_URL; ?>jquery.validate.js" type="text/javascript"></script>
+        <script src="<?php echo JS_URL; ?>additional_jquery_validation.js" type="text/javascript"></script>
+        <script src="<?php echo JS_URL; ?>jquery.confirm.js" type="text/javascript"></script>
+        <script src="<?php echo JS_URL; ?>jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="<?php echo JS_URL; ?>DT_bootstrap.js" type="text/javascript"></script>
+        <script src="<?php echo JS_URL; ?>jquery-ui.js" type="text/javascript"></script>
+        <script src="<?php echo JS_URL; ?>jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+        <script src="<?php echo JS_URL; ?>jquery.hotkeys-0.7.9.js"></script>
     </body>
 </html>

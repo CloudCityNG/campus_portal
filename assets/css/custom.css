@@ -116,3 +116,37 @@ fieldset[disabled] .btn-inverse.active {
     margin-left: auto;
     margin-right: auto;
 }
+
+.nav-tabs > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+    zoom:1; /* hasLayout ie7 trigger */
+}
+
+.nav-tabs, .nav-pills {
+    text-align:center;
+}
+
+.error {
+    font-weight: normal;
+    border: 1px solid #f00;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.error_generate {
+    display: block;
+    margin: 5px 0 0 0;
+}
+
+.error_generate label.error{
+    border: 0px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(225, 225, 225, 0.075);
+    box-shadow: inset 0 1px 1px rgba(225, 225, 225, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}

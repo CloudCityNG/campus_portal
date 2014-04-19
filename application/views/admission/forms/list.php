@@ -15,10 +15,10 @@
                     , {"sClass": "text-center"}
 <?php } ?>
                 ],
-                "sAjaxSource": "<?php echo ADMISSION_URL . "list_forms_json"; ?>"
+                "sAjaxSource"
+        : "<?php echo ADMISSION_URL . "list_forms_json"; ?>"
     });
     });
-    
             function deleteRow(ele) {
                 var current_id = $(ele).attr('id');
                 var parent = $(ele).parent().parent();
@@ -80,34 +80,36 @@
         }
         ?>
     <?php } ?>
-    <table class="table table-bordered" id="list">
-        <thead>
-            <tr align="left">
-                <th width="150">Form No</th>
-                <th width="125">Hall Ticket</th>
-                <th>Name</th>
-                <th width="150">Course</th>
-                <th width="200">Status</th>
-                <th width="200">Hall Ticket</th>
-                <?php if ($session->role == 3) { ?>
-                    <th>&nbsp;</th>
-                <?php } ?>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>etc</td>
-                <td>etc</td>
-                <td>etc</td>
-                <td>etc</td>
-                <td>etc</td>
-                <td>etc</td>
-                <?php if ($session->role == 3) { ?>
+    <div class="table-responsive">
+        <table class="table table-bordered" id="list">
+            <thead>
+                <tr align="left">
+                    <th width="150">Form No</th>
+                    <th width="125">Hall Ticket</th>
+                    <th>Name</th>
+                    <th width="150">Course</th>
+                    <th width="200">Status</th>
+                    <th width="200">Hall Ticket</th>
+                    <?php if ($session->role == 3) { ?>
+                        <th>&nbsp;</th>
+                    <?php } ?>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
                     <td>etc</td>
-                <?php } ?>
-            </tr>
-        </tbody>
-    </table>
+                    <td>etc</td>
+                    <td>etc</td>
+                    <td>etc</td>
+                    <td>etc</td>
+                    <td>etc</td>
+                    <?php if ($session->role == 3) { ?>
+                        <td>etc</td>
+                    <?php } ?>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="modal fade" id="update_student_status" tabindex="-1" role="dialog">

@@ -2,7 +2,15 @@
     $(function() {
         $('#add_new_form a[href="#basic_info"]').tab('show')
 
-        $('#manage').validate();
+        $('#manage').validate({
+            errorPlacement: function(error, element) {
+                if (element.attr('type') === 'radio' || element.attr('type') === 'checkbox') {
+                    $('.error_generate').html(error);
+                } else {
+                    return false;
+                }
+            }
+        });
 
 <?php $date = date('m/d/Y', strtotime(get_current_date_time()->get_date_for_db())); ?>
         $("#dob").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
@@ -23,18 +31,6 @@
         }
     }
 </script>
-<style>
-    .nav-tabs > li, .nav-pills > li {
-        float:none;
-        display:inline-block;
-        *display:inline; /* ie7 fix */
-        zoom:1; /* hasLayout ie7 trigger */
-    }
-
-    .nav-tabs, .nav-pills {
-        text-align:center;
-    }
-</style>
 
 <h2 class="text-center">New Admission</h2>
 
@@ -55,31 +51,34 @@
                     Fields marked with  <span class="text-danger">*</span>  are mandatory.
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="col-md-6">
                     <label class="col-md-12 text-center">
                         Select Course
                         <span class="text-danger">*</span>
                     </label>
-
-                    <?php foreach ($course_details as $course) { ?>
-                        <div class="radio">
-                            <label for="radios-0">
-                                <input type="radio" name="cid" value="<?php echo @$course->course_id; ?>" class="required"/>
-                                <?php echo @$course->name; ?>
-                            </label>
-                        </div>
-                    <?php } ?>
+                    <span class="error_generate text-center"></span>
+                    <table class="table table-bordered table-responsive">
+                        <?php foreach ($course_details as $course) { ?>
+                            <tr>
+                                <td>
+                                    <input type="radio" name="cid" value="<?php echo @$course->course_id; ?>" class="required"/> <?php echo @$course->name; ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </table>
                 </div>
                 <div class="col-md-6">
                     <label class="col-md-12 text-center">
                         Select Exam Center
                         <span class="text-danger">*</span>
                     </label>
-                    <table class="table table-bordered">
+                    <span class="error_generate text-center"></span>
+                    <table class="table table-bordered table-responsive">
                         <tr>
-                            <th rowspan="2">Examination Center</th>
-                            <th rowspan="2">Code</th>
+                            <th rowspan="2" style="vertical-align: middle;">Examination Center</th>
+                            <th rowspan="2" style="vertical-align: middle;">Code</th>
                             <th colspan="4">Preference</th>
                         </tr>
                         <tr>
@@ -97,26 +96,32 @@
                                 <td class="text-center"><?php echo @$center->code; ?></td>
                                 <th>
                                     <label for="<?php echo $i; ?>" >
-                                        <input type="checkbox" name="p1[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php echo $i;
-                        $i++; ?>, 'p1[]', '1')">
+                                        <input type="checkbox" name="p1[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php
+                                        echo $i;
+                                        $i++;
+                                        ?>, 'p1[]', '1')">
                                     </label>
                                 </th>
                                 <th>
                                     <label for="<?php echo $i; ?>" >
-                                        <input type="checkbox" name="p2[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php echo $i;
-                        $i++; ?>, 'p2[]', '1')">
+                                        <input type="checkbox" name="p2[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php
+                                        echo $i;
+                                        $i++;
+                                        ?>, 'p2[]', '1')">
                                     </label>
                                 </th>
                                 <th>
                                     <label for="<?php echo $i; ?>" >
-                                        <input type="checkbox" name="p3[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php echo $i;
-                        $i++; ?>, 'p3[]', '1')">
+                                        <input type="checkbox" name="p3[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" onclick="countCheckBoxes(<?php
+                                        echo $i;
+                                        $i++;
+                                        ?>, 'p3[]', '1')">
                                     </label>
                                 </th>
                             </tr>
-    <?php
-}
-?>
+                            <?php
+                        }
+                        ?>
                     </table>
                 </div>
             </div>
@@ -170,7 +175,16 @@
                         <span class="text-danger">&nbsp;</span>
                     </label>
                     <div class = "col-md-8">
-                        <input type="text" name="pincode"  class="form-control" placeholder = "Pincode" />
+                        <input type="text" name="pincode" class="form-control required" placeholder = "Pincode" />
+                    </div>
+                </div>
+                <div class = "col-md-6">
+                    <label for="question" class="col-md-4 control-label">
+                        Date of Birth
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="dob" id="dob" class="form-control required" placeholder = "Date of Birth" />
                     </div>
                 </div>
             </div>
@@ -178,46 +192,43 @@
             <div class = "form-group">
                 <div class = "col-md-6">
                     <label for = "question" class = "col-md-4 control-label">
-                        Phone Number
-                        <span class="text-danger">&nbsp;</span>
+                        Student Contact
+                        <span class="text-danger">*</span>
                     </label>
                     <div class = "col-md-8">
-                        <input type="text" name="phone_no"  class="form-control" placeholder = "Phone Number with STD code" />
+                        <input type="text" name="mobile_s" class="form-control required" placeholder = "Moblie No Student" />
                     </div>
                 </div>
 
                 <div class = "col-md-6">
-                    <label for="question" class="col-md-3 control-label">
-                        Date of Birth
+                    <label for = "question" class = "col-md-4 control-label">
+                        Parent Contact
                         <span class="text-danger">*</span>
                     </label>
-                    <div class="col-md-9">
-                        <input type="text" name="dob" id="dob" class="form-control required" placeholder = "Date of Birth" />
+                    <div class = "col-md-8">
+                        <input type="text" name="mobile_p" class="form-control required" placeholder = "Moblie No Parent" />
                     </div>
                 </div>
-
-
-
             </div>
 
             <div class="form-group">
                 <div class = "col-md-6">
                     <label for = "question" class = "col-md-4 control-label">
-                        Mobile Number
+                        Student Email Address
                         <span class="text-danger">*</span>
                     </label>
                     <div class = "col-md-8">
-                        <input type="text" name="mobile_no"  class="form-control required" placeholder = "Mobile Number" />
+                        <input type="email" name="email_s" class="form-control required" placeholder = "Email Address of Student" />
                     </div>
                 </div>
 
                 <div class = "col-md-6">
-                    <label for = "question" class = "col-md-3 control-label">
-                        Email Address
+                    <label for = "question" class = "col-md-4 control-label">
+                        Parent Email Address
                         <span class="text-danger">*</span>
                     </label>
-                    <div class = "col-md-9">
-                        <input type="email" name="email"  class="form-control required" placeholder = "Email Address" />
+                    <div class = "col-md-8">
+                        <input type="email" name="email_p" class="form-control required" placeholder = "Email Address of Parent" />
                     </div>
                 </div>
             </div>
@@ -228,20 +239,30 @@
                         Gender
                         <span class="text-danger">*</span>
                     </label>
-                    <div class="col-md-8">
-                        <input type="radio" name="gender"  value="M" class="required" /> Male
-                        <input type="radio" name="gender"  value="F" class="required" /> Female
+                    <div class="col-md-8">                      
+                        <label class="radio-inline" for="radios-6">
+                            <input type="radio" name="gender" id="radios-6" value="M" class="required" />Male
+                        </label> 
+                        <label class="radio-inline" for="radios-7">
+                            <input type="radio" name="gender" id="radios-7" value="F" class="required" />Female
+                        </label>
+                        <span class="error_generate"></span>
                     </div>
                 </div>
 
                 <div class = "col-md-6">
-                    <label for = "question" class = "col-md-3 control-label">
+                    <label for = "question" class = "col-md-4 control-label">
                         Marital Status
                         <span class="text-danger">*</span>
                     </label>
-                    <div class = "col-md-9">
-                        <input type="radio" name="marital_status"  value="U" class="required" /> Single
-                        <input type="radio" name="marital_status"  value="M" class="required" /> Married
+                    <div class = "col-md-8">
+                        <label class="radio-inline" for="radios-4">
+                            <input type="radio" name="marital_status" id="radios-4" value="U" class="required" />Single
+                        </label> 
+                        <label class="radio-inline" for="radios-5">
+                            <input type="radio" name="marital_status" id="radios-5" value="M" class="required" />Married
+                        </label>
+                        <span class="error_generate"></span>
                     </div>
                 </div>
             </div>
@@ -266,7 +287,6 @@
                 </div>
             </div>
 
-
             <div class = "form-group">
                 <label for = "question" class = "col-md-2 control-label">
                     Mother's Name
@@ -276,8 +296,6 @@
                     <input type="text" name="parent_2"  class="form-control required" placeholder = " Mother's Name" />
                 </div>
             </div>
-
-
 
             <div class="form-group">
                 <div class = "col-md-6">
@@ -300,10 +318,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class = "col-md-6">
                     <label for = "question" class = "col-md-4 control-label">
-                        Community
+                        Community / Sub Caste
                         <span class="text-danger">&nbsp;</span>
                     </label>
                     <div class="col-md-8">
@@ -314,39 +333,79 @@
                 <div class = "col-md-6">
                     <label for = "question" class = "col-md-4 control-label">
                         Category
-                        <span class="text-danger">&nbsp;</span>
+                        <span class="text-danger">*</span>
                     </label>
                     <div class="col-md-8">
-                        <input type="radio" name="category" class="required" value="SC" /> SC &nbsp;
-                        <input type="radio" name="category" class="required" value="ST" /> ST &nbsp;
-                        <input type="radio" name="category" class="required" value="SEBC" /> SEBC <br />
-                        <input type="radio" name="category" class="required" value="OBC" /> OBC &nbsp;
-                        <input type="radio" name="category" class="required" value="General" /> General &nbsp;
-                        <input type="radio" name="category" class="required" value="Other" /> Other 
+                        <div>
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="SC" class="required" />SC
+                            </label>
+
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="ST" class="required" />ST
+                            </label>
+
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="SEBC" class="required" />SEBC
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="OBC" class="required" />OBC
+                            </label>
+
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="General" class="required" />General
+                            </label>
+
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="Other" class="required" />Other
+                            </label>
+                        </div>
+                        <span class="error_generate"></span>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class = "col-md-6">
-                    <label for="question" class="col-md-6 control-label">
-                        Do you need Hostel Accommodation
+                    <label for="question" class="col-md-4 control-label">
+                        Hostel Accommodation
                         <span class="text-danger">*</span>
                     </label>
-                    <div class="col-md-6">
-                        <input type="radio" name="hostel" class="required" value="Y" /> Yes &nbsp;
-                        <input type="radio" name="hostel" class="required" value="N" /> No &nbsp;
+                    <div class="col-md-8">
+                        <label class="radio-inline" for="radios-0">
+                            <input type="radio" name="hostel" id="radios-0" value="Y" class="required" <?php
+                            if (@$basic_info[0]->hostel == 'Y') {
+                                echo 'checked="checked"';
+                            }
+                            ?>>Yes
+                        </label> 
+                        <label class="radio-inline" for="radios-1">
+                            <input type="radio" name="hostel" id="radios-1" value="N" class="required" <?php
+                            if (@$basic_info[0]->hostel == 'N') {
+                                echo 'checked="checked"';
+                            }
+                            ?>>No
+                        </label> 
+                        <span class="error_generate"></span>
                     </div>
                 </div>
 
                 <div class = "col-md-6">
-                    <label for="question" class="col-md-6 control-label">
-                        Do you need Transport Facility
+                    <label for="question" class="col-md-4 control-label">
+                        Transport Facility
                         <span class="text-danger">*</span>
                     </label>
-                    <div class="col-md-6">
-                        <input type="radio" name="transoprt" class="required" value="Y" /> Yes &nbsp;
-                        <input type="radio" name="transoprt" class="required" value="N" /> No &nbsp;
+                    <div class="col-md-8">
+                        <label class="radio-inline" for="radios-2">
+                            <input type="radio" name="transoprt" id="radios-2" value="Y" class="required" />Yes
+                        </label> 
+                        <label class="radio-inline" for="radios-3">
+                            <input type="radio" name="transoprt" id="radios-3" value="N" class="required" />No
+                        </label> 
+                        <span class="error_generate"></span>
                     </div>
                 </div>
             </div>

@@ -135,8 +135,8 @@ class forms extends CI_Controller {
 
         $admission_details = $this->admission_details_model->getWhere(array('degree' => 'PG', 'admission_year' => get_current_date_time()->year));
         $obj->admission_id = $admission_details[0]->admission_id;
-        $obj->form_number = $obj->generateFormNumber($this->input->post('cid'));
-        $obj->hall_ticket = $obj->generateHallTicketNumber($center_p1[0]);
+        $obj->form_number = $obj->generateFormNumber($this->input->post('cid'), date('y', strtotime(get_current_date_time()->year)), get_current_date_time()->month, get_current_date_time()->day);
+        $obj->hall_ticket = $obj->generateHallTicketNumber($center_p1[0], get_current_date_time()->year);
         $obj->course_id = $this->input->post('cid');
         $obj->center_pref_1 = $center_p1[0];
         $obj->center_pref_2 = $center_p2[0];
@@ -146,10 +146,11 @@ class forms extends CI_Controller {
         $obj->lastname = $this->input->post('lastname');
         $obj->address = $this->input->post('address');
         $obj->pincode = $this->input->post('pincode');
-        $obj->phone_no = ($this->input->post('phone_no') == '') ? NULL : $this->input->post('phone_no');
-        $obj->mobile_no = $this->input->post('mobile_no');
+        $obj->mobile_s = $this->input->post('mobile_s');
+        $obj->mobile_p = $this->input->post('mobile_p');
         $obj->gender = $this->input->post('gender');
-        $obj->email = $this->input->post('email');
+        $obj->email_p = $this->input->post('email_p');
+        $obj->email_s = $this->input->post('email_s');
         $obj->parent_1 = $this->input->post('parent_1');
         $obj->parent_1_occupation = $this->input->post('parent_1_occupation');
         $obj->parent_2 = $this->input->post('parent_2');
@@ -202,10 +203,11 @@ class forms extends CI_Controller {
         $obj->lastname = $this->input->post('lastname');
         $obj->address = $this->input->post('address');
         $obj->pincode = $this->input->post('pincode');
-        $obj->phone_no = ($this->input->post('phone_no') == '') ? NULL : $this->input->post('phone_no');
-        $obj->mobile_no = $this->input->post('mobile_no');
+        $obj->mobile_s = $this->input->post('mobile_s');
+        $obj->mobile_p = $this->input->post('mobile_p');
         $obj->gender = $this->input->post('gender');
-        $obj->email = $this->input->post('email');
+        $obj->email_p = $this->input->post('email_p');
+        $obj->email_s = $this->input->post('email_s');
         $obj->parent_1 = $this->input->post('parent_1');
         $obj->parent_1_occupation = $this->input->post('parent_1_occupation');
         $obj->parent_2 = $this->input->post('parent_2');
@@ -243,9 +245,9 @@ class forms extends CI_Controller {
         $obj_master->year = $this->input->post('ssc_year');
         $obj_master->uni_institute = $this->input->post('ssc_uni_institute');
         $obj_master->board = $this->input->post('ssc_board');
-        $obj_master->from_date = date('Y-m-d', strtotime($this->input->post('ssc_from_date')));
-        $obj_master->to_date = date('Y-m-d', strtotime($this->input->post('ssc_to_date')));
-        $obj_master->percentage = $this->input->post('ssc_percentage');
+        $obj_master->pcb_percentage = '0.00';
+        $obj_master->pcbe_percentage = '0.00';
+        $obj_master->total_percentage = $this->input->post('ssc_total_percentage');
         $obj_master->rank = $this->input->post('ssc_rank');
         $obj_master->result_wating = 'N';
 
@@ -269,9 +271,9 @@ class forms extends CI_Controller {
         $obj_master->year = $this->input->post('hsc_year');
         $obj_master->uni_institute = $this->input->post('hsc_uni_institute');
         $obj_master->board = $this->input->post('hsc_board');
-        $obj_master->from_date = date('Y-m-d', strtotime($this->input->post('hsc_from_date')));
-        $obj_master->to_date = date('Y-m-d', strtotime($this->input->post('hsc_to_date')));
-        $obj_master->percentage = $this->input->post('hsc_percentage');
+        $obj_master->pcb_percentage = $this->input->post('pcb_percentage');
+        $obj_master->pcbe_percentage = $this->input->post('pcbe_percentage');
+        $obj_master->total_percentage = $this->input->post('hsc_total_percentage');
         $obj_master->rank = $this->input->post('hsc_rank');
         if ($this->input->post('result_wating') != FALSE) {
             $obj_master->result_wating = 'Y';
@@ -341,9 +343,23 @@ class forms extends CI_Controller {
             if (!empty($language)) {
                 $obj->name = strtolower($language);
                 $obj->student_id = $student_id;
-                $obj->speaking = $this->input->post('speaking' . $i);
-                $obj->reading = $this->input->post('reading' . $i);
-                $obj->writing = $this->input->post('writing' . $i);
+                if ($this->input->post('speaking' . $i) != FALSE) {
+                    $obj->speaking = 'Y';
+                } else {
+                    $obj->speaking = 'N';
+                }
+
+                if ($this->input->post('reading' . $i) != FALSE) {
+                    $obj->reading = 'Y';
+                } else {
+                    $obj->reading = 'N';
+                }
+
+                if ($this->input->post('writing' . $i) != FALSE) {
+                    $obj->writing = 'Y';
+                } else {
+                    $obj->writing = 'N';
+                }
 
                 if (empty($detail)) {
                     $obj->create_id = $student_id;

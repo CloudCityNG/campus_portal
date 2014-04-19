@@ -1,40 +1,7 @@
+<?php $date = date('m/d/Y', strtotime(get_current_date_time()->get_date_for_db())); ?>
 <script>
     $(function() {
-        $('#edit_form a[href="#<?php echo @$tab; ?>"]').tab('show')
-
-
-<?php $date = date('m/d/Y', strtotime(get_current_date_time()->get_date_for_db())); ?>
-        $("#dob").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
-
-        $("#ssc_from_date").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
-
-        $("#ssc_to_date").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
-
-        $("#hsc_from_date").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
-
-        $("#hsc_to_date").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
-
-        $("#expire_date").datepicker({dateFormat: 'dd-mm-yy', minDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "<?php echo date('Y') . ':' . (date('Y') + 30); ?>"});
-
-
-
-        $('#result_wating').click(function() {
-            if ($("#result_wating").is(':checked')) {
-                $("#hsc_from_date").attr('disabled', true);
-                $("#hsc_to_date").attr('disabled', true);
-                $("#hsc_percentage").attr('disabled', true);
-                $("#hsc_rank").attr('disabled', true);
-                $("#edu_details").hide();
-            }
-            else {
-                $("#hsc_from_date").attr('disabled', false);
-                $("#hsc_to_date").attr('disabled', false);
-                $("#hsc_percentage").attr('disabled', false);
-                $("#hsc_rank").attr('disabled', false);
-                $("#edu_details").show();
-            }
-        });
-
+        $('#edit_form a[href="#<?php echo @$tab; ?>"]').tab('show');
     });
 
     function countCheckBoxes(id, name, value) {
@@ -52,18 +19,6 @@
         }
     }
 </script>
-<style>
-    .nav-tabs > li, .nav-pills > li {
-        float:none;
-        display:inline-block;
-        *display:inline; /* ie7 fix */
-        zoom:1; /* hasLayout ie7 trigger */
-    }
-
-    .nav-tabs, .nav-pills {
-        text-align:center;
-    }
-</style>
 
 <h2 class="text-center">New Admission</h2>
 
@@ -71,7 +26,7 @@
     <li class=""><a href="#basic_info" data-toggle="tab">Basic Information</a></li>
     <li class=""><a href="#edu_info" data-toggle="tab">Education Information</a></li>
     <li class=""><a href="#languages" data-toggle="tab">Languages Know</a></li>
-    <li class=""><a href="#foreign_detials" data-toggle="tab">Foreign Details</a></li>
+    <li class=""><a href="#foreign_detials" data-toggle="tab">Passport Details</a></li>
     <li class=""><a href="#require_doc" data-toggle="tab">Require Documents</a></li>
 </ul>
 
@@ -79,7 +34,17 @@
     <div class="tab-pane in active" id="basic_info">
         <script>
             $(function() {
-                $('#info_basic').validate();
+                $('#info_basic').validate({
+                    errorPlacement: function(error, element) {
+                        if (element.attr('type') === 'radio' || element.attr('type') === 'checkbox') {
+                            $('.error_generate').html(error);
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+
+                $("#dob").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
             });
         </script>
         <h3 class="text-center">Basic Information</h3>
@@ -95,19 +60,21 @@
                         Select Course
                         <span class="text-danger">*</span>
                     </label>
-
-                    <?php foreach ($course_details as $course) { ?>
-                        <div class="radio">
-                            <label for="radios-0">
-                                <input type="radio" name="cid" value="<?php echo @$course->course_id; ?>" class="required" <?php
-                                if (@$basic_info[0]->course_id == $course->course_id) {
-                                    echo 'checked="checked"';
-                                }
-                                ?> disabled="disabled"/>
-                                       <?php echo @$course->name; ?>
-                            </label>
-                        </div>
-                    <?php } ?>
+                    <span class="error_generate text-center"></span>
+                    <table class="table table-bordered table-responsive">
+                        <?php foreach ($course_details as $course) { ?>
+                            <tr>
+                                <td>
+                                    <input type="radio" name="cid" value="<?php echo @$course->course_id; ?>" class="required" <?php
+                                    if (@$basic_info[0]->course_id == $course->course_id) {
+                                        echo 'checked="checked"';
+                                    }
+                                    ?> disabled="disabled"/>
+                                           <?php echo @$course->name; ?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </table>
                 </div>
                 <div class="col-md-6">
                     <label class="col-md-12 text-center">
@@ -226,7 +193,16 @@
                         <span class="text-danger">&nbsp;</span>
                     </label>
                     <div class = "col-md-8">
-                        <input type="text" name="pincode" value="<?php echo @$basic_info[0]->pincode; ?>" class="form-control" placeholder = "Pincode" />
+                        <input type="text" name="pincode" value="<?php echo @$basic_info[0]->pincode; ?>" class="form-control required" placeholder = "Pincode" />
+                    </div>
+                </div>
+                <div class = "col-md-6">
+                    <label for="question" class="col-md-4 control-label">
+                        Date of Birth
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="dob" id="dob" class="form-control required" placeholder = "Date of Birth" value="<?php echo date('d-m-Y', strtotime(@$basic_info[0]->dob)); ?>"/>
                     </div>
                 </div>
             </div>
@@ -234,46 +210,43 @@
             <div class = "form-group">
                 <div class = "col-md-6">
                     <label for = "question" class = "col-md-4 control-label">
-                        Phone Number
-                        <span class="text-danger">&nbsp;</span>
+                        Student Contact
+                        <span class="text-danger">*</span>
                     </label>
                     <div class = "col-md-8">
-                        <input type="text" name="phone_no" value="<?php echo @$basic_info[0]->phone_no; ?>" class="form-control" placeholder = "Phone Number with STD code" />
+                        <input type="text" name="mobile_s" value="<?php echo @$basic_info[0]->phone_no; ?>" class="form-control required" placeholder = "Moblie No Student" />
                     </div>
                 </div>
 
                 <div class = "col-md-6">
-                    <label for="question" class="col-md-3 control-label">
-                        Date of Birth
+                    <label for = "question" class = "col-md-4 control-label">
+                        Parent Contact
                         <span class="text-danger">*</span>
                     </label>
-                    <div class="col-md-9">
-                        <input type="text" name="dob" id="dob" class="form-control required" placeholder = "Date of Birth" value="<?php echo date('d-m-Y', strtotime(@$basic_info[0]->dob)); ?>"/>
+                    <div class = "col-md-8">
+                        <input type="text" name="mobile_p" value="<?php echo @$basic_info[0]->phone_no; ?>" class="form-control required" placeholder = "Moblie No Parent" />
                     </div>
                 </div>
-
-
-
             </div>
 
             <div class="form-group">
                 <div class = "col-md-6">
                     <label for = "question" class = "col-md-4 control-label">
-                        Mobile Number
+                        Student Email Address
                         <span class="text-danger">*</span>
                     </label>
                     <div class = "col-md-8">
-                        <input type="text" name="mobile_no" value="<?php echo @$basic_info[0]->mobile_no; ?>" class="form-control required" placeholder = "Mobile Number" />
+                        <input type="email" name="email_s" value="<?php echo @$basic_info[0]->mobile_no; ?>" class="form-control required" placeholder = "Email Address of Student" />
                     </div>
                 </div>
 
                 <div class = "col-md-6">
-                    <label for = "question" class = "col-md-3 control-label">
-                        Email Address
+                    <label for = "question" class = "col-md-4 control-label">
+                        Parent Email Address
                         <span class="text-danger">*</span>
                     </label>
-                    <div class = "col-md-9">
-                        <input type="email" name="email" value="<?php echo @$basic_info[0]->email; ?>" class="form-control required" placeholder = "Email Address" />
+                    <div class = "col-md-8">
+                        <input type="email" name="email_p" value="<?php echo @$basic_info[0]->email; ?>" class="form-control required" placeholder = "Email Address of Parent" />
                     </div>
                 </div>
             </div>
@@ -284,36 +257,46 @@
                         Gender
                         <span class="text-danger">*</span>
                     </label>
-                    <div class="col-md-8">
-                        <input type="radio" name="gender"  value="M" class="required" <?php
-                        if (@$basic_info[0]->gender == 'M') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> Male
-                        <input type="radio" name="gender"  value="F" class="required" <?php
-                        if (@$basic_info[0]->gender == 'F') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> Female
+                    <div class="col-md-8">                      
+                        <label class="radio-inline" for="radios-6">
+                            <input type="radio" name="gender" id="radios-6" value="M" class="required" <?php
+                            if (@$basic_info[0]->gender == 'M') {
+                                echo 'checked="checked"';
+                            }
+                            ?>>Male
+                        </label> 
+                        <label class="radio-inline" for="radios-7">
+                            <input type="radio" name="gender" id="radios-7" value="F" class="required" <?php
+                            if (@$basic_info[0]->gender == 'F') {
+                                echo 'checked="checked"';
+                            }
+                            ?>>Female
+                        </label>
+                        <span class="error_generate"></span>
                     </div>
                 </div>
 
                 <div class = "col-md-6">
-                    <label for = "question" class = "col-md-3 control-label">
+                    <label for = "question" class = "col-md-4 control-label">
                         Marital Status
                         <span class="text-danger">*</span>
                     </label>
-                    <div class = "col-md-9">
-                        <input type="radio" name="marital_status"  value="U" class="required" <?php
-                        if (@$basic_info[0]->marital_status == 'U') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> Single
-                        <input type="radio" name="marital_status"  value="M" class="required" <?php
-                        if (@$basic_info[0]->marital_status == 'M') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> Married
+                    <div class = "col-md-8">
+                        <label class="radio-inline" for="radios-4">
+                            <input type="radio" name="marital_status" id="radios-4" value="U" class="required" <?php
+                            if (@$basic_info[0]->marital_status == 'U') {
+                                echo 'checked="checked"';
+                            }
+                            ?>>Single
+                        </label> 
+                        <label class="radio-inline" for="radios-5">
+                            <input type="radio" name="marital_status" id="radios-5" value="M" class="required" <?php
+                            if (@$basic_info[0]->marital_status == 'M') {
+                                echo 'checked="checked"';
+                            }
+                            ?>>Married
+                        </label>
+                        <span class="error_generate"></span>
                     </div>
                 </div>
             </div>
@@ -338,7 +321,6 @@
                 </div>
             </div>
 
-
             <div class = "form-group">
                 <label for = "question" class = "col-md-2 control-label">
                     Mother's Name
@@ -348,8 +330,6 @@
                     <input type="text" name="parent_2" value="<?php echo @$basic_info[0]->parent_2; ?>" class="form-control required" placeholder = " Mother's Name" />
                 </div>
             </div>
-
-
 
             <div class="form-group">
                 <div class = "col-md-6">
@@ -372,10 +352,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class = "col-md-6">
                     <label for = "question" class = "col-md-4 control-label">
-                        Community
+                        Community / Sub Caste
                         <span class="text-danger">&nbsp;</span>
                     </label>
                     <div class="col-md-8">
@@ -389,80 +370,110 @@
                         <span class="text-danger">&nbsp;</span>
                     </label>
                     <div class="col-md-8">
-                        <input type="radio" name="category" class="required" value="SC" <?php
-                        if (@$basic_info[0]->category == 'SC') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> SC &nbsp;
-                        <input type="radio" name="category" class="required" value="ST" <?php
-                        if (@$basic_info[0]->category == 'ST') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> ST &nbsp;
-                        <input type="radio" name="category" class="required" value="SEBC" <?php
-                        if (@$basic_info[0]->category == 'SEBC') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> SEBC <br />
-                        <input type="radio" name="category" class="required" value="OBC" <?php
-                        if (@$basic_info[0]->category == 'OBC') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> OBC &nbsp;
-                        <input type="radio" name="category" class="required" value="General" <?php
-                        if (@$basic_info[0]->category == 'General') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> General &nbsp;
-                        <input type="radio" name="category" class="required" value="Other" <?php
-                        if (@$basic_info[0]->category == 'Other') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> Other 
+                        <div>
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="SC" class="required" <?php
+                                if (@$basic_info[0]->category == 'SC') {
+                                    echo 'checked="checked"';
+                                }
+                                ?>>SC
+                            </label>
+
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="ST" class="required" <?php
+                                if (@$basic_info[0]->category == 'ST') {
+                                    echo 'checked="checked"';
+                                }
+                                ?>>ST
+                            </label>
+
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="SEBC" class="required" <?php
+                                if (@$basic_info[0]->category == 'SEBC') {
+                                    echo 'checked="checked"';
+                                }
+                                ?>>SEBC
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="OBC" class="required" <?php
+                                if (@$basic_info[0]->category == 'OBC') {
+                                    echo 'checked="checked"';
+                                }
+                                ?>>OBC
+                            </label>
+
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="General" class="required" <?php
+                                if (@$basic_info[0]->category == 'General') {
+                                    echo 'checked="checked"';
+                                }
+                                ?>>General
+                            </label>
+
+                            <label class="radio-inline" for="radios-0">
+                                <input type="radio" name="category" id="radios-0" value="Other" class="required" <?php
+                                if (@$basic_info[0]->category == 'Other') {
+                                    echo 'checked="checked"';
+                                }
+                                ?>>Other
+                            </label> 
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class = "col-md-6">
-                    <label for="question" class="col-md-6 control-label">
-                        Do you need Hostel Accommodation
+                    <label for="question" class="col-md-4 control-label">
+                        Hostel Accommodation
                         <span class="text-danger">*</span>
                     </label>
-                    <div class="col-md-6">
-                        <input type="radio" name="hostel" class="required" value="Y" <?php
-                        if (@$basic_info[0]->hostel == 'Y') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> Yes &nbsp;
-                        <input type="radio" name="hostel" class="required" value="N" <?php
-                        if (@$basic_info[0]->hostel == 'N') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> No &nbsp;
+                    <div class="col-md-8">
+                        <label class="radio-inline" for="radios-0">
+                            <input type="radio" name="hostel" id="radios-0" value="Y" class="required" <?php
+                            if (@$basic_info[0]->hostel == 'Y') {
+                                echo 'checked="checked"';
+                            }
+                            ?>>Yes
+                        </label> 
+                        <label class="radio-inline" for="radios-1">
+                            <input type="radio" name="hostel" id="radios-1" value="N" class="required" <?php
+                            if (@$basic_info[0]->hostel == 'N') {
+                                echo 'checked="checked"';
+                            }
+                            ?>>No
+                        </label>
+                        <span class="error_generate"></span>
                     </div>
                 </div>
 
                 <div class = "col-md-6">
-                    <label for="question" class="col-md-6 control-label">
-                        Do you need Transport Facility
+                    <label for="question" class="col-md-4 control-label">
+                        Transport Facility
                         <span class="text-danger">*</span>
                     </label>
-                    <div class="col-md-6">
-                        <input type="radio" name="transoprt" class="required" value="Y" <?php
-                        if (@$basic_info[0]->transoprt == 'Y') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> Yes &nbsp;
-                        <input type="radio" name="transoprt" class="required" value="N" <?php
-                        if (@$basic_info[0]->transoprt == 'N') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/> No &nbsp;
+                    <div class="col-md-8">
+                        <label class="radio-inline" for="radios-2">
+                            <input type="radio" name="transoprt" id="radios-2" value="Y" class="required" <?php
+                            if (@$basic_info[0]->transoprt == 'Y') {
+                                echo 'checked="checked"';
+                            }
+                            ?>>Yes
+                        </label> 
+                        <label class="radio-inline" for="radios-3">
+                            <input type="radio" name="transoprt" id="radios-3" value="N" class="required" <?php
+                            if (@$basic_info[0]->transoprt == 'N') {
+                                echo 'checked="checked"';
+                            }
+                            ?>>No
+                        </label>
+                        <span class="error_generate"></span>
                     </div>
                 </div>
             </div>
-
 
             <div class="form-group">
                 <div class="col-md-12 text-center">
@@ -477,7 +488,32 @@
     <div class="tab-pane in active" id="edu_info">
         <script>
             $(function() {
-                $('#info_edu').validate();
+                $('#info_edu').validate({
+                    errorPlacement: function(error, element) {
+                        if (element.attr('type') === 'radio' || element.attr('type') === 'checkbox') {
+                            $('.error_generate').html(error);
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+
+                $('#result_wating').click(function() {
+                    if ($("#result_wating").is(':checked')) {
+                        $("#pcb_percentage").attr('disabled', true);
+                        $("#pcbe_percentage").attr('disabled', true);
+                        $("#hsc_percentage").attr('disabled', true);
+                        $("#hsc_rank").attr('disabled', true);
+                        $("#edu_details").hide();
+                    }
+                    else {
+                        $("#pcb_percentage").attr('disabled', false);
+                        $("#pcbe_percentage").attr('disabled', false);
+                        $("#hsc_percentage").attr('disabled', false);
+                        $("#hsc_rank").attr('disabled', false);
+                        $("#edu_details").show();
+                    }
+                });
             });
         </script>
         <h3 class="text-center">Education Information</h3>
@@ -491,9 +527,9 @@
                         <th>Year</th>
                         <th>Institute</th>
                         <th>University / Board</th>
-                        <th>From <br /> (dd-mm-yyyy)</th>
-                        <th>To <br /> (dd-mm-yyyy)</th>
-                        <th>Percentage / Grade</th>
+                        <th>PCB Percentage</th>
+                        <th>PCBE Percentage</th>
+                        <th>Total Percentage</th>
                         <th>Rank</th>
                     </tr>
 
@@ -503,9 +539,9 @@
                         <td><input type="text" name="ssc_year" value="<?php echo @$edu_master_info[1]->year; ?>" class="form-control required"/></td>
                         <td><input type="text" name="ssc_uni_institute" value="<?php echo @$edu_master_info[1]->uni_institute; ?>" class="form-control required"/></td>
                         <td><input type="text" name="ssc_board" value="<?php echo @$edu_master_info[1]->board; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="ssc_from_date" id="ssc_from_date" value="<?php echo (date('d-m-Y', strtotime(@$edu_master_info[1]->from_date)) == '01-01-1970') ? '' : date('d-m-Y', strtotime(@$edu_master_info[1]->from_date)); ?>" class="form-control required"/></td>
-                        <td><input type="text" name="ssc_to_date" id="ssc_to_date" value="<?php echo (date('d-m-Y', strtotime(@$edu_master_info[1]->to_date)) == '01-01-1970') ? '' : date('d-m-Y', strtotime(@$edu_master_info[1]->to_date)); ?>" class="form-control required"/></td>
-                        <td><input type="text" name="ssc_percentage" value="<?php echo @$edu_master_info[1]->percentage; ?>" class="form-control required"/></td>
+                        <th>N/A</th>
+                        <th>N/A</th>
+                        <td><input type="text" name="ssc_total_percentage" value="<?php echo @$edu_master_info[1]->total_percentage; ?>" class="form-control required"/></td>
                         <td><input type="text" name="ssc_rank" value="<?php echo @$edu_master_info[1]->rank; ?>" class="form-control required"/></td>
                     </tr>
 
@@ -515,9 +551,9 @@
                         <td><input type="text" name="hsc_year" value="<?php echo @$edu_master_info[0]->year; ?>" class="form-control required"/></td>
                         <td><input type="text" name="hsc_uni_institute" value="<?php echo @$edu_master_info[0]->uni_institute; ?>" class="form-control required"/></td>
                         <td><input type="text" name="hsc_board" value="<?php echo @$edu_master_info[0]->board; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="hsc_from_date" id="hsc_from_date" value="<?php echo (date('d-m-Y', strtotime(@$edu_master_info[0]->from_date)) == '01-01-1970') ? '' : date('d-m-Y', strtotime(@$edu_master_info[0]->from_date)); ?>" class="form-control required"/></td>
-                        <td><input type="text" name="hsc_to_date" id="hsc_to_date" value="<?php echo (date('d-m-Y', strtotime(@$edu_master_info[0]->to_date)) == '01-01-1970') ? '' : date('d-m-Y', strtotime(@$edu_master_info[0]->to_date)); ?>" class="form-control required"/></td>
-                        <td><input type="text" name="hsc_percentage" id="hsc_percentage" value="<?php echo @$edu_master_info[0]->percentage; ?>" class="form-control required"/></td>
+                        <td><input type="text" name="pcb_percentage" id="pcb_percentage" value="<?php echo @$edu_master_info[0]->pcb_percentage; ?>" class="form-control required"/></td>
+                        <td><input type="text" name="pcbe_percentage" id="pcbe_percentage" value="<?php echo @$edu_master_info[0]->pcbe_percentage; ?>" class="form-control required"/></td>
+                        <td><input type="text" name="hsc_total_percentage" id="hsc_percentage" value="<?php echo @$edu_master_info[0]->total_percentage; ?>" class="form-control required"/></td>
                         <td><input type="text" name="hsc_rank" id="hsc_rank" value="<?php echo @$edu_master_info[0]->rank; ?>" class="form-control required"/></td>
                     </tr>
 
@@ -608,184 +644,109 @@
     <div class="tab-pane in active" id="languages">
         <script>
             $(function() {
-                $('#info_lang').validate();
+                $('#info_lang').validate({
+                    errorPlacement: function(error, element) {
+                        if (element.attr('type') === 'radio' || element.attr('type') === 'checkbox') {
+                            $('.error_generate').html(error);
+                        } else {
+                            return false;
+                        }
+                    }
+                });
             });
         </script>
         <h3 class="text-center">Languages Information</h3>
         <form action="<?php echo ADMISSION_URL . 'forms/update_ug_language/' . $student_id ?>" method="post" class="form-horizontal" id="info_lang">
             <table class="table table-bordered table-responsive">
                 <tr>
-                    <th rowspan="2" style="vertical-align: middle; ">Language</th>
-                    <th colspan="3">Speaking</th>
-                    <th colspan="3">Reading</th>
-                    <th colspan="3">Writing</th>
-                </tr>
-                <tr>
-                    <th width="100">Excellent</th>
-                    <th width="100">Good</th>
-                    <th width="100">Fair</th>
-                    <th width="100">Excellent</th>
-                    <th width="100">Good</th>
-                    <th width="100">Fair</th>
-                    <th width="100">Excellent</th>
-                    <th width="100">Good</th>
-                    <th width="100">Fair</th>
+                    <th>Language</th>
+                    <th>Speaking</th>
+                    <th>Reading</th>
+                    <th>Writing</th>
                 </tr>
 
                 <tr>
-                    <td><input value="<?php echo ucfirst(@$languages_details[2]->name); ?>" type="text" placeholder="Language Name" name="langauge_name[]" class="form-control required"/></td>
+                    <td><input value="<?php echo ucfirst(@$languages_details[0]->name); ?>" type="text" placeholder="Language Name" name="langauge_name[]" class="form-control required"/></td>
 
-                    <th><input type="radio" name="speaking0" value="E" <?php
-                        if (@$languages_details[2]->speaking == 'E') {
+                    <th>
+                        <input type="checkbox" name="speaking0" value="Y" <?php
+                        if (@$languages_details[0]->speaking == 'Y') {
                             echo 'checked="checked"';
                         }
-                        ?> class="required"/></td>
-                    <th><input type="radio" name="speaking0" value="G" <?php
-                        if (@$languages_details[2]->speaking == 'G') {
-                            echo 'checked="checked"';
-                        }
-                        ?> class="required"/></td>
-                    <th><input type="radio" name="speaking0" value="F" <?php
-                        if (@$languages_details[2]->speaking == 'F') {
-                            echo 'checked="checked"';
-                        }
-                        ?> class="required"/></td>
+                        ?>/>
+                    </th>
 
-                    <th><input type="radio" name="reading0" value="E" <?php
-                        if (@$languages_details[2]->reading == 'E') {
+                    <th>
+                        <input type="checkbox" name="reading0" value="Y" <?php
+                        if (@$languages_details[0]->reading == 'Y') {
                             echo 'checked="checked"';
                         }
-                        ?> class="required"/></td>
-                    <th><input type="radio" name="reading0" value="G" <?php
-                        if (@$languages_details[2]->reading == 'G') {
-                            echo 'checked="checked"';
-                        }
-                        ?> class="required"/></td>
-                    <th><input type="radio" name="reading0" value="F" <?php
-                        if (@$languages_details[2]->reading == 'F') {
-                            echo 'checked="checked"';
-                        }
-                        ?> class="required"/></td>
+                        ?>/>
+                    </th>
 
-                    <th><input type="radio" name="writing0" value="E" <?php
-                        if (@$languages_details[2]->writing == 'E') {
+                    <th>
+                        <input type="checkbox" name="writing0" value="Y" <?php
+                        if (@$languages_details[0]->writing == 'Y') {
                             echo 'checked="checked"';
                         }
-                        ?> class="required"/></td>
-                    <th><input type="radio" name="writing0" value="G" <?php
-                        if (@$languages_details[2]->writing == 'G') {
-                            echo 'checked="checked"';
-                        }
-                        ?> class="required"/></td>
-                    <th><input type="radio" name="writing0" value="F" <?php
-                        if (@$languages_details[2]->writing == 'F') {
-                            echo 'checked="checked"';
-                        }
-                        ?> class="required"/></td>
+                        ?>/>
+                    </th>
                 </tr>
 
                 <tr>
                     <td><input value="<?php echo ucfirst(@$languages_details[1]->name); ?>" type="text" placeholder="Language Name" name="langauge_name[]" class="form-control"/></td>
 
-                    <th><input type="radio" name="speaking1" value="E" <?php
-                        if (@$languages_details[1]->speaking == 'E') {
+                    <th>
+                        <input type="checkbox" name="speaking1" value="Y" <?php
+                        if (@$languages_details[1]->speaking == 'Y') {
                             echo 'checked="checked"';
                         }
-                        ?>/></td>
-                    <th><input type="radio" name="speaking1" value="G" <?php
-                        if (@$languages_details[1]->speaking == 'G') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
-                    <th><input type="radio" name="speaking1" value="F" <?php
-                        if (@$languages_details[1]->speaking == 'F') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
+                        ?>/>
+                    </th>
 
-                    <th><input type="radio" name="reading1" value="E" <?php
-                        if (@$languages_details[1]->reading == 'E') {
+                    <th>
+                        <input type="checkbox" name="reading1" value="Y" <?php
+                        if (@$languages_details[1]->reading == 'Y') {
                             echo 'checked="checked"';
                         }
-                        ?>/></th>
-                    <th><input type="radio" name="reading1" value="G" <?php
-                        if (@$languages_details[1]->reading == 'G') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
-                    <th><input type="radio" name="reading1" value="F" <?php
-                        if (@$languages_details[1]->reading == 'F') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
+                        ?>/>
+                    </th>
 
-                    <th><input type="radio" name="writing1" value="E" <?php
-                        if (@$languages_details[1]->writing == 'E') {
+                    <th>
+                        <input type="checkbox" name="writing1" value="Y" <?php
+                        if (@$languages_details[1]->writing == 'Y') {
                             echo 'checked="checked"';
                         }
-                        ?>/></th>
-                    <th><input type="radio" name="writing1" value="G" <?php
-                        if (@$languages_details[1]->writing == 'G') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
-                    <th><input type="radio" name="writing1" value="F" <?php
-                        if (@$languages_details[1]->writing == 'F') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
+                        ?>/>
+                    </th>
                 </tr>
 
                 <tr>
-                    <td><input value="<?php echo ucfirst(@$languages_details[0]->name); ?>" type="text" placeholder="Language Name" name="langauge_name[]" class="form-control"/></td>
+                    <td><input value="<?php echo ucfirst(@$languages_details[2]->name); ?>" type="text" placeholder="Language Name" name="langauge_name[]" class="form-control"/></td>
 
-                    <th><input type="radio" name="speaking2" value="E" <?php
-                        if (@$languages_details[0]->speaking == 'E') {
+                    <th>
+                        <input type="checkbox" name="speaking2" value="Y" <?php
+                        if (@$languages_details[2]->speaking == 'Y') {
                             echo 'checked="checked"';
                         }
-                        ?>/></td>
-                    <th><input type="radio" name="speaking2" value="G" <?php
-                        if (@$languages_details[0]->speaking == 'G') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
-                    <th><input type="radio" name="speaking2" value="F" <?php
-                        if (@$languages_details[0]->speaking == 'F') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
+                        ?>/>
+                    </th>
 
-                    <th><input type="radio" name="reading2" value="E" <?php
-                        if (@$languages_details[0]->reading == 'E') {
+                    <th>
+                        <input type="checkbox" name="reading2" value="Y" <?php
+                        if (@$languages_details[2]->reading == 'Y') {
                             echo 'checked="checked"';
                         }
-                        ?>/></th>
-                    <th><input type="radio" name="reading2" value="G" <?php
-                        if (@$languages_details[0]->reading == 'G') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
-                    <th><input type="radio" name="reading2" value="F" <?php
-                        if (@$languages_details[0]->reading == 'F') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
+                        ?>/>
+                    </th>
 
-                    <th><input type="radio" name="writing2" value="E" <?php
-                        if (@$languages_details[0]->writing == 'E') {
+                    <th>
+                        <input type="checkbox" name="writing2" value="Y" <?php
+                        if (@$languages_details[2]->writing == 'Y') {
                             echo 'checked="checked"';
                         }
-                        ?>/></th>
-                    <th><input type="radio" name="writing2" value="G" <?php
-                        if (@$languages_details[0]->writing == 'G') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
-                    <th><input type="radio" name="writing2" value="F" <?php
-                        if (@$languages_details[0]->writing == 'F') {
-                            echo 'checked="checked"';
-                        }
-                        ?>/></th>
+                        ?>/>
+                    </th>
                 </tr>
             </table>
             <div class="form-group">
@@ -800,11 +761,21 @@
     <div class="tab-pane in active" id="foreign_detials">
         <script>
             $(function() {
-                $('#info_foreign').validate();
+                $('#info_foreign').validate({
+                    errorPlacement: function(error, element) {
+                        if (element.attr('type') === 'radio' || element.attr('type') === 'checkbox') {
+                            $('.error_generate').html(error);
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+
+                $("#expire_date").datepicker({dateFormat: 'dd-mm-yy', minDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "<?php echo date('Y') . ':' . (date('Y') + 30); ?>"});
             });
         </script>
-        <h3 class="text-center">Foreign Details Information</h3>
-        <h5>For Foreign Students :</h5>
+        <h3 class="text-center">Passport Details Information</h3>
+        <h5 class="text-success">For <span class="text-danger">NRI Student</span> it is <span class="text-danger">compulsory</span> and for regular student it is advisable</h5>
         <form action="<?php echo ADMISSION_URL . 'forms/update_ug_foreign/' . $student_id ?>" method="post" class="form-horizontal" id="info_foreign">
             <div class = "form-group">
                 <label for = "question" class = "col-md-2 control-label">
@@ -884,7 +855,7 @@
 
             <div class = "form-group">
                 <label for = "question" class = "col-md-2 control-label">
-                    AIDS dearance <br />certificate attached
+                    AIDS clearance <br />certificate attached
                     <span class="text-danger">*</span>
                 </label>
                 <div class = "col-md-10">
@@ -953,12 +924,10 @@
                         aids_certificate: {extension: '* Select Ony JPG, JPEG, PNG files.'}
                     },
                     errorPlacement: function(error, element) {
-                        if (element.is('radio') || element.is('checkbox')) {
-                            error.appendTo(element.parent());
-                        } else if (element.is("textarea")) {
-                            error.insertAfter(element.next());
+                        if (element.attr('type') === 'radio' || element.attr('type') === 'checkbox') {
+                            $('.error_generate').html(error);
                         } else {
-                            error.insertAfter(element);
+                            return false;
                         }
                     }
                 });
@@ -1017,7 +986,7 @@
             <div class = "form-group">
                 <label for = "question" class = "col-md-2 control-label">
                     S.S.C Marksheet
-                    <span class="text-danger">&nbsp;</span>
+                    <span class="text-danger">*</span>
                 </label>
                 <div class = "col-md-8">
 
