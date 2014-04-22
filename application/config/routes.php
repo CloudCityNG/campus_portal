@@ -78,5 +78,11 @@ $route['admission/eet/update_marks/(:num)'] = "admission/eet/UpdateMarks/$1";
 $route['admission/merit_list'] = "admission/merit_list/index";
 $route['admission/merit_list/json/(:num)'] = "admission/merit_list/getJsonList/$1";
 $route['admission/merit_list/print/(:num)'] = "admission/merit_list/print_merit_list/$1";
+
+//counselling
+$route['admission/counselling'] = "admission/counselling/index";
+$route['admission/counselling/get_student'] = "admission/counselling/getStudentList";
+$route['admission/counselling/get_student_history/(:num)'] = "admission/counselling/getStudentHistory/$1";
+$route['admission/counselling/updateData/(:num)'] = "admission/counselling/updateStudentDetails/$1";
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

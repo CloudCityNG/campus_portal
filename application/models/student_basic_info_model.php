@@ -300,6 +300,15 @@ Class student_basic_info_model extends CI_model {
 
         return $year . ($last_id + 1);
     }
+    
+    function getStudentDetails($no){
+        $this->db->select('student_id, form_number,firstname,lastname');
+        $this->db->from($this->table_name);
+        $this->db->like('form_number',$no, FALSE);
+        $this->db->where('status','3');
+        $res = $this->db->get();
+        return $res->result();
+    }
 
 }
 
