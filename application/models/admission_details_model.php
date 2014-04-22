@@ -52,7 +52,7 @@ Class admission_details_model extends CI_model {
 
         if ($this->exam_date != '')
             $arr['exam_date'] = $this->exam_date;
-        
+
         if ($this->exam_time != '')
             $arr['exam_time'] = $this->exam_time;
 
@@ -143,6 +143,18 @@ Class admission_details_model extends CI_model {
             return TRUE;
         } else {
             return FALSE;
+        }
+    }
+
+    function getDistinctYear($degree) {
+        $this->db->select('Distinct(admission_year)');
+        $this->db->from($this->table_name);
+        $this->db->where('degree', $degree);
+        $res = $this->db->get();
+        if ($res->num_rows > 0) {
+            return $res->result();
+        } else {
+            return false;
         }
     }
 

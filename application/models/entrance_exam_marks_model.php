@@ -136,6 +136,17 @@ Class entrance_exam_marks_model extends CI_model {
         }
     }
 
+    function getMeritList($year) {
+        $sQuery = 'SELECT form_number, hall_ticket, CONCAT(firstname, " ", lastname) AS student_name, marks,(select pcb_percentage from student_edu_master where s.student_id=student_edu_master.student_id AND course ="H.S.C") AS PCB, (select pcbe_percentage from student_edu_master where s.student_id=student_edu_master.student_id AND course ="H.S.C")AS PCBE, (select total_percentage from student_edu_master where s.student_id=student_edu_master.student_id AND course ="H.S.C") AS HSC, (select total_percentage from student_edu_master where s.student_id=student_edu_master.student_id AND course ="S.S.C") AS SSC FROM student_basic_info s, entrance_exam_marks em, admission_details ad WHERE s.admission_id=ad.admission_id AND s.student_id=em.student_id AND (marks != "0.00" OR marks != null) AND ad.admission_year=' . $year . ' ORDER BY marks DESC, PCB DESC, PCBE DESC, HSC DESC, SSC DESC';
+        $res = $this->db->query($sQuery);
+
+        if ($res->num_rows > 0) {
+            return $res->result();
+        } else {
+            return false;
+        }
+    }
+
 }
 
 ?>

@@ -55,7 +55,7 @@ class forms extends CI_Controller {
 
             $temp_arr[] = $aRow['form_number'];
             $temp_arr[] = $aRow['hall_ticket'];
-            $temp_arr[] = ucwords($aRow['student_name']) . $aRow['status'];
+            $temp_arr[] = ucwords($aRow['student_name']);
             $temp_arr[] = $aRow['course_name'];
             $temp_arr[] = '<a data-target="#update_student_status" data-toggle="modal" href="' . ADMISSION_URL . 'forms/edit_ug_status/' . $aRow['student_id'] . '"/aids_certificate" class="link">' . $aRow['status_name'] . '</a>';
 
