@@ -8,7 +8,7 @@
 <div class="container">
     <div class="login-box-style">
         <form id="login_form" class="form-signin" action="<?php echo base_url(); ?>validate" method="post">
-            <legend class="text-center">Administrator Area</legend>
+            <legend class="text-center">Login Panel</legend>
             <div class="col-lg-12 margin-killer padding-killer">
                 <?php if ($this->session->flashdata('error') != '' || $this->session->flashdata('success') != '') { ?>
                     <?php
@@ -38,11 +38,11 @@
             </div>
             <div class="col-lg-12 margin-killer padding-killer">
                 <br>
-                <input name="email_address" type="text" class="form-control col-md-12 required" placeholder="Username" autofocus value="<?php echo set_value('email_address'); ?>">
+                <input name="email_address" type="text" class="form-control col-md-12 required" placeholder="Username" autofocus value="<?php echo set_value('email_address'); ?>" autocomplete="off">
             </div>
             <div class="col-lg-12 margin-killer padding-killer">
                 <br>
-                <input  name="password" type="password" class="form-control col-md-12 required" placeholder="Password">
+                <input  name="password" type="password" class="form-control col-md-12 required" placeholder="Password" autocomplete="off">
             </div>
             <div class="col-lg-12 margin-killer padding-killer">
                 <br>

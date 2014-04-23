@@ -13,6 +13,7 @@
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="<?php echo JS_URL; ?>jq.js"></script>
+        <script src="<?php echo JS_URL; ?>jquery-ui.js" type="text/javascript"></script>
         <script src="<?php echo JS_URL; ?>jquery.validate.js" type="text/javascript"></script>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -20,14 +21,22 @@
           <script src="js/html5shiv.js"></script>
           <script src="js/respond.js"></script>
         <![endif]-->
+        
+        <script>
+            $('.project-logo-area').effect("highlight", {color: 'blue'}, 3000);
+        </script>
     </head>
-    <body>
+    <body class="login-back-logo">
         <div class="container">
             <!--Header-->
             <div class="row padding-killer margin-killer login-page-header">
                 <div class="container padding-killer">
                     <div class="project-logo-area text-center">
-                        <h1>Welcome to Sumandeep Vidyapeeth Campus Portal</h1>
+                        <h1>
+                            <span class="tri-color-orange">Sumandeep</span>
+                            <span class="tri-color-white">Vidyapeeth</span>
+                            <span class="tri-color-green">Portal</span>
+                        </h1>
                     </div>
                 </div>   	
             </div>
