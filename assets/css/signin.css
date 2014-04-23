@@ -1,20 +1,15 @@
 body{
-    background: url('../images/login_bg.jpg') no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    background: rgba(0,0,0,0.5) url('../images/login_bg.png') no-repeat top center fixed;  
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
 }
 
 .project-logo-area{
-    background:rgba(0,0,0,0.5); 
     padding:5px;  
     border-radius:5px; 
-    color:#359edd; 
-    border:1px solid #E4E4E4; 
-    margin:10px auto; 
-    min-width:240px; 
-    max-width:530px;
+    margin: 0 auto 10px; 
 }
 
 .project-logo-area h1 span.tri-color-orange{
@@ -67,7 +62,13 @@ body{
 .form-signin input[type="password"] {
 }
 
-.login-box-style{background:rgba(0,0,0,0.5);  padding:20px;  border-radius:5px; color:#359edd; border:1px solid #E4E4E4; margin:0 auto; min-width:240px; max-width:530px;}
+.login-box-style{
+    padding:20px;  
+    border-radius:5px; 
+    color:#359edd; 
+    margin:0 auto;  
+    max-width:50%;
+}
 .login-box-style legend{color:#359edd; font-size:24px; border-width:0;}
 .login-box-style .form-control{border-radius:0;}
 .login-box-label{font-size:20px; font-weight:normal; margin-bottom:10px; color: #359EDD;}
@@ -75,6 +76,12 @@ body{
 .login-box-shadow{background:url(../images/login-box-shadow.png) no-repeat center top; background-size:cover; height:16px;}
 
 .footer-style{color:#fff; text-shadow:1px 1px 1px rgba(0,0,0,0.28);}
-.footer-text{color:#428BCA; font-weight:bold;}
+.footer-style{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    margin: 0 25px 0 0;
+}
+.footer-style a{color:#000; font-weight:bold; font-size: 16px; text-decoration: none;}
 
 .no-bg{background:none !important;}

@@ -48,9 +48,8 @@
             </div>
             <!--Main Container-->
 
-            <div class="text-center footer-style">
-                <hr>
-                Powered By <a href="http://sumandeepuniversity.co.in">Sumandeep Vidyapeeth University</a>.
+            <div class="pull-right footer-style">
+                Powered By : <a href="http://sumandeepuniversity.co.in">Sumandeep Vidyapeeth University</a>
             </div>
         </div>
     </body>

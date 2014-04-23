@@ -8,7 +8,7 @@
 <div class="container">
     <div class="login-box-style">
         <form id="login_form" class="form-signin" action="<?php echo base_url(); ?>validate" method="post">
-            <legend class="text-center">Login Panel</legend>
+            <legend class="text-center"></legend>
             <div class="col-lg-12 margin-killer padding-killer">
                 <?php if ($this->session->flashdata('error') != '' || $this->session->flashdata('success') != '') { ?>
                     <?php
