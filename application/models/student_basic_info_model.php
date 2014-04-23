@@ -301,11 +301,11 @@ Class student_basic_info_model extends CI_model {
         return $year . ($last_id + 1);
     }
     
-    function getStudentDetails($no){
+    function getStudentDetails($no, $status){
         $this->db->select('student_id, form_number,firstname,lastname');
         $this->db->from($this->table_name);
         $this->db->like('form_number',$no, FALSE);
-        $this->db->where('status','3');
+        $this->db->where('status',$status);
         $res = $this->db->get();
         return $res->result();
     }

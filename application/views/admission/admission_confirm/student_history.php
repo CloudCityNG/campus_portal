@@ -1,21 +1,7 @@
 <h3>History of Student : <?php echo @$basic_info[0]->firstname . ' ' . @$basic_info[0]->lastname; ?></h3>
 <hr />
 <div class="col-md-12">
-    <form action="<?php echo ADMISSION_URL . 'counselling/updateData/' . @$basic_info[0]->student_id; ?>" method="post" id="manage" class="form-horizontal">
-        <div class="form-group">
-            <label for="question" class="col-md-2 control-label">
-                Update Course :
-                <span class="text-danger">*</span>
-            </label>
-            <span class="error_generate text-center"></span>
-            <div class="col-md-6">  
-                <?php foreach ($course_details as $course) { ?>
-                    <label class="radio-inline" for="radios-6">
-                        <input type="radio" name="course_id" id="radios-6" value="<?php echo @$course->course_id; ?>" class="required" <?php echo(@$basic_info[0]->course_id == $course->course_id) ? 'checked="checked"' : ''; ?>><?php echo @$course->name; ?>
-                    </label>
-                <?php } ?>
-            </div>
-        </div>
+    <form action="<?php echo ADMISSION_URL . 'confirm/updateData/' . @$basic_info[0]->student_id; ?>" method="post" id="manage" class="form-horizontal">
         <div class="form-group">
             <label for="question" class="col-md-2 control-label">
                 Update Status :
@@ -25,11 +11,11 @@
                 <select name="admission_status_id" class="form-control required">
                     <?php
                     foreach ($candidate_status_info as $details) {
-                         if ($details->admission_status_id > 3) {
-                        ?>
-                        <option value="<?php echo $details->admission_status_id; ?>" <?php echo ($details->admission_status_id == @$basic_info[0]->status) ? 'selected="selected"' : ''; ?>><?php echo $details->name; ?></option>
-                        <?php
-                    }
+                        if ($details->admission_status_id > 4) {
+                            ?>
+                            <option value="<?php echo $details->admission_status_id; ?>" <?php echo ($details->admission_status_id == @$basic_info[0]->status) ? 'selected="selected"' : ''; ?>><?php echo $details->name; ?></option>
+                            <?php
+                        }
                     }
                     ?>
                 </select>
@@ -65,7 +51,7 @@
                         <td><i class="glyphicon glyphicon-envelope"></i> Student Mail ID</td>
                         <td><?php echo @$basic_info[0]->email_s; ?></td>
                     </tr>
-                    
+
                     <tr>
                         <td><i class="glyphicon glyphicon-envelope"></i> Parent Mail ID</td>
                         <td><?php echo @$basic_info[0]->email_p; ?></td>

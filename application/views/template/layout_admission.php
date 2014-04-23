@@ -22,14 +22,14 @@
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="<?php echo JS_URL; ?>jquery-1.7.2.min.js" type="text/javascript"></script>
-        
+
 
         <script type="text/javascript">
             var http_host_js = '<?php echo ADMISSION_URL; ?>';
 
             $(document).ready(function() {
                 jQuery(document).bind('keydown', 'Ctrl+l', function() {
-                   window.location = "<?php echo base_url() . 'logout'; ?>";
+                    window.location = "<?php echo base_url() . 'logout'; ?>";
                     return false;
                 });
             });
@@ -69,7 +69,8 @@
                         <li><a href="<?php echo ADMISSION_URL . 'forms' ?>">Forms</a></li>
                         <li><a href="<?php echo ADMISSION_URL . 'eet' ?>">Entrance Exam Test</a></li>
                         <li><a href="<?php echo ADMISSION_URL . 'merit_list' ?>">Merit List</a></li>
-                        <li><a href="<?php echo ADMISSION_URL . 'counselling' ?>">counselling</a></li>
+                        <li><a href="<?php echo ADMISSION_URL . 'counselling' ?>">Counselling</a></li>
+                        <li><a href="<?php echo ADMISSION_URL . 'confirm' ?>">Admission Confirmation</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">

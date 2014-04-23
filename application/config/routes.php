@@ -84,5 +84,11 @@ $route['admission/counselling'] = "admission/counselling/index";
 $route['admission/counselling/get_student'] = "admission/counselling/getStudentList";
 $route['admission/counselling/get_student_history/(:num)'] = "admission/counselling/getStudentHistory/$1";
 $route['admission/counselling/updateData/(:num)'] = "admission/counselling/updateStudentDetails/$1";
+
+//Admission Confirmed
+$route['admission/confirm'] = "admission/admission_confirm/index";
+$route['admission/confirm/get_student'] = "admission/admission_confirm/getStudentList";
+$route['admission/confirm/get_student_history/(:num)'] = "admission/admission_confirm/getStudentHistory/$1";
+$route['admission/confirm/updateData/(:num)'] = "admission/admission_confirm/updateStudentDetails/$1";
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
