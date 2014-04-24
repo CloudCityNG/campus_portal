@@ -120,7 +120,6 @@ class forms extends CI_Controller {
 
     function addUGNewForm() {
         $this->admin_layout->setField('page_title', 'UG New Admission');
-
         $data['course_details'] = $this->courses_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
         $data['center_details'] = $this->exam_centers_model->getWhere(array('status' => 'A'));
         $this->admin_layout->view('admission/forms/add', $data);

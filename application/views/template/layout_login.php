@@ -2,18 +2,22 @@
 <html>
     <head>
         <title><?php echo $page_title; ?></title>
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta name="keywords" content="Sumandeep Vidhyapeeth University,Soyab Rana, Rana Soyab, SVU, svu, College of Medical, College of Pharmacy Sumandeep Vidhyapeeth University, College of Dental Sumandeep Vidhyapeeth University, College of Management Sumandeep Vidhyapeeth University, college of physiotherapy Sumandeep Vidhyapeeth University, College of Nursing Sumandeep Vidhyapeeth University">
+        <meta name="description" content="<?php echo $page_title; ?> for SVU, <?php echo $page_title; ?> for Sumandeep Vidhyapeeth University,Campus Portal, An ERP for College">
+        <meta name="author" content="Sumandeep Vidhyapeeth University & Soyab Rana">
+        <meta name="copyright" content="Copyrights &copy; Sumandeep Vidhyapeeth University;Design and Developed By Soyab Rana">
+
         <link rel="shortcut icon" href="<?php echo IMAGE_URL . 'favicon.ico'; ?>" type="image/x-icon">
         <link rel="icon" href="<?php echo IMAGE_URL . 'favicon.ico'; ?>" type="image/x-icon">
-        <!-- Bootstrap -->
+
         <link href="<?php echo CSS_URL; ?>bootstrap.css" rel="stylesheet" media="screen">
-        <!-- custom -->
         <link href="<?php echo CSS_URL; ?>custom.css" rel="stylesheet" media="screen">
         <link href="<?php echo CSS_URL; ?>signin.css" rel="stylesheet" media="screen">
 
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="<?php echo JS_URL; ?>jq.js"></script>
-        <script src="<?php echo JS_URL; ?>jquery-ui.js" type="text/javascript"></script>
+        <script src="<?php echo JS_URL; ?>jquery-1.7.2.min.js" type="text/javascript"></script>
         <script src="<?php echo JS_URL; ?>jquery.validate.js" type="text/javascript"></script>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -21,10 +25,6 @@
           <script src="js/html5shiv.js"></script>
           <script src="js/respond.js"></script>
         <![endif]-->
-        
-        <script>
-            $('.project-logo-area').effect("highlight", {color: 'blue'}, 3000);
-        </script>
     </head>
     <body class="login-back-logo">
         <div class="container">

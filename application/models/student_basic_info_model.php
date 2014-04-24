@@ -300,12 +300,27 @@ Class student_basic_info_model extends CI_model {
 
         return $year . ($last_id + 1);
     }
-    
-    function getStudentDetails($no, $status){
+
+    function getStudentDetails($no, $status) {
         $this->db->select('student_id, form_number,firstname,lastname');
         $this->db->from($this->table_name);
-        $this->db->like('form_number',$no, FALSE);
-        $this->db->where('status',$status);
+        $this->db->like('form_number', $no, FALSE);
+        $this->db->where('status', $status);
+        $res = $this->db->get();
+        return $res->result();
+    }
+
+    function getStudentList($year, $course, $status) {
+        $this->db->select('form_number,CONCAT(firstname, \' \', lastname) AS student_name, mobile_s, email_s, mobile_p, email_p, admission_candidate_status.name AS status', FALSE);
+        $this->db->from($this->table_name);
+        $this->db->join('admission_details', $this->table_name . '.admission_id=admission_details.admission_id', 'INNER');
+        $this->db->join('admission_candidate_status', $this->table_name . '.status=admission_candidate_status.admission_status_id', 'INNER');
+        $this->db->where('admission_year', $year);
+        $this->db->where('course_id', $course);
+
+        if ($status != 0) {
+            $this->db->where($this->table_name . '.status', $status);
+        }
         $res = $this->db->get();
         return $res->result();
     }

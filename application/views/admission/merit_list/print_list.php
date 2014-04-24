@@ -1,4 +1,5 @@
 <link href="<?php echo CSS_URL; ?>bootstrap.css" rel="stylesheet" media="print">
+<title>Merit List</title>
 <style>
     table, table td, table th {border: 1px solid; border-collapse: collapse; }
 </style>
@@ -25,12 +26,12 @@
     <tbody>
         <?php
         if (!empty($table_data)) {
-            $i = 1;
+            $i = 0;
             foreach ($table_data as $table) {
                 if ($table->PCB > 49.99) {
                     ?>
                     <tr>
-                        <td align="center"><?php echo $i; ?></td>
+                        <td align="center"><?php echo ++$i; ?></td>
                         <td align="center"><?php echo $table->form_number; ?></td>
                         <td align="center"><?php echo $table->hall_ticket; ?></td>
                         <td align="center"><?php echo $table->marks; ?></td>
@@ -40,13 +41,12 @@
                         <td align="center"><?php echo $table->SSC; ?></td>
                     </tr>
                     <?php
-                    $i++;
                 }
             }
         } else {
             ?>
             <tr>
-                <th colspan="9">No Data Aviable</th>
+                <th colspan="9">No Data available</th>
             </tr>
             <?php
         }

@@ -90,5 +90,11 @@ $route['admission/confirm'] = "admission/admission_confirm/index";
 $route['admission/confirm/get_student'] = "admission/admission_confirm/getStudentList";
 $route['admission/confirm/get_student_history/(:num)'] = "admission/admission_confirm/getStudentHistory/$1";
 $route['admission/confirm/updateData/(:num)'] = "admission/admission_confirm/updateStudentDetails/$1";
+
+//Student List
+$route['admission/list'] = "admission/student_list/index";
+$route['admission/list/json/(:num)/(:num)/(:num)'] = "admission/student_list/getJsonList/$1/$2/$3";
+$route['admission/list/print/(:any)/(:any)/(:any)'] = "admission/student_list/print_student_list/$1/$2/$3";
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

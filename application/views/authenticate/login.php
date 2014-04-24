@@ -1,7 +1,11 @@
 <script>
     //<![CDATA[
     $(document).ready(function() {
-        $("#login_form").validate()
+        $("#login_form").validate({
+            errorPlacement: function() {
+                return false;
+            }
+        })
     });
 </script>
 

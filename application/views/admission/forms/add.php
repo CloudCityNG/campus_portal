@@ -130,7 +130,7 @@
 
             <div class = "form-group">
                 <label for = "question" class = "col-md-2 control-label">
-                    Sur Name
+                    Surname
                     <span class="text-danger">*</span>
                 </label>
                 <div class = "col-md-10">

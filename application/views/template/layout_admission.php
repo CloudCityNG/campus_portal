@@ -49,7 +49,8 @@
                             <h2>A<span class="text-muted">dmission</span> C<span class="text-muted">ell</span></h2>
                         </div>
                     </div>
-                </div>   	
+                </div>  
+
             </div>
             <!--/Header-->
 
@@ -65,12 +66,14 @@
                     </button>
                 </div>
                 <div class="collapse navbar-collapse">
+                    <?php $link = $this->uri->segment(2); ?>   
                     <ul class="nav navbar-nav">
-                        <li><a href="<?php echo ADMISSION_URL . 'forms' ?>">Forms</a></li>
-                        <li><a href="<?php echo ADMISSION_URL . 'eet' ?>">Entrance Exam Test</a></li>
-                        <li><a href="<?php echo ADMISSION_URL . 'merit_list' ?>">Merit List</a></li>
-                        <li><a href="<?php echo ADMISSION_URL . 'counselling' ?>">Counselling</a></li>
-                        <li><a href="<?php echo ADMISSION_URL . 'confirm' ?>">Admission Confirmation</a></li>
+                        <li <?php echo ($link == 'forms') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'forms' ?>">Forms</a></li>
+                        <li <?php echo ($link == 'eet') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'eet' ?>">Entrance Exam Test</a></li>
+                        <li <?php echo ($link == 'merit_list') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'merit_list' ?>">Merit List</a></li>
+                        <li <?php echo ($link == 'counselling') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'counselling' ?>">Counselling</a></li>
+                        <li <?php echo ($link == 'confirm') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'confirm' ?>">Admission Confirmation</a></li>
+                        <li <?php echo ($link == 'list') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'list' ?>">Student List</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">
@@ -81,6 +84,8 @@
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
+                                <li><a href="<?php echo ADMISSION_URL . 'profile'; ?>">Edit Profile</a></li>
+                                <li><a href="<?php echo ADMISSION_URL . 'change_password'; ?>">Change Password</a></li>
                                 <li><a href="<?php echo base_url() . 'logout'; ?>">Logout</a></li>
                             </ul>
                         </li>
