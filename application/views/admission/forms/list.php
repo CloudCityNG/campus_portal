@@ -16,7 +16,7 @@
 <?php } ?>
                 ],
                 "sAjaxSource"
-        : "<?php echo ADMISSION_URL . "list_forms_json"; ?>"
+                : "<?php echo ADMISSION_URL . "list_forms_json"; ?>"
     });
     });
             function deleteRow(ele) {
@@ -55,60 +55,63 @@
                 return false;
             }
 </script>
-<div class="col-md-12">
-    <h3>Admission Forms Lists</h3>
-    <hr>
-</div>
-<?php if ($session->role == 2 || $session->role == 3) { ?>
-    <div class="col-md-12 add_button">
-        <a href="<?php echo ADMISSION_URL . 'forms/add_ug'; ?>" class="btn btn-default">
-            Add New Form
-        </a>
+<div class="row">
+    <div class="col-md-12">
+        <h3>Admission Forms Lists</h3>
+        <hr>
     </div>
-<?php } ?>
-<div class="col-md-12">
-    <?php if ($this->session->flashdata('error') != '' || $this->session->flashdata('success') != '') { ?>
-        <?php
-        if ($this->session->flashdata('error') != '') {
-            echo '<div class="alert alert-danger"><a href="' . current_url() . '" class="close" data-dismiss="alert">&times;</a>' . $this->session->flashdata('error') . '</div>';
-        }
-        ?>
 
-        <?php
-        if ($this->session->flashdata('success') != '') {
-            echo '<div class="alert alert-success"><a href="' . current_url() . '" class="close" data-dismiss="alert">&times;</a>' . $this->session->flashdata('success') . '</div>';
-        }
-        ?>
+    <?php if ($session->role == 2 || $session->role == 3) { ?>
+        <div class="col-md-12 add_button">
+            <a href="<?php echo ADMISSION_URL . 'forms/add_ug'; ?>" class="btn btn-default">
+                Add New Form
+            </a>
+        </div>
     <?php } ?>
-    <div class="table-responsive">
-        <table class="table table-bordered" id="list">
-            <thead>
-                <tr align="left">
-                    <th width="150">Form No</th>
-                    <th width="125">Hall Ticket</th>
-                    <th>Name</th>
-                    <th width="150">Course</th>
-                    <th width="200">Status</th>
-                    <th width="200">Hall Ticket</th>
-                    <?php if ($session->role == 3) { ?>
-                        <th>&nbsp;</th>
-                    <?php } ?>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>etc</td>
-                    <td>etc</td>
-                    <td>etc</td>
-                    <td>etc</td>
-                    <td>etc</td>
-                    <td>etc</td>
-                    <?php if ($session->role == 3) { ?>
+    <div class="col-md-12">
+        <?php if ($this->session->flashdata('error') != '' || $this->session->flashdata('success') != '') { ?>
+            <?php
+            if ($this->session->flashdata('error') != '') {
+                echo '<div class="alert alert-danger"><a href="' . current_url() . '" class="close" data-dismiss="alert">&times;</a>' . $this->session->flashdata('error') . '</div>';
+            }
+            ?>
+
+            <?php
+            if ($this->session->flashdata('success') != '') {
+                echo '<div class="alert alert-success"><a href="' . current_url() . '" class="close" data-dismiss="alert">&times;</a>' . $this->session->flashdata('success') . '</div>';
+            }
+            ?>
+        <?php } ?>
+        <div class="table-responsive">
+            <table class="table table-bordered" id="list">
+                <thead>
+                    <tr align="left">
+                        <th width="150">Form No</th>
+                        <th width="125">Hall Ticket</th>
+                        <th>Name</th>
+                        <th width="150">Course</th>
+                        <th width="200">Status</th>
+                        <th width="200">Hall Ticket</th>
+                        <?php if ($session->role == 3) { ?>
+                            <th>&nbsp;</th>
+                        <?php } ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
                         <td>etc</td>
-                    <?php } ?>
-                </tr>
-            </tbody>
-        </table>
+                        <td>etc</td>
+                        <td>etc</td>
+                        <td>etc</td>
+                        <td>etc</td>
+                        <td>etc</td>
+                        <?php if ($session->role == 3) { ?>
+                            <td>etc</td>
+                        <?php } ?>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

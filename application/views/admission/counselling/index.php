@@ -1,41 +1,49 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>Student Counselling</h1>
+        <hr />
+    </div>
 
-<h1>Student Counselling</h1>
-<hr />
-<?php if ($this->session->flashdata('error') != '' || $this->session->flashdata('success') != '') { ?>
-    <?php
-    if ($this->session->flashdata('error') != '') {
-        echo '<div class="alert alert-danger"><a href="' . current_url() . '" class="close" data-dismiss="alert">&times;</a>' . $this->session->flashdata('error') . '</div>';
-    }
-    ?>
 
-    <?php
-    if ($this->session->flashdata('success') != '') {
-        echo '<div class="alert alert-success"><a href="' . current_url() . '" class="close" data-dismiss="alert">&times;</a>' . $this->session->flashdata('success') . '</div>';
-    }
-    ?>
-<?php } ?>
-<div class="col-md-12">
-    <form action="<?php echo ADMISSION_URL . 'eet/update_marks/' . @$basic_info[0]->student_id; ?>" method="post" id="manage" class="form-horizontal">
-        <div class="form-group">
-            <label for="question" class="col-md-2 control-label">
-                Enter Form No :
-                <span class="text-danger">&nbsp;</span>
-            </label>
-            <div class="col-md-4">
-                <input id="tags" type="text" name="marks" value="<?php echo @$details[0]->marks; ?>" class="form-control" placeholder="1404MS19SV00001" required="required"/>
-            </div>
+    <?php if ($this->session->flashdata('error') != '' || $this->session->flashdata('success') != '') { ?>
+        <div class="col-md-12">
+            <?php
+            if ($this->session->flashdata('error') != '') {
+                echo '<div class="alert alert-danger"><a href="' . current_url() . '" class="close" data-dismiss="alert">&times;</a>' . $this->session->flashdata('error') . '</div>';
+            }
+            ?>
+
+            <?php
+            if ($this->session->flashdata('success') != '') {
+                echo '<div class="alert alert-success"><a href="' . current_url() . '" class="close" data-dismiss="alert">&times;</a>' . $this->session->flashdata('success') . '</div>';
+            }
+            ?>
         </div>
-        <div class="form-group">
-            <label for="question" class="col-md-2 control-label">
-                &nbsp;
-            </label>
-            <div class="col-md-4">
-                <button type="submit" class="btn btn-primary">Get Details</button>
+    <?php } ?>
+
+
+    <div class="col-md-12">
+        <form action="<?php echo ADMISSION_URL . 'eet/update_marks/' . @$basic_info[0]->student_id; ?>" method="post" id="manage" class="form-horizontal">
+            <div class="form-group">
+                <label for="question" class="col-md-2 control-label">
+                    Enter Form No :
+                    <span class="text-danger">&nbsp;</span>
+                </label>
+                <div class="col-md-4">
+                    <input id="tags" type="text" name="marks" value="<?php echo @$details[0]->marks; ?>" class="form-control" placeholder="1404MS19SV00001" required="required"/>
+                </div>
             </div>
-        </div>
-    </form>
+            <div class="form-group">
+                <label for="question" class="col-md-2 control-label">
+                    &nbsp;
+                </label>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Get Details</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-
 <script type="text/javascript">
     //<![CDATA[
     $(document).ready(function($) {
