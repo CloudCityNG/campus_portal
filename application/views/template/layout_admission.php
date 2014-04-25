@@ -113,7 +113,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="pull-right">
-                        Designed & Developed By <a href="http://sumandeepuniversity.co.in">Sumandeep University</a>
+                        Designed & Developed By <a href="http://rana.pw">Soyab Rana</a>
                     </div>
                 </div>
 

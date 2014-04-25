@@ -48,8 +48,22 @@
             </div>
             <!--Main Container-->
 
-            <div class="pull-right footer-style">
-                Powered By : <a href="http://sumandeepuniversity.co.in">Sumandeep Vidyapeeth University</a>
+            <div class="footer-style row">
+                <div class="col-md-12">
+                    <hr>    
+                </div>
+
+                <div class="col-md-6">
+                    <div class="pull-left">
+                        Powered By <a href="http://sumandeepuniversity.co.in">Sumandeep University</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="pull-right">
+                        Designed & Developed By <a href="http://rana.pw">Soyab Rana</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </body>
