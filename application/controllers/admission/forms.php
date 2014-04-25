@@ -162,12 +162,15 @@ class forms extends CI_Controller {
         $obj->hostel = $this->input->post('hostel');
         $obj->transoprt = $this->input->post('transoprt');
         $obj->status = 1;
-        $obj->create_id = $obj->form_number;
+
+        $session = $this->session->userdata('admin_session');
+        $obj->create_id = $session->admin_id;
         $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
-        $obj->modify_id = $obj->form_number;
+        $obj->modify_id = $session->admin_id;
         $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
 
         $student_id = $obj->insertData();
+
         if (!empty($student_id)) {
             $this->session->set_flashdata('success', 'Data Inserted Successfully');
             redirect(ADMISSION_URL . 'forms/edit_ug/' . $student_id . '/edu_info', 'refresh');
@@ -219,9 +222,9 @@ class forms extends CI_Controller {
         $obj->hostel = $this->input->post('hostel');
         $obj->transoprt = $this->input->post('transoprt');
         $obj->status = 'A';
-        $obj->create_id = $obj->form_number;
-        $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
-        $obj->modify_id = $obj->form_number;
+
+        $session = $this->session->userdata('admin_session');
+        $obj->modify_id = $session->admin_id;
         $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
 
         $check = $obj->updateData();
@@ -250,14 +253,15 @@ class forms extends CI_Controller {
         $obj_master->rank = $this->input->post('ssc_rank');
         $obj_master->result_wating = 'N';
 
+        $session = $this->session->userdata('admin_session');
         if (empty($ssc)) {
-            $obj_master->create_id = $student_id;
+            $obj_master->create_id = $session->admin_id;
             $obj_master->create_date_time = get_current_date_time()->get_date_time_for_db();
-            $obj_master->modify_id = $student_id;
+            $obj_master->modify_id = $session->admin_id;
             $obj_master->modify_date_time = get_current_date_time()->get_date_time_for_db();
             $obj_master->insertData();
         } else {
-            $obj_master->modify_id = $student_id;
+            $obj_master->modify_id = $session->admin_id;
             $obj_master->modify_date_time = get_current_date_time()->get_date_time_for_db();
             $obj_master->edu_master_id = $ssc[0]->edu_master_id;
             $obj_master->updateData();
@@ -281,13 +285,13 @@ class forms extends CI_Controller {
         }
 
         if (empty($hsc)) {
-            $obj_master->create_id = $student_id;
+            $obj_master->create_id = $session->admin_id;
             $obj_master->create_date_time = get_current_date_time()->get_date_time_for_db();
-            $obj_master->modify_id = $student_id;
+            $obj_master->modify_id = $session->admin_id;
             $obj_master->modify_date_time = get_current_date_time()->get_date_time_for_db();
             $edu_master_id = $obj_master->insertData();
         } else {
-            $obj_master->modify_id = $student_id;
+            $obj_master->modify_id = $session->admin_id;
             $obj_master->modify_date_time = get_current_date_time()->get_date_time_for_db();
             $obj_master->edu_master_id = $hsc[0]->edu_master_id;
             $obj_master->updateData();
@@ -315,13 +319,13 @@ class forms extends CI_Controller {
                 $obj_details->total_max_mark = $max_theory_marks[$i] + $max_pratical_marks[$i];
 
                 if (empty($edu_detail_id)) {
-                    $obj_details->create_id = $student_id;
+                    $obj_details->create_id = $session->admin_id;
                     $obj_details->create_date_time = get_current_date_time()->get_date_time_for_db();
-                    $obj_details->modify_id = $student_id;
+                    $obj_details->modify_id = $session->admin_id;
                     $obj_details->modify_date_time = get_current_date_time()->get_date_time_for_db();
                     $obj_details->insertData();
                 } else {
-                    $obj_details->modify_id = $student_id;
+                    $obj_details->modify_id = $session->admin_id;
                     $obj_details->modify_date_time = get_current_date_time()->get_date_time_for_db();
                     $obj_details->edu_detail_id = $edu_detail_id[0]->edu_detail_id;
                     $obj_details->updateData();
@@ -360,14 +364,15 @@ class forms extends CI_Controller {
                     $obj->writing = 'N';
                 }
 
+                $session = $this->session->userdata('admin_session');
                 if (empty($detail)) {
-                    $obj->create_id = $student_id;
+                    $obj->create_id = $session->admin_id;
                     $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
-                    $obj->modify_id = $student_id;
+                    $obj->modify_id = $session->admin_id;
                     $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
                     $obj->insertData();
                 } else {
-                    $obj->modify_id = $student_id;
+                    $obj->modify_id = $session->admin_id;
                     $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
                     $obj->language_id = $detail[0]->language_id;
                     $obj->updateData();
@@ -393,14 +398,16 @@ class forms extends CI_Controller {
         $obj->visa_type = $this->input->post('visa_type');
         $obj->aids_dearance = $this->input->post('aids_dearance');
 
+        $session = $this->session->userdata('admin_session');
+
         if (empty($detail)) {
-            $obj->create_id = $student_id;
+            $obj->create_id = $session->admin_id;
             $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
-            $obj->modify_id = $student_id;
+            $obj->modify_id = $session->admin_id;
             $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
             $obj->insertData();
         } else {
-            $obj->modify_id = $student_id;
+            $obj->modify_id = $session->admin_id;
             $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
             $obj->foregin_detail_id = $detail[0]->foregin_detail_id;
             $obj->updateData();
@@ -455,7 +462,7 @@ class forms extends CI_Controller {
         }
 
         if (!empty($_FILES['ssc_marksheet']['name'])) {
-            $upload_status = $this->do_upload('ssc_marksheet', 'sign', $student_id);
+            $upload_status = $this->do_upload('ssc_marksheet', 'ssc_marksheet', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
                     if (!empty($details)) {
@@ -474,7 +481,7 @@ class forms extends CI_Controller {
         }
 
         if (!empty($_FILES['hsc_marksheet']['name'])) {
-            $upload_status = $this->do_upload('hsc_marksheet', 'sign', $student_id);
+            $upload_status = $this->do_upload('hsc_marksheet', 'hsc_marksheet', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
                     if (!empty($details)) {
@@ -493,7 +500,7 @@ class forms extends CI_Controller {
         }
 
         if (!empty($_FILES['migration_certificate']['name'])) {
-            $upload_status = $this->do_upload('migration_certificate', 'sign', $student_id);
+            $upload_status = $this->do_upload('migration_certificate', 'migration_certificate', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
                     if (!empty($details)) {
@@ -512,7 +519,7 @@ class forms extends CI_Controller {
         }
 
         if (!empty($_FILES['leaving_certificate']['name'])) {
-            $upload_status = $this->do_upload('leaving_certificate', 'sign', $student_id);
+            $upload_status = $this->do_upload('leaving_certificate', 'leaving_certificate', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
                     if (!empty($details)) {
@@ -531,7 +538,7 @@ class forms extends CI_Controller {
         }
 
         if (!empty($_FILES['cast_certificate']['name'])) {
-            $upload_status = $this->do_upload('cast_certificate', 'sign', $student_id);
+            $upload_status = $this->do_upload('cast_certificate', 'cast_certificate', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
                     if (!empty($details)) {
@@ -550,7 +557,7 @@ class forms extends CI_Controller {
         }
 
         if (!empty($_FILES['aids_certificate']['name'])) {
-            $upload_status = $this->do_upload('aids_certificate', 'sign', $student_id);
+            $upload_status = $this->do_upload('aids_certificate', 'aids_certificate', $student_id);
             if (isset($upload_status['upload_data'])) {
                 if ($upload_status['upload_data']['file_name'] != '') {
                     if (!empty($details)) {
@@ -568,14 +575,16 @@ class forms extends CI_Controller {
             }
         }
 
+        $session = $this->session->userdata('admin_session');
+
         if (empty($details)) {
-            $obj->create_id = $student_id;
+            $obj->create_id = $session->admin_id;
             $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
-            $obj->modify_id = $student_id;
+            $obj->modify_id = $session->admin_id;
             $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
             $obj->insertData();
         } else {
-            $obj->modify_id = $student_id;
+            $obj->modify_id = $session->admin_id;
             $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
             $obj->image_id = $details[0]->image_id;
             $obj->updateData();

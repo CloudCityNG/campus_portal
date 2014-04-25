@@ -67,6 +67,11 @@ class admission_confirm extends CI_Controller {
         if ($basic_info[0]->status == 4) {
             $obj->status = $this->input->post('admission_status_id');
             $obj->student_id = $student_id;
+
+            $session = $this->session->userdata('admin_session');
+            $obj->modify_id = $session->admin_id;
+            $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
+
             $obj->updateData();
 
             $this->session->set_flashdata('success', 'Admission is Confirmed');

@@ -73,6 +73,9 @@ class counselling extends CI_Controller {
             }
 
             $obj->status = $this->input->post('admission_status_id');
+            $session = $this->session->userdata('admin_session');
+            $obj->modify_id = $session->admin_id;
+            $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
             $obj->student_id = $student_id;
             $obj->updateData();
 

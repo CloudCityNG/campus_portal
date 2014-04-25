@@ -36,9 +36,25 @@
     <table class="table">
         <tr>
             <td class="col-md-2">
-                <img src="<?php echo base_url() . 'assets/students/' . $student_id . '/' . @$image_details[0]->student_image; ?>" alt="" class="img-rounded img-responsive" />
-                <br />
-                <img src="<?php echo base_url() . 'assets/students/' . $student_id . '/' . @$image_details[0]->sign; ?>" alt="" class="img-rounded img-responsive" style="display: block; margin: 0 auto;"/>
+                <?php
+                $url = 'assets/students/' . $student_id . '/' . @$image_details[0]->student_image;
+                if (!file_exists($url)) {
+                    if ($basic_info[0]->gender == 'M') {
+                        $url = 'assets/images/no-male.png';
+                    } else {
+                        $url = 'assets/images/no-female.png';
+                    }
+                }
+                ?>
+                <img src="<?php echo base_url() . $url; ?>" alt="" class="img-rounded img-responsive img-center" style="margin-bottom: 15px;"/>
+
+                <?php
+                $url = 'assets/students/' . $student_id . '/' . @$image_details[0]->sign;
+                if (!file_exists($url)) {
+                    $url = 'assets/images/no-signature.png';
+                }
+                ?>
+                <img src="<?php echo base_url() . $url; ?>"alt="" class="img-rounded img-responsive img-center"/>
             </td>
             <td class="col-md-4">
                 <table class="table table-bordered">
