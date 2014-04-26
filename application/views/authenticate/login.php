@@ -5,7 +5,9 @@
             errorPlacement: function() {
                 return false;
             }
-        })
+        });
+        
+        $('#depratment_selection').focus();
     });
 </script>
 
@@ -29,7 +31,7 @@
                 <?php } ?>
             </div>
             <div class="col-lg-12 margin-killer padding-killer">
-                <select name="dept_id" class="form-control col-md-12 required">
+                <select name="dept_id" class="form-control col-md-12 required" id="depratment_selection">
                     <option value="">Select Department</option>
                     <?php
                     foreach ($department_details as $details) {

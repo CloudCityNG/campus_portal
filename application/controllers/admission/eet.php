@@ -18,26 +18,47 @@ class eet extends CI_Controller {
 
         $this->load->model('entrance_exam_marks_model');
         $this->load->model('student_basic_info_model');
+        $this->load->model('admission_candidate_status_model');
+        $this->load->model('admission_details_model');
+        $this->load->model('courses_model');
     }
 
     public function index() {
         $this->admin_layout->setField('page_title', 'Entrance Exam');
-        $this->admin_layout->view('admission/eet/list');
+
+        $data['admission_details'] = $this->admission_details_model->getDistinctYear('PG');
+        $data['course_details'] = $this->courses_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
+        $data['candidate_status_info'] = $this->admission_candidate_status_model->getWhere(array('status' => 'A'));
+
+        $this->admin_layout->view('admission/eet/list', $data);
     }
 
-    function getJsonList() {
+    function getJsonList($year, $course, $status) {
         $this->load->library('datatable');
-        $this->datatable->aColumns = array('form_number, hall_ticket, CONCAT(firstname, " ", lastname) AS student_name, marks, mark_id');
+
+        $condition = '';
+        if ($status != 0) {
+            $condition .= ' AND student_basic_info.status= ' . $status;
+        }
+
+        if ($course != 0) {
+            $condition .= ' AND student_basic_info.course_id=' . $course;
+        } else {
+            $condition .= ' AND student_basic_info.status != 1';
+        }
+
+        $this->datatable->aColumns = array('form_number', 'hall_ticket', 'firstname', 'lastname', 'marks', 'mark_id');
         $this->datatable->eColumns = array('student_basic_info.student_id');
         $this->datatable->sIndexColumn = "student_basic_info.student_id";
-        $this->datatable->sTable = " student_basic_info";
-        $this->datatable->myWhere = 'LEFT JOIN entrance_exam_marks  ON student_basic_info.student_id = entrance_exam_marks.student_id Where student_basic_info.status=2 order by student_basic_info.student_id desc';
+        $this->datatable->sTable = " courses, admission_candidate_status, admission_details, student_basic_info";
+        $this->datatable->myWhere = 'LEFT JOIN entrance_exam_marks  ON student_basic_info.student_id = entrance_exam_marks.student_id Where student_basic_info.course_id = courses.course_id AND student_basic_info.status = admission_candidate_status.admission_status_id AND student_basic_info.admission_id=admission_details.admission_id AND admission_details.admission_year=' . $year . $condition . ' ORDER BY student_basic_info.student_id DESC';
+        
         $this->datatable->datatable_process();
 
         foreach ($this->datatable->rResult->result_array() as $aRow) {
             $temp_arr = array();
 
-            $temp_arr[] = ucwords($aRow['student_name']);
+            $temp_arr[] = ucwords($aRow['firstname']) . ' ' . ucwords($aRow['lastname']);
             $temp_arr[] = $aRow['form_number'];
             $temp_arr[] = $aRow['hall_ticket'];
             $temp_arr[] = $aRow['marks'];
@@ -63,6 +84,17 @@ class eet extends CI_Controller {
 
         $obj->student_id = $student_id;
         $obj->marks = $this->input->post('marks');
+
+        $obj_student = new student_basic_info_model();
+        $basic_info = $obj_student->getWhere(array('student_id' => $student_id));
+
+        if ($basic_info[0]->status == 2) {
+            $obj_student->status = 3;
+            $obj_student->student_id = $student_id;
+            $obj->modify_id = $session->admin_id;
+            $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
+            $obj_student->updateData();
+        }
 
         if (empty($detail)) {
             $obj->create_id = $session->admin_id;

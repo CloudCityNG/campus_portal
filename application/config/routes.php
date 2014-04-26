@@ -52,7 +52,7 @@ $route['logout'] = "authenticate/logout";
 //Admission
 $route['admission'] = "admission/dashboard/index";
 $route['admission/forms'] = "admission/forms/index";
-$route['admission/list_forms_json'] = "admission/forms/getListJson";
+$route['admission/list_forms_json/(:num)/(:num)/(:num)'] = "admission/forms/getListJson/$1/$2/$3";
 $route['admission/forms/hall_ticket/(:num)'] = "admission/forms/viewHallTicket/$1";
 $route['admission/forms/hall_ticket_pdf/(:num)'] = "admission/forms/hallicketPDF/$1";
 $route['admission/forms/add_ug'] = "admission/forms/addUGNewForm";
@@ -70,14 +70,14 @@ $route['admission/forms/view_image/(:num)/(:any)'] = "admission/forms/viewStuden
 
 //Entrance Exam Test
 $route['admission/eet'] = "admission/eet/index";
-$route['admission/eet/json'] = "admission/eet/getJsonList";
+$route['admission/eet/json/(:num)/(:num)/(:num)'] = "admission/eet/getJsonList/$1/$2/$3";
 $route['admission/eet/edit_marks/(:num)'] = "admission/eet/editMarks/$1";
 $route['admission/eet/update_marks/(:num)'] = "admission/eet/UpdateMarks/$1";
 
 //Merit List
 $route['admission/merit_list'] = "admission/merit_list/index";
-$route['admission/merit_list/json/(:num)'] = "admission/merit_list/getJsonList/$1";
-$route['admission/merit_list/print/(:num)'] = "admission/merit_list/print_merit_list/$1";
+$route['admission/merit_list/json/(:num)/(:num)/(:num)'] = "admission/merit_list/getJsonList/$1/$2/$3";
+$route['admission/merit_list/print/(:num)/(:num)/(:num)'] = "admission/merit_list/print_merit_list/$1/$2/$3";
 
 //counselling
 $route['admission/counselling'] = "admission/counselling/index";

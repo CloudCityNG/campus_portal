@@ -35,7 +35,7 @@ class student_list extends CI_Controller {
         if ($status != 0) {
             $condition = ' AND s.status= ' . $status;
         }
-        $this->datatable->aColumns = array('form_number,CONCAT(firstname, " ", lastname) AS student_name, mobile_s, email_s, mobile_p, email_p, admission_candidate_status.name AS status');
+        $this->datatable->aColumns = array('form_number', 'firstname', 'lastname', 'mobile_s', 'email_s', 'mobile_p', 'email_p', 'admission_candidate_status.name AS status');
         $this->datatable->eColumns = array('s.student_id');
         $this->datatable->sIndexColumn = "s.student_id";
         $this->datatable->sTable = " student_basic_info s, admission_details ad, admission_candidate_status";
@@ -52,7 +52,7 @@ class student_list extends CI_Controller {
             $temp_arr = array();
             $temp_arr[] = $i;
             $temp_arr[] = $aRow['form_number'];
-            $temp_arr[] = ucwords($aRow['student_name']);
+            $temp_arr[] = ucwords($aRow['firstname']) . ' ' . ucwords($aRow['lastname']);
             $temp_arr[] = $aRow['mobile_s'];
             $temp_arr[] = $aRow['email_s'];
             $temp_arr[] = $aRow['mobile_p'];

@@ -36,13 +36,11 @@
         }
         dTable = $('#list').dataTable({
             "bJQueryUI": true,
-            "bInfo": false,
-            "bPaginate": false,
-            "bFilter": false,
-            "bSort": false,
+            "sPaginationType": "full_numbers",
             "bProcessing": true,
             "bServerSide": true,
-            "iDisplayLength": "-1",
+            "iDisplayLength": 100,
+            "bSort": false,
             "aoColumns": [
                 {"sClass": ""}, {"sClass": "text-center"},
                 {"sClass": ""}, {"sClass": "text-center"},
@@ -55,7 +53,7 @@
 </script>
 <div class="row">
     <div class="col-md-12 margin-killer">
-        <h2 class="text-center margin-killer-tb">Student List of <span id="dispaly_course"></span> : <span id="dispaly_year"></span></h2>
+        <h2 class="text-center margin-killer-tb">Student List of : <span id="dispaly_course"></span> - <span id="dispaly_year"></span></h2>
     </div>
     <div class="col-md-12">
         <hr />

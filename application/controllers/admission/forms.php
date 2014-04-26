@@ -15,7 +15,7 @@ class forms extends CI_Controller {
             redirect(base_url() . 'login', 'refresh');
         }
 
-        //$this->output->enable_profiler(TRUE);
+//$this->output->enable_profiler(TRUE);
 
         $this->load->model('courses_model');
         $this->load->model('exam_centers_model');
@@ -26,6 +26,7 @@ class forms extends CI_Controller {
         $this->load->model('student_foregin_details_model');
         $this->load->model('studnet_images_model');
         $this->load->model('admission_details_model');
+        $this->load->model('admission_candidate_status_model');
     }
 
     public function index() {
@@ -36,18 +37,32 @@ class forms extends CI_Controller {
             $this->session->flashdata('error', 'Please Login First');
             redirect(base_url() . 'login', 'refresh');
         } else {
-            $this->admin_layout->view('admission/forms/list');
+            $data['admission_details'] = $this->admission_details_model->getDistinctYear('PG');
+            $data['course_details'] = $this->courses_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
+            $data['candidate_status_info'] = $this->admission_candidate_status_model->getWhere(array('status' => 'A'));
+
+            $this->admin_layout->view('admission/forms/list', $data);
         }
     }
 
-    public function getListJson() {
+    public function getListJson($year, $course, $status) {
         $session = $this->session->userdata('admin_session');
         $this->load->library('datatable');
-        $this->datatable->aColumns = array('form_number, hall_ticket, CONCAT(firstname, " ", lastname) AS student_name, courses.name AS course_name, student_basic_info.status, admission_candidate_status.name AS status_name');
+
+        $condition = '';
+        if ($status != 0) {
+            $condition .= ' AND student_basic_info.status= ' . $status;
+        }
+
+        if ($course != 0) {
+            $condition .= ' AND student_basic_info.course_id=' . $course;
+        }
+
+        $this->datatable->aColumns = array('form_number', 'hall_ticket', 'firstname', 'lastname', 'courses.name AS course_name', 'student_basic_info.status', 'admission_candidate_status.name AS status_name');
         $this->datatable->eColumns = array('student_id');
         $this->datatable->sIndexColumn = "student_id";
-        $this->datatable->sTable = " student_basic_info, courses, admission_candidate_status";
-        $this->datatable->myWhere = 'WHERE student_basic_info.course_id = courses.course_id AND student_basic_info.status = admission_candidate_status.admission_status_id order by student_id desc';
+        $this->datatable->sTable = " student_basic_info, courses, admission_candidate_status, admission_details";
+        $this->datatable->myWhere = 'WHERE student_basic_info.course_id = courses.course_id AND student_basic_info.status = admission_candidate_status.admission_status_id AND student_basic_info.admission_id=admission_details.admission_id AND admission_details.admission_year=' . $year . $condition . ' ORDER BY student_id ASC';
         $this->datatable->datatable_process();
 
         foreach ($this->datatable->rResult->result_array() as $aRow) {
@@ -55,9 +70,9 @@ class forms extends CI_Controller {
 
             $temp_arr[] = $aRow['form_number'];
             $temp_arr[] = $aRow['hall_ticket'];
-            $temp_arr[] = ucwords($aRow['student_name']);
+            $temp_arr[] = ucwords($aRow['firstname']) . ' ' . ucwords($aRow['lastname']);
             $temp_arr[] = $aRow['course_name'];
-            $temp_arr[] = '<a data-target="#update_student_status" data-toggle="modal" href="' . ADMISSION_URL . 'forms/edit_ug_status/' . $aRow['student_id'] . '"/aids_certificate" class="link">' . $aRow['status_name'] . '</a>';
+            $temp_arr[] = '<a data-target = "#update_student_status" data-toggle = "modal" href = "' . ADMISSION_URL . 'forms/edit_ug_status/' . $aRow['student_id'] . '"/aids_certificate" class="link">' . $aRow['status_name'] . '</a>';
 
             if ($aRow['status'] != 1) {
                 $temp_arr[] = '<a  href="' . ADMISSION_URL . 'forms/hall_ticket/' . $aRow['student_id'] . '" class="link" target="_blank">HallTicket</a>';
@@ -65,7 +80,8 @@ class forms extends CI_Controller {
                 $temp_arr[] = '';
             }
             if ($session->role == 3) {
-                $temp_arr[] = '<a href="' . ADMISSION_URL . 'forms/edit_ug/' . $aRow['student_id'] . '/basic_info"  class="icon-edit" id="' . $aRow['student_id'] . '"></a> &nbsp; <a href="javascript:;" onclick="deleteRow(this)" class="deletepage icon-trash" id="' . $aRow['student_id'] . '"></a>';
+                $temp_arr[] = '<a href="' . ADMISSION_URL . 'forms/edit_ug/' . $aRow['student_id'] . '/basic_info"  class="icon-edit" id="' . $aRow['student_id'] . '"></a> &nbsp; <a href="javascript:;
+" onclick="deleteRow(this)" class="deletepage icon-trash" id="' . $aRow['student_id'] . '"></a>';
             }
 
             $this->datatable->output['aaData'][] = $temp_arr;
@@ -713,7 +729,6 @@ class forms extends CI_Controller {
     }
 
     function editUGStudentStatus($student_id) {
-        $this->load->model('admission_candidate_status_model');
         $data['basic_info'] = $this->student_basic_info_model->getWhere(array('student_id' => $student_id));
         $data['candidate_status_info'] = $this->admission_candidate_status_model->getWhere(array('status' => 'A'));
         $this->load->view('admission/forms/update_status', $data);
@@ -729,6 +744,60 @@ class forms extends CI_Controller {
         $obj->updateData();
 
         redirect(ADMISSION_URL . 'forms', 'refresh');
+    }
+
+    function insertDummy($id_start, $id_stop, $courseid) {
+
+        for ($i = $id_start; $i <= $id_stop; $i++) {
+            $obj = new student_basic_info_model();
+
+            $admission_details = $this->admission_details_model->getWhere(array('degree' => 'PG', 'admission_year' => get_current_date_time()->year));
+
+            $obj->admission_id = $admission_details[0]->admission_id;
+
+            $obj->form_number = $obj->generateFormNumber($courseid, date('y', strtotime(get_current_date_time()->year)), get_current_date_time()->month, get_current_date_time()->day);
+            $obj->hall_ticket = $obj->generateHallTicketNumber(1, get_current_date_time()->year);
+            $obj->course_id = $courseid;
+            $obj->center_pref_1 = 1;
+            $obj->center_pref_2 = 2;
+            $obj->center_pref_3 = 3;
+            $obj->firstname = 'XX';
+            $obj->middlename = NULL;
+            $obj->lastname = 'XX';
+            $obj->address = 'XXXXXXXXXXXX';
+            $obj->pincode = '123456';
+            $obj->mobile_s = '1234567890';
+            $obj->mobile_p = '1234567890';
+
+            if ($i % 2 == 0) {
+                $obj->gender = 'M';
+            } else {
+                $obj->gender = 'F';
+            }
+
+            $obj->email_p = 'xx@x.com';
+            $obj->email_s = 'xx@x.com';
+            $obj->parent_1 = 'XX';
+            $obj->parent_1_occupation = 'XX';
+            $obj->parent_2 = 'XX';
+            $obj->dob = get_current_date_time()->get_date_for_db();
+            $obj->marital_status = 'U';
+            $obj->nationality = 'XX';
+            $obj->religion = 'XX';
+            $obj->community = Null;
+            $obj->category = 'General';
+            $obj->hostel = 'N';
+            $obj->transoprt = 'Y';
+            $obj->status = 1;
+
+            $session = $this->session->userdata('admin_session');
+            $obj->create_id = $session->admin_id;
+            $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
+            $obj->modify_id = $session->admin_id;
+            $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
+
+            $obj->insertData();
+        }
     }
 
 }

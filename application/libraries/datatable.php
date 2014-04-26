@@ -20,59 +20,47 @@ class Datatable extends CI_Controller {
         //$this->myWhere = "";
     }
 
+    /*
+     * Datastable core process
+     */
+
     public function datatable_process() {
-
         $sLimit = "";
-
         if (isset($_GET['iDisplayStart']) && $_GET['iDisplayLength'] != '-1') {
-
             $sLimit = "LIMIT " . mysql_real_escape_string($_GET['iDisplayStart']) . ", " . mysql_real_escape_string($_GET['iDisplayLength']);
         }
 
-
-
         $sOrder = "";
-
         if (isset($_GET['iSortCol_0'])) {
-
             $sOrder = "ORDER BY  ";
-
             for ($i = 0; $i < intval($_GET['iSortingCols']); $i++) {
-
                 if ($_GET['bSortable_' . intval($_GET['iSortCol_' . $i])] == "true") {
 
-
-
                     if (stripos($this->aColumns[intval($_GET['iSortCol_' . $i])], "AS") > 0) {
-
                         $fiel_explode = explode(" AS ", $this->aColumns[intval($_GET['iSortCol_' . $i])]);
-
                         $sOrder .= $fiel_explode[0] . " " . mysql_real_escape_string($_GET['sSortDir_' . $i]) . ", ";
                     } else
                         $sOrder .= $this->aColumns[intval($_GET['iSortCol_' . $i])] . " " . mysql_real_escape_string($_GET['sSortDir_' . $i]) . ", ";
                 }
             }
-
             $sOrder = substr_replace($sOrder, "", - 2);
-
             if ($sOrder == "ORDER BY") {
-
                 $sOrder = "";
+            }
+        } else {
+            if ($this->sOrder != '') {
+                $sOrder = $this->sOrder;
             }
         }
 
-
-
         $sWhere = $this->myWhere;
-
-
 
         if (isset($_GET['sSearch'])) {
 
             if ($_GET['sSearch'] != "") {
 
                 $sWhere .= ($sWhere == "") ? " WHERE (" : " AND (";
-
+                
                 for ($i = 0; $i < count($this->aColumns); $i++) {
 
                     if ($_GET['bSearchable_' . $i] == "true") {
@@ -96,119 +84,65 @@ class Datatable extends CI_Controller {
         }
 
 
-
         /*
-
          * Group By
-
          */
-
         $sGroupBy = $this->groupBy;
 
-
-
         /*
-
          * Individual column filtering
-
          */
-
         /* for($i = 0;$i < count($this->aColumns);$i++){
-
-
 
           if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" ){
 
-
-
           if($sWhere == ""){
-
           $sWhere = "WHERE ";
-
           }else{
-
           $sWhere .= " AND ";
-
           }
-
           $sWhere .= $this->aColumns[$i] . " LIKE '%" . mysql_real_escape_string($_GET['sSearch_' . $i]) . "%' ";
-
           }
-
           } */
 
-
-
         $sQuery = "
-
-  SELECT SQL_CALC_FOUND_ROWS " . str_replace(" , ", " ", implode(", ", $this->aColumns)) . "," . str_replace(" , ", " ", implode(", ", $this->eColumns)) . "
-
-  FROM   $this->sTable
-
-  $sWhere
-
-  $sGroupBy
-
-  $sOrder
-
-  $sLimit
-
-  ";
-
+		SELECT SQL_CALC_FOUND_ROWS " . str_replace(" , ", " ", implode(", ", $this->aColumns)) . "," . str_replace(" , ", " ", implode(", ", $this->eColumns)) . "
+		FROM   $this->sTable
+		$sWhere
+		$sGroupBy
+		$sOrder
+		$sLimit
+		";
+        
         $this->rResult = $this->db->query($sQuery);
-
         //echo $this->db->last_query();
 
         /*
-
          * Data set length after filtering
-
          */
-
         $iFilteredTotal = $this->rResult->num_rows();
 
-
-
         /*
-
          * Total data set length
-
          */
-
         $sQuery = "
-
-  SELECT COUNT(" . $this->sIndexColumn . ") AS count
-
-  FROM   $this->sTable
-
-  $sWhere
-
-  $sGroupBy
-
-  ";
-
+		SELECT COUNT(" . $this->sIndexColumn . ") AS count
+		FROM   $this->sTable
+		$sWhere
+		$sGroupBy
+		";
         if ($sGroupBy != null) {
-
             $rResultTotal = $this->db->query($sQuery);
-
             $iTotal = $rResultTotal->num_rows();
         } else {
-
             $rResultTotal = $this->db->query($sQuery);
-
             $aResultTotal = $rResultTotal->row();
-
             $iTotal = $aResultTotal->count;
         }
-
         /*
-
          * Output
-
          */
-
-        $this->output = array("sEcho" => intval(isset($_GET['sEcho']) ? $_GET['sEcho'] : 0), "iTotalRecords" => $iTotal, "iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-            "aaData" => array());
+        $this->output = array("sEcho" => intval($_GET['sEcho']), "iTotalRecords" => $iTotal, "iTotalDisplayRecords" => $iTotal, "aaData" => array());
     }
 
     function datatable_process_merit_list($sQuery) {
