@@ -55,12 +55,12 @@
 
                 <div class="col-md-6">
                     <div class="pull-left">
-                        Powered By <a href="http://sumandeepuniversity.co.in">Sumandeep University</a>
+                        Powered By <a href="http://sumandeepuniversity.co.in" target="_blank">Sumandeep Vidyapeeth University</a>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="pull-right">
-                        Designed & Developed By <a href="http://rana.pw">Soyab Rana</a>
+                        Designed & Developed By <a href="http://rana.pw" target="_blank" alt="Soyab Rana" title="Rana Soyab">Soyab Rana</a>
                     </div>
                 </div>
 
