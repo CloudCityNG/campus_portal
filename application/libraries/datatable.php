@@ -56,33 +56,22 @@ class Datatable extends CI_Controller {
         $sWhere = $this->myWhere;
 
         if (isset($_GET['sSearch'])) {
-
             if ($_GET['sSearch'] != "") {
-
                 $sWhere .= ($sWhere == "") ? " WHERE (" : " AND (";
-                
                 for ($i = 0; $i < count($this->aColumns); $i++) {
-
                     if ($_GET['bSearchable_' . $i] == "true") {
-
                         if (stripos($this->aColumns[$i], "AS") > 0) {
-
                             $fiel_explode = explode(" AS ", $this->aColumns[$i]);
-
                             $sWhere .= $fiel_explode[0] . " LIKE '%" . mysql_real_escape_string($_GET['sSearch']) . "%' OR ";
                         } else {
-
                             $sWhere .= $this->aColumns[$i] . " LIKE '%" . mysql_real_escape_string($_GET['sSearch']) . "%' OR ";
                         }
                     }
                 }
-
                 $sWhere = substr_replace($sWhere, "", - 3);
-
                 $sWhere .= ')';
             }
         }
-
 
         /*
          * Group By
@@ -113,7 +102,7 @@ class Datatable extends CI_Controller {
 		$sOrder
 		$sLimit
 		";
-        
+
         $this->rResult = $this->db->query($sQuery);
         //echo $this->db->last_query();
 

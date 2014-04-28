@@ -143,6 +143,10 @@ $route['student_section/profile/updatePassword'] = "student_section/profile/upda
 //Hostel Section
 $route['hostel'] = "hostel/dashboard/index";
 
+//Check Student Status
+$route['hostel/student'] = "hostel/student/index";
+$route['hostel/list_forms_json/(:num)/(:num)'] = "hostel/student/getListJson/$1/$2";
+
 //Profile & Change Password
 $route['hostel/profile'] = "hostel/profile/index";
 $route['hostel/change_password'] = "hostel/profile/changePassword";
@@ -161,8 +165,11 @@ $route['hostel/profile/updatePassword'] = "hostel/profile/updatePassword";
  * **********************************************************************
  */
 
-//Hostel Section
+//Exam Section
 $route['exam_section'] = "exam_section/dashboard/index";
+
+//Students
+
 
 //Profile & Change Password
 $route['exam_section/profile'] = "exam_section/profile/index";

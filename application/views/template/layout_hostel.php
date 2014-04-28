@@ -58,7 +58,7 @@
                 <div class="collapse navbar-collapse">
                     <?php $link = $this->uri->segment(2); ?>   
                     <ul class="nav navbar-nav">
-                        
+                        <li><a href="<?php echo HOSTEL_URL . 'student'; ?>">Students</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">

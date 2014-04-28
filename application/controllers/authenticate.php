@@ -27,11 +27,11 @@ class authenticate extends CI_Controller {
                     case 1:
                         $this->__redirect('admission', $result, ADMISSION_URL);
                     case 2:
-                        $this->__redirect('hostel_section', $result, HOSTEL_URL);
-                    case 3:
-                        $this->__redirect('student_section', $result, STUDENT_SECTION_URL);
-                    case 4:
                         $this->__redirect('exam_section', $result, EXAM_SECTION_URL);
+                    case 3:
+                        $this->__redirect('hostel_section', $result, HOSTEL_URL);
+                    case 4:
+                        $this->__redirect('student_section', $result, STUDENT_SECTION_URL);
                     default:
                         $this->session->set_flashdata('error', 'Department Does not Exit');
                         redirect(base_url() . 'login', 'refresh');
