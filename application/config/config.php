@@ -17,7 +17,12 @@ if (!defined('BASEPATH'))
   | path to your installation.
   |
  */
-$config['base_url'] = 'http://localhost/campus_portal/';
+if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1' && $_SERVER['REMOTE_ADDR'] == 'localhost') {
+    $config['base_url'] = 'http://localhost/campus_portal/';
+} else {
+    $config['base_url'] = 'http://172.20.6.100:8091/portal/';
+}
+
 
 if (!defined('STUDENT_URL'))
     define('STUDENT_URL', $config['base_url'] . 'student/');
