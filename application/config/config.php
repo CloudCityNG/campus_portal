@@ -25,6 +25,15 @@ if (!defined('STUDENT_URL'))
 if (!defined('ADMISSION_URL'))
     define('ADMISSION_URL', $config['base_url'] . 'admission/');
 
+if (!defined('STUDENT_SECTION_URL'))
+    define('STUDENT_SECTION_URL', $config['base_url'] . 'student_section/');
+
+if (!defined('EXAM_SECTION_URL'))
+    define('EXAM_SECTION_URL', $config['base_url'] . 'exam_section/');
+
+
+if (!defined('HOSTEL_URL'))
+    define('HOSTEL_URL', $config['base_url'] . 'hostel/');
 
 if (!defined('CSS_URL'))
     define('CSS_URL', $config['base_url'] . 'assets/CSS/');

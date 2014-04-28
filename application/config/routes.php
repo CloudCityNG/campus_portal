@@ -48,7 +48,7 @@ $route['404_override'] = '';
 $route['login'] = "authenticate/index";
 $route['validate'] = "authenticate/validateUser";
 $route['logout'] = "authenticate/logout";
-
+//=====================================================================//
 /*
  * **********************************************************************
  * **************** ADMISSION DEPARTMENT ROUTING START ******************
@@ -112,6 +112,69 @@ $route['admission/profile/updatePassword'] = "admission/profile/updatePassword";
  * ***************** ADMISSION DEPARTMENT ROUTING END *******************
  * **********************************************************************
  */
+//=====================================================================//
+/*
+ * **********************************************************************
+ * ****************** STUDENT SECTION ROUTING START *********************
+ * **********************************************************************
+ */
 
+//Student Section
+$route['student_section'] = "student_section/dashboard/index";
+
+//Profile & Change Password
+$route['student_section/profile'] = "student_section/profile/index";
+$route['student_section/change_password'] = "student_section/profile/changePassword";
+$route['student_section/profile/updateProfile'] = "student_section/profile/updateProfile";
+$route['student_section/profile/updatePassword'] = "student_section/profile/updatePassword";
+
+/*
+ * **********************************************************************
+ * ******************* STUDENT SECTION ROUTING END **********************
+ * **********************************************************************
+ */
+//=====================================================================//
+/*
+ * **********************************************************************
+ * ****************** HOSTEL SECTION ROUTING START **********************
+ * **********************************************************************
+ */
+
+//Hostel Section
+$route['hostel'] = "hostel/dashboard/index";
+
+//Profile & Change Password
+$route['hostel/profile'] = "hostel/profile/index";
+$route['hostel/change_password'] = "hostel/profile/changePassword";
+$route['hostel/profile/updateProfile'] = "hostel/profile/updateProfile";
+$route['hostel/profile/updatePassword'] = "hostel/profile/updatePassword";
+
+/*
+ * **********************************************************************
+ * ******************* HOSTEL SECTION ROUTING END ***********************
+ * **********************************************************************
+ */
+//=====================================================================//
+/*
+ * **********************************************************************
+ * ********************** EXAM SECTION ROUTING START ********************
+ * **********************************************************************
+ */
+
+//Hostel Section
+$route['exam_section'] = "exam_section/dashboard/index";
+
+//Profile & Change Password
+$route['exam_section/profile'] = "exam_section/profile/index";
+$route['exam_section/change_password'] = "exam_section/profile/changePassword";
+$route['exam_section/profile/updateProfile'] = "exam_section/profile/updateProfile";
+$route['exam_section/profile/updatePassword'] = "exam_section/profile/updatePassword";
+
+/*
+ * **********************************************************************
+ * *********************** EXAM SECTION ROUTING END *********************
+ * **********************************************************************
+ */
+//=====================================================================//
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
