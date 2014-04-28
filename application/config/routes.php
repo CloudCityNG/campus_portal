@@ -49,6 +49,12 @@ $route['login'] = "authenticate/index";
 $route['validate'] = "authenticate/validateUser";
 $route['logout'] = "authenticate/logout";
 
+/*
+ * **********************************************************************
+ * **************** ADMISSION DEPARTMENT ROUTING START ******************
+ * **********************************************************************
+ */
+
 //Admission
 $route['admission'] = "admission/dashboard/index";
 $route['admission/forms'] = "admission/forms/index";
@@ -66,7 +72,6 @@ $route['admission/forms/update_ug_language/(:num)'] = "admission/forms/updateUGL
 $route['admission/forms/update_ug_foreign/(:num)'] = "admission/forms/updateUGForeignForm/$1";
 $route['admission/forms/update_ug_images/(:num)'] = "admission/forms/updateUGImagesForm/$1";
 $route['admission/forms/view_image/(:num)/(:any)'] = "admission/forms/viewStudentImages/$1/$2";
-
 
 //Entrance Exam Test
 $route['admission/eet'] = "admission/eet/index";
@@ -95,6 +100,18 @@ $route['admission/confirm/updateData/(:num)'] = "admission/admission_confirm/upd
 $route['admission/list'] = "admission/student_list/index";
 $route['admission/list/json/(:num)/(:num)/(:num)'] = "admission/student_list/getJsonList/$1/$2/$3";
 $route['admission/list/print/(:any)/(:any)/(:any)'] = "admission/student_list/print_student_list/$1/$2/$3";
+
+//Profile & Change Password
+$route['admission/profile'] = "admission/profile/index";
+$route['admission/change_password'] = "admission/profile/changePassword";
+$route['admission/profile/updateProfile'] = "admission/profile/updateProfile";
+$route['admission/profile/updatePassword'] = "admission/profile/updatePassword";
+
+/*
+ * **********************************************************************
+ * ***************** ADMISSION DEPARTMENT ROUTING END *******************
+ * **********************************************************************
+ */
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
