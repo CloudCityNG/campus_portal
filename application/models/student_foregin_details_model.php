@@ -7,6 +7,7 @@ Class student_foregin_details_model extends CI_model {
 
     public $foregin_detail_id;
     public $student_id;
+    public $degree;
     public $detail_pp;
     public $passport_no;
     public $country;
@@ -33,6 +34,7 @@ Class student_foregin_details_model extends CI_model {
         $new = new student_foregin_details_model();
         $new->foregin_detail_id = $old->foregin_detail_id;
         $new->student_id = $old->student_id;
+        $new->degree = $old->degree;
         $new->detail_pp = $old->detail_pp;
         $new->passport_no = $old->passport_no;
         $new->country = $old->country;
@@ -54,6 +56,9 @@ Class student_foregin_details_model extends CI_model {
 
         if ($this->student_id != '')
             $arr['student_id'] = $this->student_id;
+
+        if ($this->degree != '')
+            $arr['degree'] = $this->degree;
 
         if ($this->detail_pp != '')
             $arr['detail_pp'] = $this->detail_pp;

@@ -58,16 +58,26 @@ $route['logout'] = "authenticate/logout";
 //Admission
 $route['admission'] = "admission/dashboard/index";
 $route['admission/forms'] = "admission/forms/index";
-$route['admission/list_forms_json/(:num)/(:num)/(:num)'] = "admission/forms/getListJson/$1/$2/$3";
+$route['admission/list_forms_json/(:any)/(:num)/(:num)/(:num)'] = "admission/forms/getListJson/$1/$2/$3/$4";
 $route['admission/forms/hall_ticket/(:num)'] = "admission/forms/viewHallTicket/$1";
 $route['admission/forms/hall_ticket_pdf/(:num)'] = "admission/forms/hallicketPDF/$1";
+//---UG FORM 
 $route['admission/forms/add_ug'] = "admission/forms/addUGNewForm";
 $route['admission/forms/save_ug'] = "admission/forms/saveUGNewForm";
-$route['admission/forms/edit_ug/(:num)/(:any)'] = "admission/forms/editUGForm/$1/$2";
+$route['admission/forms/edit/(:num)/(:any)/(:any)'] = "admission/forms/editForm/$1/$2/$3";
 $route['admission/forms/edit_ug_status/(:num)'] = "admission/forms/editUGStudentStatus/$1";
 $route['admission/forms/update_ug_status/(:num)'] = "admission/forms/updateUGStudentStatus/$1";
 $route['admission/forms/update_ug_basic/(:num)'] = "admission/forms/updateUGBasicForm/$1";
 $route['admission/forms/update_ug_education/(:num)'] = "admission/forms/updateUGEduForm/$1";
+//--PG OTHER
+$route['admission/forms/add_pg_other'] = "admission/forms/addPGOtherNewForm";
+$route['admission/forms/getPGOtherCourseSpecialization/(:num)'] = "admission/forms/getPGOtherCourseSpecialization/$1";
+$route['admission/forms/save_pg_other'] = "admission/forms/savePGOtherNewForm";
+$route['admission/forms/update_pg_other_basic/(:num)'] = "admission/forms/updatePGOtherBasicForm/$1";
+$route['admission/forms/update_pg_other_education/(:num)'] = "admission/forms/updatePGOtherEduForm/$1";
+
+//--
+
 $route['admission/forms/update_ug_language/(:num)'] = "admission/forms/updateUGLanguagesForm/$1";
 $route['admission/forms/update_ug_foreign/(:num)'] = "admission/forms/updateUGForeignForm/$1";
 $route['admission/forms/update_ug_images/(:num)'] = "admission/forms/updateUGImagesForm/$1";

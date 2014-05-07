@@ -3,19 +3,21 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-Class exam_centers_model extends CI_model {
+Class student_edu_pg_other_model extends CI_model {
 
-    public $center_id;
-    public $degree;
-    public $name;
-    public $code;
-    public $address;
-    public $status;
+    public $pg_other_edu_id;
+    public $student_id;
+    public $course;
+    public $year;
+    public $uni_institute;
+    public $board;
+    public $total_percentage;
+    public $rank;
     public $create_id;
     public $create_date_time;
     public $modify_id;
     public $modify_date_time;
-    private $table_name = 'exam_centers';
+    private $table_name = 'student_edu_pg_other';
 
     function __construct() {
         parent::__construct();
@@ -27,13 +29,15 @@ Class exam_centers_model extends CI_model {
     }
 
     function convertObject($old) {
-        $new = new exam_centers_model();
-        $new->center_id = $old->center_id;
-        $new->degree = $old->degree;
-        $new->name = $old->name;
-        $new->code = $old->code;
-        $new->address = $old->address;
-        $new->status = $old->status;
+        $new = new student_edu_pg_other_model();
+        $new->pg_other_edu_id = $old->pg_other_edu_id;
+        $new->student_id = $old->student_id;
+        $new->course = $old->course;
+        $new->year = $old->year;
+        $new->uni_institute = $old->uni_institute;
+        $new->board = $old->board;
+        $new->total_percentage = $old->total_percentage;
+        $new->rank = $old->rank;
         $new->create_id = $old->create_id;
         $new->create_date_time = $old->create_date_time;
         $new->modify_id = $old->modify_id;
@@ -43,23 +47,29 @@ Class exam_centers_model extends CI_model {
 
     function toArray() {
         $arr = array();
-        if ($this->center_id != '')
-            $arr['center_id'] = $this->center_id;
+        if ($this->pg_other_edu_id != '')
+            $arr['pg_other_edu_id'] = $this->pg_other_edu_id;
 
-        if ($this->degree != '')
-            $arr['degree'] = $this->degree;
+        if ($this->student_id != '')
+            $arr['student_id'] = $this->student_id;
 
-        if ($this->name != '')
-            $arr['name'] = $this->name;
+        if ($this->course != '')
+            $arr['course'] = $this->course;
 
-        if ($this->code != '')
-            $arr['code'] = $this->code;
+        if ($this->year != '')
+            $arr['year'] = $this->year;
 
-        if ($this->address != '')
-            $arr['address'] = $this->address;
+        if ($this->uni_institute != '')
+            $arr['uni_institute'] = $this->uni_institute;
 
-        if ($this->status != '')
-            $arr['status'] = $this->status;
+        if ($this->board != '')
+            $arr['board'] = $this->board;
+
+        if ($this->total_percentage != '')
+            $arr['total_percentage'] = $this->total_percentage;
+
+        if ($this->rank != '')
+            $arr['rank'] = $this->rank;
 
         if ($this->create_id != '')
             $arr['create_id'] = $this->create_id;
@@ -82,10 +92,10 @@ Class exam_centers_model extends CI_model {
         $this->db->from($this->table_name);
         $this->db->where($where);
         if (is_null($orderby)) {
-            $orderby = 'center_id';
+            $orderby = 'pg_other_edu_id';
         }
         if (is_null($ordertype)) {
-            $ordertype = 'desc;';
+            $ordertype = 'desc';
         }
         $this->db->order_by($orderby, $ordertype);
         if ($limit != null) {
@@ -104,7 +114,7 @@ Class exam_centers_model extends CI_model {
         $this->db->select(' * ');
         $this->db->from($this->table_name);
         if (is_null($orderby)) {
-            $orderby = 'center_id';
+            $orderby = 'pg_other_edu_id';
         }
         if (is_null($ordertype)) {
             $ordertype = 'desc';
@@ -126,7 +136,7 @@ Class exam_centers_model extends CI_model {
         $this->db->insert($this->table_name, $array);
         $check = $this->db->affected_rows();
         if ($check > 0) {
-            return TRUE;
+            return $this->db->insert_id();
         } else {
             return FALSE;
         }
@@ -134,14 +144,14 @@ Class exam_centers_model extends CI_model {
 
     function updateData() {
         $array = $this->toArray();
-        unset($array['center_id']);
-        $this->db->where('center_id', $this->center_id);
+        unset($array['pg_other_edu_id']);
+        $this->db->where('pg_other_edu_id', $this->pg_other_edu_id);
         $this->db->update($this->table_name, $array);
         return TRUE;
     }
 
     function deleteData() {
-        $this->db->where('center_id', $this->center_id);
+        $this->db->where('pg_other_edu_id', $this->pg_other_edu_id);
         $this->db->delete($this->table_name);
         $check = $this->db->affected_rows();
         if ($check > 0) {

@@ -9,3 +9,13 @@ function getMarks($edu_master_id, $subject, $field) {
         return $edu_detail_info[0]->$field;
     }
 }
+
+function getCoursePreference($id){
+    $ci = get_instance();
+    $ci->load->model('course_specialization_model');
+    $detail = $ci->course_specialization_model->getWhere(array('course_special_id' => $id));
+
+    if (!empty($detail)) {
+        return $detail[0];
+    }
+}

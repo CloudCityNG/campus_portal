@@ -3,19 +3,19 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-Class exam_centers_model extends CI_model {
+Class course_specialization_model extends CI_model {
 
-    public $center_id;
-    public $degree;
+    public $course_special_id;
+    public $course_id;
     public $name;
-    public $code;
-    public $address;
+    public $short_code;
+    public $seats;
     public $status;
     public $create_id;
     public $create_date_time;
     public $modify_id;
     public $modify_date_time;
-    private $table_name = 'exam_centers';
+    private $table_name = 'course_specialization';
 
     function __construct() {
         parent::__construct();
@@ -27,12 +27,12 @@ Class exam_centers_model extends CI_model {
     }
 
     function convertObject($old) {
-        $new = new exam_centers_model();
-        $new->center_id = $old->center_id;
-        $new->degree = $old->degree;
+        $new = new course_specialization_model();
+        $new->course_special_id = $old->course_special_id;
+        $new->course_id = $old->course_id;
         $new->name = $old->name;
-        $new->code = $old->code;
-        $new->address = $old->address;
+        $new->short_code = $old->short_code;
+        $new->seats = $old->seats;
         $new->status = $old->status;
         $new->create_id = $old->create_id;
         $new->create_date_time = $old->create_date_time;
@@ -43,20 +43,20 @@ Class exam_centers_model extends CI_model {
 
     function toArray() {
         $arr = array();
-        if ($this->center_id != '')
-            $arr['center_id'] = $this->center_id;
+        if ($this->course_special_id != '')
+            $arr['course_special_id'] = $this->course_special_id;
 
-        if ($this->degree != '')
-            $arr['degree'] = $this->degree;
+        if ($this->course_id != '')
+            $arr['course_id'] = $this->course_id;
 
         if ($this->name != '')
             $arr['name'] = $this->name;
 
-        if ($this->code != '')
-            $arr['code'] = $this->code;
+        if ($this->short_code != '')
+            $arr['short_code'] = $this->short_code;
 
-        if ($this->address != '')
-            $arr['address'] = $this->address;
+        if ($this->seats != '')
+            $arr['seats'] = $this->seats;
 
         if ($this->status != '')
             $arr['status'] = $this->status;
@@ -82,10 +82,10 @@ Class exam_centers_model extends CI_model {
         $this->db->from($this->table_name);
         $this->db->where($where);
         if (is_null($orderby)) {
-            $orderby = 'center_id';
+            $orderby = 'course_special_id';
         }
         if (is_null($ordertype)) {
-            $ordertype = 'desc;';
+            $ordertype = 'desc';
         }
         $this->db->order_by($orderby, $ordertype);
         if ($limit != null) {
@@ -104,7 +104,7 @@ Class exam_centers_model extends CI_model {
         $this->db->select(' * ');
         $this->db->from($this->table_name);
         if (is_null($orderby)) {
-            $orderby = 'center_id';
+            $orderby = 'course_special_id';
         }
         if (is_null($ordertype)) {
             $ordertype = 'desc';
@@ -126,7 +126,7 @@ Class exam_centers_model extends CI_model {
         $this->db->insert($this->table_name, $array);
         $check = $this->db->affected_rows();
         if ($check > 0) {
-            return TRUE;
+            return $this->db->insert_id();
         } else {
             return FALSE;
         }
@@ -134,14 +134,14 @@ Class exam_centers_model extends CI_model {
 
     function updateData() {
         $array = $this->toArray();
-        unset($array['center_id']);
-        $this->db->where('center_id', $this->center_id);
+        unset($array['course_special_id']);
+        $this->db->where('course_special_id', $this->course_special_id);
         $this->db->update($this->table_name, $array);
         return TRUE;
     }
 
     function deleteData() {
-        $this->db->where('center_id', $this->center_id);
+        $this->db->where('course_special_id', $this->course_special_id);
         $this->db->delete($this->table_name);
         $check = $this->db->affected_rows();
         if ($check > 0) {

@@ -7,6 +7,7 @@ Class studnet_images_model extends CI_model {
 
     public $image_id;
     public $student_id;
+    public $degree;
     public $student_image;
     public $sign;
     public $ssc_marksheet;
@@ -34,6 +35,7 @@ Class studnet_images_model extends CI_model {
         $new = new studnet_images_model();
         $new->image_id = $old->image_id;
         $new->student_id = $old->student_id;
+        $new->degree = $old->degree;
         $new->student_image = $old->student_image;
         $new->sign = $old->sign;
         $new->ssc_marksheet = $old->ssc_marksheet;
@@ -56,6 +58,10 @@ Class studnet_images_model extends CI_model {
 
         if ($this->student_id != '')
             $arr['student_id'] = $this->student_id;
+
+        if ($this->degree != '')
+            $arr['degree'] = $this->degree;
+
 
         if ($this->student_image != '')
             $arr['student_image'] = $this->student_image;
@@ -156,6 +162,7 @@ Class studnet_images_model extends CI_model {
         $array = $this->toArray();
         unset($array['image_id']);
         $this->db->where('image_id', $this->image_id);
+        $this->db->where('degree', $this->degree);
         $this->db->update($this->table_name, $array);
         return TRUE;
     }

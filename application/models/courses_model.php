@@ -8,6 +8,7 @@ Class courses_model extends CI_model {
     public $course_id;
     public $name;
     public $degree;
+    public $entrance_exam;
     public $seats;
     public $status;
     public $create_id;
@@ -30,6 +31,7 @@ Class courses_model extends CI_model {
         $new->course_id = $old->course_id;
         $new->name = $old->name;
         $new->degree = $old->degree;
+        $new->entrance_exam = $old->entrance_exam;
         $new->seats = $old->seats;
         $new->status = $old->status;
         $new->create_id = $old->create_id;
@@ -49,6 +51,9 @@ Class courses_model extends CI_model {
 
         if ($this->degree != '')
             $arr['degree'] = $this->degree;
+        
+        if ($this->entrance_exam != '')
+            $arr['entrance_exam'] = $this->entrance_exam;
 
         if ($this->seats != '')
             $arr['seats'] = $this->seats;

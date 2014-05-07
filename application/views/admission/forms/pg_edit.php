@@ -48,7 +48,7 @@
             });
         </script>
         <h3 class="text-center">Basic Information</h3>
-        <form action="<?php echo ADMISSION_URL . 'forms/update_ug_basic/' . $student_id; ?>" method="post" class="form-horizontal" id="info_basic">
+        <form action="<?php echo ADMISSION_URL . 'forms/update_pg_other_basic/' . $student_id; ?>" method="post" class="form-horizontal" id="info_basic">
             <input type="hidden" name="form_number" value="<?php echo @$basic_info[0]->form_number; ?>" />
             <div class="form-group">
                 <div class="col-md-12 text-center">
@@ -79,69 +79,24 @@
                 </div>
                 <div class="col-md-6">
                     <label class="col-md-12 text-center">
-                        Select Exam Center
+                        Select Preference
                         <span class="text-danger">*</span>
                     </label>
-                    <table class="table table-bordered table-responsive">
-                        <tr>
-                            <th rowspan="2">Examination Center</th>
-                            <th rowspan="2">Code</th>
-                            <th colspan="4">Preference</th>
-                        </tr>
-                        <tr>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                        </tr>
-
-                        <?php
-                        $i = 1;
-                        foreach ($center_details as $center) {
-                            ?>
-                            <tr>
-                                <td><?php echo @$center->name; ?></td>
-                                <td class="text-center"><?php echo @$center->code; ?></td>
-                                <th>
-                                    <label for="<?php echo $i; ?>" >
-                                        <input disabled="disabled" type="checkbox" name="p1[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" <?php
-                                        if (@$basic_info[0]->center_pref_1 == @$center->center_id) {
-                                            echo 'checked="checked"';
-                                        }
-                                        ?> onclick="countCheckBoxes(<?php
-                                               echo $i;
-                                               $i++;
-                                               ?>, 'p1[]', '1')">
-                                    </label>
-                                </th>
-                                <th>
-                                    <label for="<?php echo $i; ?>" >
-                                        <input disabled="disabled" type="checkbox" name="p2[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>"  <?php
-                                        if (@$basic_info[0]->center_pref_2 == @$center->center_id) {
-                                            echo 'checked="checked"';
-                                        }
-                                        ?> onclick="countCheckBoxes(<?php
-                                               echo $i;
-                                               $i++;
-                                               ?>, 'p2[]', '1')">
-                                    </label>
-                                </th>
-                                <th>
-                                    <label for="<?php echo $i; ?>" >
-                                        <input disabled="disabled" type="checkbox" name="p3[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>"  <?php
-                                        if (@$basic_info[0]->center_pref_3 == @$center->center_id) {
-                                            echo 'checked="checked"';
-                                        }
-                                        ?>  onclick="countCheckBoxes(<?php
-                                               echo $i;
-                                               $i++;
-                                               ?>, 'p3[]', '1')">
-                                    </label>
-                                </th>
-                            </tr>
-                            <?php
-                        }
-                        ?>
-                    </table>
+                    <span class="error_generate text-center"></span>
+                    <?php $p1 = getCoursePreference(@$basic_info[0]->preference_1); ?>
+                    <select class="form-control" name="preference_1" id="preference_1" disabled="disabled">
+                        <option value="<?php echo $p1->course_special_id; ?>"><?php echo $p1->name; ?></option>
+                    </select>
+                    <br />
+                    <?php $p2 = getCoursePreference(@$basic_info[0]->preference_2); ?>
+                    <select class="form-control" name="preference_2" id="preference_2" disabled="disabled">
+                        <option value="<?php echo $p2->course_special_id; ?>"><?php echo $p2->name; ?></option>
+                    </select>
+                    <br />
+                    <?php $p3 = getCoursePreference(@$basic_info[0]->preference_3); ?>
+                    <select class="form-control" name="preference_3" id="preference_3" disabled="disabled">
+                        <option value="<?php echo $p3->course_special_id; ?>"><?php echo $p3->name; ?></option>
+                    </select>
                 </div>
             </div>
 
@@ -498,148 +453,34 @@
                         }
                     }
                 });
-
-<?php if (@$edu_master_info[0]->result_wating == 'Y') { ?>
-                    $('#result_wating').trigger("click");
-                    $("#pcb_percentage").attr('disabled', true);
-                    $("#pcbe_percentage").attr('disabled', true);
-                    $("#hsc_percentage").attr('disabled', true);
-                    $("#hsc_rank").attr('disabled', true);
-                    $("#edu_details").hide();
-<?php } ?>
-
-                $('#result_wating').click(function() {
-                    if ($("#result_wating").is(':checked')) {
-                        $("#pcb_percentage").attr('disabled', true);
-                        $("#pcbe_percentage").attr('disabled', true);
-                        $("#hsc_percentage").attr('disabled', true);
-                        $("#hsc_rank").attr('disabled', true);
-                        $("#edu_details").hide();
-                    }
-                    else {
-                        $("#pcb_percentage").attr('disabled', false);
-                        $("#pcbe_percentage").attr('disabled', false);
-                        $("#hsc_percentage").attr('disabled', false);
-                        $("#hsc_rank").attr('disabled', false);
-                        $("#edu_details").show();
-                    }
-                });
             });
         </script>
         <h3 class="text-center">Education Information</h3>
         <h5>Academic Record :</h5>
-        <form action="<?php echo ADMISSION_URL . 'forms/update_ug_education/' . $student_id ?>" method="post" class="form-horizontal" id="info_edu">
+        <form action="<?php echo ADMISSION_URL . 'forms/update_pg_other_education/' . $student_id ?>" method="post" class="form-horizontal" id="info_edu">
             <input type="hidden" name="form_number" value="<?php echo @$basic_info[0]->form_number; ?>" />
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <tr>
                         <th>Course</th>
-                        <th>Result Waiting</th>
                         <th>Year</th>
                         <th>Institute</th>
                         <th>University / Board</th>
-                        <th>PCB Percentage</th>
-                        <th>PCBE Percentage</th>
                         <th>Total Percentage</th>
                         <th>Rank</th>
                     </tr>
 
-                    <tr>
-                        <td>S.S.C <input type="hidden" name="ssc_course" value="S.S.C" /></td>
-                        <td>&nbsp;</td>
-                        <td><input type="text" name="ssc_year" value="<?php echo @$edu_master_info[1]->year; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="ssc_uni_institute" value="<?php echo @$edu_master_info[1]->uni_institute; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="ssc_board" value="<?php echo @$edu_master_info[1]->board; ?>" class="form-control required"/></td>
-                        <th>N/A</th>
-                        <th>N/A</th>
-                        <td><input type="text" name="ssc_total_percentage" value="<?php echo @$edu_master_info[1]->total_percentage; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="ssc_rank" value="<?php echo @$edu_master_info[1]->rank; ?>" class="form-control required"/></td>
-                    </tr>
-
-                    <tr>
-                        <td>H.S.C <input type="hidden" name="hsc_course" value="H.S.C" /></td>
-                        <td class="text-center"><input type="checkbox" name="result_wating" id="result_wating" value="Y" /></td>
-                        <td><input type="text" name="hsc_year" value="<?php echo @$edu_master_info[0]->year; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="hsc_uni_institute" value="<?php echo @$edu_master_info[0]->uni_institute; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="hsc_board" value="<?php echo @$edu_master_info[0]->board; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="pcb_percentage" id="pcb_percentage" value="<?php echo @$edu_master_info[0]->pcb_percentage; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="pcbe_percentage" id="pcbe_percentage" value="<?php echo @$edu_master_info[0]->pcbe_percentage; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="hsc_total_percentage" id="hsc_percentage" value="<?php echo @$edu_master_info[0]->total_percentage; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="hsc_rank" id="hsc_rank" value="<?php echo @$edu_master_info[0]->rank; ?>" class="form-control required"/></td>
-                    </tr>
-
-                </table>
-                <br />
-                <h5>Details of 12 Examination :</h5>
-                <table  id="edu_details" class="table table-bordered table-responsive">
-                    <tr>
-                        <th rowspan="2">Subject</th>
-                        <th colspan="2">Theory</th>
-                        <th colspan="2">Practical</th>
-                    </tr>
-
-                    <tr>
-                        <th>Max Marks</th>
-                        <th>Marks Scored</th>
-                        <th>Max Marks</th>
-                        <th>Marks Scored</th>
-                    </tr>
-
-                    <tr>
-                        <td><input type="text" name="subject[]" value="Physics" class="form-control" readonly/></td>
-                        <td><input type="text" name="max_theory_marks[0]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Physics', 'theory_max_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                        <td><input type="text" name="min_theroy_marks[0]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Physics', 'theory_min_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                        <td><input type="text" name="max_pratical_marks[0]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Physics', 'pratical_max_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                        <td><input type="text" name="min_pratical_marks[0]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Physics', 'pratical_min_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                    </tr>
-
-                    <tr>
-                        <td><input type="text" name="subject[]" value="Chemistry" class="form-control" readonly/></td>
-                        <td><input type="text" name="max_theory_marks[1]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Physics', 'theory_max_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                        <td><input type="text" name="min_theroy_marks[1]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Physics', 'theory_min_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                        <td><input type="text" name="max_pratical_marks[1]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Physics', 'pratical_max_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                        <td><input type="text" name="min_pratical_marks[1]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Physics', 'pratical_min_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                    </tr>
-
-                    <tr>
-                        <td><input type="text" name="subject[]" value="Biology" class="form-control" readonly/></td>
-                        <td><input type="text" name="max_theory_marks[2]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Biology', 'theory_max_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                        <td><input type="text" name="min_theroy_marks[2]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Biology', 'theory_min_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                        <td><input type="text" name="max_pratical_marks[2]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Biology', 'pratical_max_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                        <td><input type="text" name="min_pratical_marks[2]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Biology', 'pratical_min_mark'); ?>" class="hsc_marks form-control text-center required"/></td>
-                    </tr>
-
-                    <tr>
-                        <td><input type="text" name="subject[]" value="Mathematics" class="form-control" readonly/></td>
-                        <td><input type="text" name="max_theory_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Mathematics', 'theory_max_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="min_theroy_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Mathematics', 'theory_min_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="max_pratical_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Mathematics', 'pratical_max_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="min_pratical_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Mathematics', 'pratical_min_mark'); ?>" class="form-control text-center"/></td>
-                    </tr>
-
-                    <tr>
-                        <td><input type="text" name="subject[]" value="English" class="form-control" readonly/></td>
-                        <td><input type="text" name="max_theory_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'English', 'theory_max_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="min_theroy_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'English', 'theory_min_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="max_pratical_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'English', 'pratical_max_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="min_pratical_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'English', 'pratical_min_mark'); ?>" class="form-control text-center"/></td>
-                    </tr>
-
-                    <tr>
-                        <td><input type="text" name="subject[]" value="Computer Science" class="form-control" readonly/></td>
-                        <td><input type="text" name="max_theory_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Computer Science', 'theory_max_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="min_theroy_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Computer Science', 'theory_min_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="max_pratical_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Computer Science', 'pratical_max_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="min_pratical_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Computer Science', 'pratical_min_mark'); ?>" class="form-control text-center"/></td>
-                    </tr>
-
-                    <tr>
-                        <td><input type="text" name="subject[]" value="Others" class="form-control" readonly/></td>
-                        <td><input type="text" name="max_theory_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Others', 'theory_max_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="min_theroy_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Others', 'theory_min_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="max_pratical_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Others', 'pratical_max_mark'); ?>" class="form-control text-center"/></td>
-                        <td><input type="text" name="min_pratical_marks[]" value="<?php echo getMarks(@$edu_master_info[0]->edu_master_id, 'Others', 'pratical_min_mark'); ?>" class="form-control text-center"/></td>
-                    </tr>
+                    <?php for ($i = 0; $i <= 5; $i++) { ?>
+                        <tr>
+                        <input type="hidden" name="pg_other_edu_id[]" value="<?php echo @$edu_master_info[$i]->pg_other_edu_id; ?>" />
+                        <td><input type="text" name="course[]" class="form-control required" value="<?php echo @$edu_master_info[$i]->course; ?>" /></td>
+                        <td><input type="text" name="year[]" value="<?php echo @$edu_master_info[$i]->year; ?>" class="form-control required"/></td>
+                        <td><input type="text" name="uni_institute[]" value="<?php echo @$edu_master_info[$i]->uni_institute; ?>" class="form-control required"/></td>
+                        <td><input type="text" name="board[]" value="<?php echo @$edu_master_info[$i]->board; ?>" class="form-control required"/></td>
+                        <td><input type="text" name="total_percentage[]" value="<?php echo @$edu_master_info[$i]->total_percentage; ?>" class="form-control required"/></td>
+                        <td><input type="text" name="rank[]" value="<?php echo @$edu_master_info[$i]->rank; ?>" class="form-control required"/></td>
+                        </tr>
+                    <?php } ?>
                 </table>
 
                 <div class="form-group">
@@ -836,7 +677,7 @@
                     <span class="text-danger">*</span>
                 </label>
                 <div class = "col-md-10">
-                    <input type="text" name="expire_date"  value="<?php echo @$foreign_info[0]->issue; ?>" class="form-control required" placeholder = "dd-mm-yyyy" id="expire_date"/>
+                    <input type="text" name="expire_date"  value="<?php echo date('d-m-Y', strtotime(@$foreign_info[0]->expire_date)); ?>" class="form-control required" placeholder = "dd-mm-yyyy" id="expire_date"/>
                 </div>
             </div>
 
@@ -908,10 +749,10 @@
                         sign: {
                             extension: "jpg|jpeg|png"
                         },
-                        ssc_marksheet: {
+                        marksheet_1: {
                             extension: "jpg|jpeg|png"
                         },
-                        hsc_marksheet: {
+                        marksheet_2: {
                             extension: "jpg|jpeg|png"
                         },
                         migration_certificate: {
@@ -930,8 +771,6 @@
                     messages: {
                         student_image: {extension: '* Select Ony JPG, JPEG, PNG files.'},
                         sign: {extension: '* Select Ony JPG, JPEG, PNG files.'},
-                        ssc_marksheet: {extension: '* Select Ony JPG, JPEG, PNG files.'},
-                        hsc_marksheet: {extension: '* Select Ony JPG, JPEG, PNG files.'},
                         leaving_certificate: {extension: '* Select Ony JPG, JPEG, PNG files.'},
                         cast_certificate: {extension: '* Select Ony JPG, JPEG, PNG files.'},
                         aids_certificate: {extension: '* Select Ony JPG, JPEG, PNG files.'}
@@ -952,8 +791,8 @@
         </script>
         <h3 class="text-center">Upload Require Documents</h3>
         <form action="<?php echo ADMISSION_URL . 'forms/update_ug_images/' . $student_id ?>" method="post" class="form-horizontal" id="info_images" enctype="multipart/form-data">
+            <input type="hidden" name="form_number" value="<?php echo @$basic_info[0]->form_number; ?>" />
             <div class = "form-group">
-                <input type="hidden" name="form_number" value="<?php echo @$basic_info[0]->form_number; ?>" />
                 <label for = "question" class = "col-md-2 control-label">
                     Student Image
                     <span class="text-danger">*</span>
@@ -991,45 +830,6 @@
                 <div class = "col-md-2">
                     <?php if (@$image_details[0]->sign != '') { ?>
                         <a data-target="#view_image" data-toggle="modal" href="<?php echo ADMISSION_URL . 'forms/view_image/' . $student_id . '/sign'; ?>" class="btn btn-default">View Image</a>
-                    <?php } else { ?>
-                        <a href="#" class="btn btn-default disabled">No Image</a>
-                    <?php } ?>
-                </div>
-            </div>
-
-            <div class = "form-group">
-                <label for = "question" class = "col-md-2 control-label">
-                    S.S.C Marksheet
-                    <span class="text-danger">*</span>
-                </label>
-                <div class = "col-md-8">
-
-                    <?php if (@$image_details[0]->ssc_marksheet != '') { ?>
-                        <input type="file" name="ssc_marksheet" class="form-control"/>
-                    <?php } else { ?>
-                        <input type="file" name="ssc_marksheet" class="form-control required"/>
-                    <?php } ?>
-                </div>
-                <div class = "col-md-2">
-                    <?php if (@$image_details[0]->ssc_marksheet != '') { ?>
-                        <a data-target="#view_image" data-toggle="modal" href="<?php echo ADMISSION_URL . 'forms/view_image/' . $student_id . '/ssc_marksheet'; ?>" class="btn btn-default">View Image</a>
-                    <?php } else { ?>
-                        <a href="#" class="btn btn-default disabled">No Image</a>
-                    <?php } ?>
-                </div>
-            </div>
-
-            <div class = "form-group">
-                <label for = "question" class = "col-md-2 control-label">
-                    H.S.C Marksheet
-                    <span class="text-danger">&nbsp;</span>
-                </label>
-                <div class = "col-md-8">
-                    <input type="file" name="hsc_marksheet" class="form-control"/>
-                </div>
-                <div class = "col-md-2">
-                    <?php if (@$image_details[0]->hsc_marksheet != '') { ?>
-                        <a data-target="#view_image" data-toggle="modal" href="<?php echo ADMISSION_URL . 'forms/view_image/' . $student_id . '/hsc_marksheet'; ?>" class="btn btn-default">View Image</a>
                     <?php } else { ?>
                         <a href="#" class="btn btn-default disabled">No Image</a>
                     <?php } ?>

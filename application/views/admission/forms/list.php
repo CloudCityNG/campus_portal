@@ -1,14 +1,46 @@
 <?php
 $session = $this->session->userdata('admin_session');
 if ($session->role == 3) {
-    $col = '[{"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": ""},{"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": "text-center"}]';
+    $col = '[{"sClass": "text-center"}, {"sClass": ""},{"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": "text-center"}]';
 } else {
-    $col = '[{"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": ""},{"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": "text-center"}]';
+    $col = '[{"sClass": "text-center"}, {"sClass": ""},{"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": "text-center"}]';
 }
 ?>
 <script type="text/javascript" >
     $(document).ready(function() {
         loadTable();
+        $('#degree').change(function() {
+            loadTable();
+            
+            var deg = $('#degree').val();
+            $.ajax({
+                type: 'GET',
+                url: '<?php echo ADMISSION_URL; ?>forms/getCourse/' + deg,
+                success: function(data)
+                {
+                    $('#course_id').empty();
+                    $('#course_id').append(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown)
+                {
+                    alert('error 1');
+                }
+            });
+            
+            $.ajax({
+                type: 'GET',
+                url: '<?php echo ADMISSION_URL; ?>forms/getYear/' + deg,
+                success: function(data)
+                {
+                    $('#year').empty();
+                    $('#year').append(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown)
+                {
+                    alert('error 2');
+                }
+            });
+        });
         $('#year').change(function() {
             loadTable();
         });
@@ -31,7 +63,7 @@ if ($session->role == 3) {
             "iDisplayLength": 100,
             "bSort": false,
             "aoColumns":<?php echo $col; ?>,
-            "sAjaxSource": "<?php echo ADMISSION_URL . "list_forms_json/"; ?>" + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#admission_status_id').val()
+            "sAjaxSource": "<?php echo ADMISSION_URL . "list_forms_json/"; ?>" + $('#degree').val() + '/' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#admission_status_id').val()
         });
     }
 
@@ -55,7 +87,7 @@ if ($session->role == 3) {
                                 window.location.reload();
                             },
                             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                alert('error');
+                                alert('error 3');
                             }
                         });
                     }
@@ -71,20 +103,37 @@ if ($session->role == 3) {
     }
 </script>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12 text-center">
         <h3>Admission Forms Lists</h3>
     </div>
-
-    <div class="col-md-6">
-        <?php if ($session->role == 2 || $session->role == 3) { ?>
-            <h3>
-                <a href="<?php echo ADMISSION_URL . 'forms/add_ug'; ?>" class="btn btn-default pull-right">
-                    Add New Form
-                </a>
-            </h3>
-        <?php } ?>
-    </div>
     <div class="clear"></div>
+
+    <?php if ($session->role == 2 || $session->role == 3) { ?>
+        <div class="col-md-12">
+            <hr>
+        </div>
+            <div class="col-md-2">
+                <a href="<?php echo ADMISSION_URL . 'forms/add_ug'; ?>" class="col-md-12 btn btn-primary">
+                    UG Form
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="<?php echo ADMISSION_URL . 'forms/add_ug'; ?>" class="col-md-12 btn btn-primary">
+                    PG MDS/MD/MS Form
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="<?php echo ADMISSION_URL . 'forms/add_pg_other'; ?>" class="col-md-12 btn btn-primary">
+                    PG Other Form
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="<?php echo ADMISSION_URL . 'forms/add_ug'; ?>" class="col-md-12 btn btn-primary">
+                    Super Speciality
+                </a>
+            </div>
+        <div class="clear"></div>
+    <?php } ?>
     <div class="col-md-12">
         <hr>
     </div>
@@ -109,6 +158,13 @@ if ($session->role == 3) {
 
     <div class="col-md-12">
         <div class="col-md-12 padding-killer">
+            <div class="col-md-2 text-center">
+                <label class="">Degree</label>
+                <select class="form-control text-center" id="degree">
+                        <option value="UG">UG</option>
+                        <option value="PG">PG</option>
+                </select>
+            </div>
             <div class="col-md-2 text-center">
                 <label class="">Admission Year</label>
                 <select class="form-control text-center" id="year">
@@ -149,7 +205,6 @@ if ($session->role == 3) {
                 <thead>
                     <tr align="left">
                         <th width="150">Form No</th>
-                        <th width="125">Hall Ticket</th>
                         <th>Name</th>
                         <th width="150">Course</th>
                         <th width="200">Status</th>
@@ -161,7 +216,6 @@ if ($session->role == 3) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>etc</td>
                         <td>etc</td>
                         <td>etc</td>
                         <td>etc</td>
