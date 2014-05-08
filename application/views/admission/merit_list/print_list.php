@@ -10,17 +10,13 @@
 <table style="width: 95%; margin: 0 auto;" border="1">
     <thead>
         <tr>
-            <th colspan="9">Merit List (<?php echo $year; ?>)</th>
+            <th colspan="9">Merit List : <?php echo $course; ?> (<?php echo $year; ?>)</th>
         </tr>
         <tr>
             <th width="100">Merit No</th>
             <th>Form No</th>
             <th width="125">Hall Ticket</th>
             <th width="125">Merit Marks</th>
-            <th width="100">PCB (%)</th>
-            <th width="100">PCBE (%)</th>
-            <th width="100">H.S.C (%)</th>
-            <th width="100">S.S.C (%)</th>
         </tr>
     </thead>
     <tbody>
@@ -28,17 +24,21 @@
         if (!empty($table_data)) {
             $i = 0;
             foreach ($table_data as $table) {
-                if ($table->PCB > 49.99) {
+                if ($degree == 'UG' && $table->PCB > 49.99 ) {
                     ?>
                     <tr>
                         <td align="center"><?php echo ++$i; ?></td>
                         <td align="center"><?php echo $table->form_number; ?></td>
-                        <td align="center"><?php echo $table->hall_ticket; ?></td>
+                        <td align="center"><?php echo getHallTicket($table->student_id, $degree); ?></td>
                         <td align="center"><?php echo $table->marks; ?></td>
-                        <td align="center"><?php echo $table->PCB; ?></td>
-                        <td align="center"><?php echo $table->PCBE; ?></td>
-                        <td align="center"><?php echo $table->HSC; ?></td>
-                        <td align="center"><?php echo $table->SSC; ?></td>
+                    </tr>
+                <?php } else {
+                    ?>
+                    <tr>
+                        <td align="center"><?php echo ++$i; ?></td>
+                        <td align="center"><?php echo $table->form_number; ?></td>
+                        <td align="center"><?php echo getHallTicket($table->student_id, $degree); ?></td>
+                        <td align="center"><?php echo $table->marks; ?></td>
                     </tr>
                     <?php
                 }

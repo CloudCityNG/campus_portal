@@ -94,8 +94,8 @@ $route['admission/eet/update_marks/(:num)'] = "admission/eet/UpdateMarks/$1";
 
 //Merit List
 $route['admission/merit_list'] = "admission/merit_list/index";
-$route['admission/merit_list/json/(:num)/(:num)/(:num)'] = "admission/merit_list/getJsonList/$1/$2/$3";
-$route['admission/merit_list/print/(:num)/(:num)/(:num)'] = "admission/merit_list/print_merit_list/$1/$2/$3";
+$route['admission/merit_list/json/(:num)/(:num)'] = "admission/merit_list/getJsonList/$1/$2";
+$route['admission/merit_list/print/(:num)/(:num)'] = "admission/merit_list/print_merit_list/$1/$2";
 
 //counselling
 $route['admission/counselling'] = "admission/counselling/index";
