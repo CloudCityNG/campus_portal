@@ -7,7 +7,6 @@ Class student_language_model extends CI_model {
 
     public $language_id;
     public $student_id;
-    public $degree;
     public $name;
     public $reading;
     public $speaking;
@@ -31,7 +30,6 @@ Class student_language_model extends CI_model {
         $new = new student_language_model();
         $new->language_id = $old->language_id;
         $new->student_id = $old->student_id;
-        $new->degree = $old->degree;
         $new->name = $old->name;
         $new->reading = $old->reading;
         $new->speaking = $old->speaking;
@@ -50,9 +48,6 @@ Class student_language_model extends CI_model {
 
         if ($this->student_id != '')
             $arr['student_id'] = $this->student_id;
-        
-        if ($this->degree != '')
-            $arr['degree'] = $this->degree;
 
         if ($this->name != '')
             $arr['name'] = $this->name;

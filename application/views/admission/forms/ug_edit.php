@@ -104,7 +104,7 @@
                                 <th>
                                     <label for="<?php echo $i; ?>" >
                                         <input disabled="disabled" type="checkbox" name="p1[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" <?php
-                                        if (@$basic_info[0]->center_pref_1 == @$center->center_id) {
+                                        if (@$basic_details[0]->center_pref_1 == @$center->center_id) {
                                             echo 'checked="checked"';
                                         }
                                         ?> onclick="countCheckBoxes(<?php
@@ -116,7 +116,7 @@
                                 <th>
                                     <label for="<?php echo $i; ?>" >
                                         <input disabled="disabled" type="checkbox" name="p2[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>"  <?php
-                                        if (@$basic_info[0]->center_pref_2 == @$center->center_id) {
+                                        if (@$basic_details[0]->center_pref_2 == @$center->center_id) {
                                             echo 'checked="checked"';
                                         }
                                         ?> onclick="countCheckBoxes(<?php
@@ -128,7 +128,7 @@
                                 <th>
                                     <label for="<?php echo $i; ?>" >
                                         <input disabled="disabled" type="checkbox" name="p3[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>"  <?php
-                                        if (@$basic_info[0]->center_pref_3 == @$center->center_id) {
+                                        if (@$basic_details[0]->center_pref_3 == @$center->center_id) {
                                             echo 'checked="checked"';
                                         }
                                         ?>  onclick="countCheckBoxes(<?php
@@ -888,7 +888,7 @@
 
             <div class="form-group">
                 <div class="col-md-12 text-center">
-                    <a href="<?php echo ADMISSION_URL . 'forms/edit_ug/' . $student_id . '/require_doc'; ?>" class="btn btn-primary">Skip</a>
+                    <a href="<?php echo ADMISSION_URL . 'forms/edit/' . $student_id . '/' . @$basic_info[0]->form_number . '/require_doc'; ?>" class="btn btn-primary">Skip</a>
 
                     <button type="submit" class="btn btn-primary">Next &nbsp; <i class="glyphicon glyphicon-arrow-right"></i></button>
                     <a href="<?php echo ADMISSION_URL . 'forms'; ?>" class="btn btn-inverse">Cancel</a>

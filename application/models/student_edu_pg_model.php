@@ -3,22 +3,20 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-Class student_foregin_details_model extends CI_model {
+Class student_edu_pg_model extends CI_model {
 
-    public $foregin_detail_id;
+    public $pg_edu_id;
     public $student_id;
-    public $detail_pp;
-    public $passport_no;
-    public $country;
-    public $issue;
-    public $expire_date;
-    public $visa_type;
-    public $aids_dearance;
+    public $exam;
+    public $month;
+    public $year;
+    public $percentage;
+    public $attempt;
     public $create_id;
     public $create_date_time;
     public $modify_id;
     public $modify_date_time;
-    private $table_name = 'student_foregin_details';
+    private $table_name = 'student_edu_pg';
 
     function __construct() {
         parent::__construct();
@@ -30,16 +28,14 @@ Class student_foregin_details_model extends CI_model {
     }
 
     function convertObject($old) {
-        $new = new student_foregin_details_model();
-        $new->foregin_detail_id = $old->foregin_detail_id;
+        $new = new student_edu_pg_model();
+        $new->pg_edu_id = $old->pg_edu_id;
         $new->student_id = $old->student_id;
-        $new->detail_pp = $old->detail_pp;
-        $new->passport_no = $old->passport_no;
-        $new->country = $old->country;
-        $new->issue = $old->issue;
-        $new->expire_date = $old->expire_date;
-        $new->visa_type = $old->visa_type;
-        $new->aids_dearance = $old->aids_dearance;
+        $new->exam = $old->exam;
+        $new->month = $old->month;
+        $new->year = $old->year;
+        $new->percentage = $old->percentage;
+        $new->attempt = $old->attempt;
         $new->create_id = $old->create_id;
         $new->create_date_time = $old->create_date_time;
         $new->modify_id = $old->modify_id;
@@ -49,32 +45,26 @@ Class student_foregin_details_model extends CI_model {
 
     function toArray() {
         $arr = array();
-        if ($this->foregin_detail_id != '')
-            $arr['foregin_detail_id'] = $this->foregin_detail_id;
+        if ($this->pg_edu_id != '')
+            $arr['pg_edu_id'] = $this->pg_edu_id;
 
         if ($this->student_id != '')
             $arr['student_id'] = $this->student_id;
 
-        if ($this->detail_pp != '')
-            $arr['detail_pp'] = $this->detail_pp;
+        if ($this->exam != '')
+            $arr['exam'] = $this->exam;
 
-        if ($this->passport_no != '')
-            $arr['passport_no'] = $this->passport_no;
+        if ($this->month != '')
+            $arr['month'] = $this->month;
 
-        if ($this->country != '')
-            $arr['country'] = $this->country;
+        if ($this->year != '')
+            $arr['year'] = $this->year;
 
-        if ($this->issue != '')
-            $arr['issue'] = $this->issue;
+        if ($this->percentage != '')
+            $arr['percentage'] = $this->percentage;
 
-        if ($this->expire_date != '')
-            $arr['expire_date'] = $this->expire_date;
-
-        if ($this->visa_type != '')
-            $arr['visa_type'] = $this->visa_type;
-
-        if ($this->aids_dearance != '')
-            $arr['aids_dearance'] = $this->aids_dearance;
+        if ($this->attempt != '')
+            $arr['attempt'] = $this->attempt;
 
         if ($this->create_id != '')
             $arr['create_id'] = $this->create_id;
@@ -97,7 +87,7 @@ Class student_foregin_details_model extends CI_model {
         $this->db->from($this->table_name);
         $this->db->where($where);
         if (is_null($orderby)) {
-            $orderby = 'foregin_detail_id';
+            $orderby = 'pg_edu_id';
         }
         if (is_null($ordertype)) {
             $ordertype = 'desc';
@@ -119,7 +109,7 @@ Class student_foregin_details_model extends CI_model {
         $this->db->select(' * ');
         $this->db->from($this->table_name);
         if (is_null($orderby)) {
-            $orderby = 'foregin_detail_id';
+            $orderby = 'pg_edu_id';
         }
         if (is_null($ordertype)) {
             $ordertype = 'desc';
@@ -149,14 +139,19 @@ Class student_foregin_details_model extends CI_model {
 
     function updateData() {
         $array = $this->toArray();
-        unset($array['foregin_detail_id']);
-        $this->db->where('foregin_detail_id', $this->foregin_detail_id);
+        unset($array['pg_edu_id']);
+        unset($array['student_id']);
+        if ($this->student_id != '') {
+            $this->db->where('student_id', $this->student_id);
+        } else {
+            $this->db->where('pg_edu_id', $this->pg_edu_id);
+        }
         $this->db->update($this->table_name, $array);
         return TRUE;
     }
 
     function deleteData() {
-        $this->db->where('foregin_detail_id', $this->foregin_detail_id);
+        $this->db->where('pg_edu_id', $this->pg_edu_id);
         $this->db->delete($this->table_name);
         $check = $this->db->affected_rows();
         if ($check > 0) {

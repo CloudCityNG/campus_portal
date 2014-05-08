@@ -1,26 +1,9 @@
-<?php $date = date('m/d/Y', strtotime(get_current_date_time()->get_date_for_db())); ?>
 <script>
     $(function() {
         $('#edit_form a[href="#<?php echo @$tab; ?>"]').tab('show');
     });
-
-    function countCheckBoxes(id, name, value) {
-        var checkbox = document.getElementsByName(name);
-        var checkboxCount = 0;
-        for (var i = 0, length = checkbox.length; i < length; i++) {
-            if (checkbox[i].checked) {
-                checkboxCount++;
-            }
-        }
-
-        if (checkboxCount > value) {
-            $("#" + id).attr('checked', false);
-            $('#info').modal('show');
-        }
-    }
 </script>
-
-<h2 class="text-center">New Admission</h2>
+<h2 class="text-center">Edit Admission</h2>
 
 <ul id="edit_form" class="nav nav-tabs">
     <li class=""><a href="#basic_info" data-toggle="tab">Basic Information</a></li>
@@ -34,7 +17,9 @@
     <div class="tab-pane in active" id="basic_info">
         <script>
             $(function() {
-                $('#info_basic').validate({
+                $('#add_new_form a[href="#basic_info"]').tab('show')
+
+                $('#manage').validate({
                     errorPlacement: function(error, element) {
                         if (element.attr('type') === 'radio' || element.attr('type') === 'checkbox') {
                             $('.error_generate').html(error);
@@ -44,11 +29,132 @@
                     }
                 });
 
-                $("#dob").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
-            });
+                $('input:radio[name="rotational_intership"]').change(function() {
+                    var rn = $(this).val();
+                    if (rn == 'Y') {
+                        $('#rotational_intership_text').html('Yes, Completion Date');
+                    } else {
+                        $('#rotational_intership_text').html('No, likely Completed on');
+                    }
+                });
+
+                $('input:radio[name="register_mci_dci"]').change(function() {
+                    var rn = $(this).val();
+                    if (rn == 'Y') {
+                        $('#register').show();
+                    } else {
+                        $('#register').hide();
+                    }
+                });
+
+                $('input:radio[name="cid"]').change(function() {
+                    var cid = $(this).val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
+                        success: function(data)
+                        {
+                            $('#preference_1').empty();
+                            $('#preference_2').empty();
+                            $('#preference_3').empty();
+                            $('#preference_1').append(data);
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown)
+                        {
+                            alert('error');
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseCenter/' + $(this).attr("data-degree"),
+                        success: function(data)
+                        {
+                            $('#center_table').empty();
+                            $('#center_table').append(data);
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown)
+                        {
+                            alert('error');
+                        }
+                    });
+                });
+
+                $('#preference_1').change(function() {
+                    var cid = $('input:radio[name="cid"]:checked').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
+                        success: function(data)
+                        {
+                            $('#preference_2').empty();
+                            $('#preference_3').empty();
+                            $('#preference_2').append(data);
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown)
+                        {
+                            alert('error');
+                        }
+                    });
+                });
+
+                $('#preference_2').change(function() {
+                    var cid = $('input:radio[name="cid"]:checked').val();
+                    var p = $('#preference_2').val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
+                        success: function(data)
+                        {
+                            $('#preference_3').empty();
+                            $('#preference_3').append(data);
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown)
+                        {
+                            alert('error');
+                        }
+                    });
+
+                    $('input:radio[name="rotational_intership"]').change(function() {
+                        var rn = $(this).val();
+                        if (rn == 'Y') {
+                            $('#rotational_intership_text').html('Yes, Completion Date');
+                        } else {
+                            $('#rotational_intership_text').html('No, likely Completed on');
+                        }
+                    });
+
+                    $('input:radio[name="register_mci_dci"]').change(function() {
+                        var rn = $(this).val();
+                        if (rn == 'Y') {
+                            $('#register').show();
+                        } else {
+                            $('#register').hide();
+                        }
+                    });
+                });
+
+<?php $date = date('m/d/Y', strtotime(get_current_date_time()->get_date_for_db())); ?>
+                $(".dob").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
+            })
+
+            function countCheckBoxes(id, name, value) {
+                var checkbox = document.getElementsByName(name);
+                var checkboxCount = 0;
+                for (var i = 0, length = checkbox.length; i < length; i++) {
+                    if (checkbox[i].checked) {
+                        checkboxCount++;
+                    }
+                }
+
+                if (checkboxCount > value) {
+                    $("#" + id).attr('checked', false);
+                    $('#info').modal('show');
+                }
+            }
         </script>
         <h3 class="text-center">Basic Information</h3>
-        <form action="<?php echo ADMISSION_URL . 'forms/update_pg_other_basic/' . $student_id; ?>" method="post" class="form-horizontal" id="info_basic">
+        <form action="<?php echo ADMISSION_URL . 'forms/update_pg/' . $student_id; ?>" method="post" class="form-horizontal" id="info_basic">
             <input type="hidden" name="form_number" value="<?php echo @$basic_info[0]->form_number; ?>" />
             <div class="form-group">
                 <div class="col-md-12 text-center">
@@ -79,27 +185,93 @@
                 </div>
                 <div class="col-md-6">
                     <label class="col-md-12 text-center">
-                        Select Preference
+                        Select Exam Center
                         <span class="text-danger">*</span>
                     </label>
-                    <span class="error_generate text-center"></span>
-                    <?php $p1 = getCoursePreference(@$basic_details[0]->preference_1); ?>
-                    <select class="form-control" name="preference_1" id="preference_1" disabled="disabled">
-                        <option value="<?php echo $p1->course_special_id; ?>"><?php echo $p1->name; ?></option>
-                    </select>
-                    <br />
-                    <?php $p2 = getCoursePreference(@$basic_details[0]->preference_2); ?>
-                    <select class="form-control" name="preference_2" id="preference_2" disabled="disabled">
-                        <option value="<?php echo $p2->course_special_id; ?>"><?php echo $p2->name; ?></option>
-                    </select>
-                    <br />
-                    <?php $p3 = getCoursePreference(@$basic_details[0]->preference_3); ?>
-                    <select class="form-control" name="preference_3" id="preference_3" disabled="disabled">
-                        <option value="<?php echo $p3->course_special_id; ?>"><?php echo $p3->name; ?></option>
-                    </select>
+                    <table class="table table-bordered table-responsive">
+                        <tr>
+                            <th rowspan="2">Examination Center</th>
+                            <th rowspan="2">Code</th>
+                            <th colspan="4">Preference</th>
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                        </tr>
+
+                        <?php
+                        $i = 1;
+                        foreach ($center_details as $center) {
+                            ?>
+                            <tr>
+                                <td><?php echo @$center->name; ?></td>
+                                <td class="text-center"><?php echo @$center->code; ?></td>
+                                <th>
+                                    <label for="<?php echo $i; ?>" >
+                                        <input disabled="disabled" type="checkbox" name="p1[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>" <?php
+                                        if (@$basic_details[0]->center_pref_1 == @$center->center_id) {
+                                            echo 'checked="checked"';
+                                        }
+                                        ?> onclick="countCheckBoxes(<?php
+                                               echo $i;
+                                               $i++;
+                                               ?>, 'p1[]', '1')">
+                                    </label>
+                                </th>
+                                <th>
+                                    <label for="<?php echo $i; ?>" >
+                                        <input disabled="disabled" type="checkbox" name="p2[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>"  <?php
+                                        if (@$basic_details[0]->center_pref_2 == @$center->center_id) {
+                                            echo 'checked="checked"';
+                                        }
+                                        ?> onclick="countCheckBoxes(<?php
+                                               echo $i;
+                                               $i++;
+                                               ?>, 'p2[]', '1')">
+                                    </label>
+                                </th>
+                                <th>
+                                    <label for="<?php echo $i; ?>" >
+                                        <input disabled="disabled" type="checkbox" name="p3[]" id="<?php echo $i; ?>" class="required" value="<?php echo @$center->center_id; ?>"  <?php
+                                        if (@$basic_details[0]->center_pref_3 == @$center->center_id) {
+                                            echo 'checked="checked"';
+                                        }
+                                        ?>  onclick="countCheckBoxes(<?php
+                                               echo $i;
+                                               $i++;
+                                               ?>, 'p3[]', '1')">
+                                    </label>
+                                </th>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                    </table>
                 </div>
             </div>
 
+            <div class="col-md-12">
+                <label class="col-md-12 text-center">
+                    Select Preference
+                    <span class="text-danger">*</span>
+                </label>
+                <span class="error_generate text-center"></span>
+                <?php $p1 = getCoursePreference(@$basic_details[0]->preference_1); ?>
+                <select class="form-control" name="preference_1" id="preference_1" disabled="disabled">
+                    <option value="<?php echo $p1->course_special_id; ?>"><?php echo $p1->name; ?></option>
+                </select>
+                <br />
+                <?php $p2 = getCoursePreference(@$basic_details[0]->preference_2); ?>
+                <select class="form-control" name="preference_2" id="preference_2" disabled="disabled">
+                    <option value="<?php echo $p2->course_special_id; ?>"><?php echo $p2->name; ?></option>
+                </select>
+                <br />
+                <?php $p3 = getCoursePreference(@$basic_details[0]->preference_3); ?>
+                <select class="form-control" name="preference_3" id="preference_3" disabled="disabled">
+                    <option value="<?php echo $p3->course_special_id; ?>"><?php echo $p3->name; ?></option>
+                </select>
+            </div>
             <hr />
 
             <div class = "form-group">
@@ -254,6 +426,154 @@
                         </label>
                         <span class="error_generate"></span>
                     </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class = "col-md-6">
+                    <label for = "question" class = "col-md-4 control-label">
+                        Rotational Internship
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class = "col-md-8">
+                        <label class="radio-inline" for="radios-4">
+                            <input type="radio" name="rotational_intership" id="radios-4" value="Y" class="required" <?php
+                            if (@$basic_details[0]->rotational_intership == 'Y') {
+                                echo 'checked="checked"';
+                            }
+                            ?>/>Yes
+                        </label> 
+                        <label class="radio-inline" for="radios-5">
+                            <input type="radio" name="rotational_intership" id="radios-5" value="N" class="required" <?php
+                            if (@$basic_details[0]->rotational_intership == 'N') {
+                                echo 'checked="checked"';
+                            }
+                            ?>/>No
+                        </label>
+                        <span class="error_generate"></span>
+                    </div>
+                </div>
+
+                <div class = "col-md-6">
+                    <label for="question" class="col-md-4 control-label">
+                        <span id="rotational_intership_text">
+                            <?php
+                            if (@$basic_details[0]->rotational_intership == 'Y') {
+                                echo 'Yes, Completion Date';
+                            } else {
+                                echo 'No, likely Completed on';
+                            }
+                            ?>
+                        </span>
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="intership_date" class="dob form-control required" value="<?php echo date('d-m-Y', strtotime(@$basic_details[0]->intership_date)); ?>"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class = "col-md-6">
+                    <label for = "question" class = "col-md-4 control-label">
+                        Registered MCI/DCI
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class = "col-md-8">
+                        <label class="radio-inline" for="radios-4">
+                            <input type="radio" name="register_mci_dci" id="radios-4" value="Y" <?php
+                            if (@$basic_details[0]->register_mci_dci == 'Y') {
+                                echo 'checked="checked"';
+                            }
+                            ?>class="required" />Yes
+                        </label> 
+                        <label class="radio-inline" for="radios-5">
+                            <input type="radio" name="register_mci_dci" id="radios-5" value="N" <?php
+                            if (@$basic_details[0]->register_mci_dci == 'N') {
+                                echo 'checked="checked"';
+                            }
+                            ?>class="required" />No
+                        </label>
+                        <span class="error_generate"></span>
+                    </div>
+                </div>
+
+                <div class = "col-md-6">
+                    &nbsp;
+                </div>
+            </div>
+
+            <div class="form-group" id="register">
+                <div class = "col-md-6">
+                    <label for = "question" class = "col-md-4 control-label">
+                        Registration No
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class = "col-md-8">
+                        <input type="text" name="reg_no"  class="form-control required" placeholder = "Registation No" value="<?php echo @$basic_details[0]->reg_no; ?>"/>
+                    </div>
+                </div>
+
+                <div class = "col-md-6">
+                    <label for="question" class="col-md-4 control-label">
+                        Registration Date
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="reg_date" class="dob form-control required" value="<?php echo date('d-m-Y', strtotime(@$basic_details[0]->reg_date)); ?>"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="register">
+                <div class = "col-md-6">
+                    <label for = "question" class = "col-md-4 control-label">
+                        Past College
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class = "col-md-8">
+                        <input type="text" name="past_college"  class="form-control required" placeholder = "Past College" value="<?php echo @$basic_details[0]->past_college; ?>"/>
+                    </div>
+                </div>
+
+                <div class = "col-md-6">
+                    <label for="question" class="col-md-4 control-label">
+                        Past University
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="past_university"  class="form-control required" placeholder = "Past University" value="<?php echo @$basic_details[0]->past_university; ?>"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class = "col-md-6">
+                    <label for = "question" class = "col-md-5 control-label">
+                        College Registered as MCI/DCI
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class = "col-md-4">
+                        <label class="radio-inline" for="radios-4">
+                            <input type="radio" name="college_mci_dci" id="radios-4" value="Y" <?php
+                            if (@$basic_details[0]->college_mci_dci == 'Y') {
+                                echo 'checked="checked"';
+                            }
+                            ?>class="required" />Yes
+                        </label> 
+                        <label class="radio-inline" for="radios-5">
+                            <input type="radio" name="college_mci_dci" id="radios-5" value="N" <?php
+                            if (@$basic_details[0]->college_mci_dci == 'N') {
+                                echo 'checked="checked"';
+                            }
+                            ?>class="required" />No
+                        </label>
+                        <span class="error_generate"></span>
+                    </div>
+                </div>
+
+                <div class = "col-md-6">
+                    &nbsp;
                 </div>
             </div>
 
@@ -457,28 +777,26 @@
         </script>
         <h3 class="text-center">Education Information</h3>
         <h5>Academic Record :</h5>
-        <form action="<?php echo ADMISSION_URL . 'forms/update_pg_other_education/' . $student_id ?>" method="post" class="form-horizontal" id="info_edu">
+        <form action="<?php echo ADMISSION_URL . 'forms/update_pg_education/' . $student_id ?>" method="post" class="form-horizontal" id="info_edu">
             <input type="hidden" name="form_number" value="<?php echo @$basic_info[0]->form_number; ?>" />
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <tr>
-                        <th>Course</th>
-                        <th>Year</th>
-                        <th>Institute</th>
-                        <th>University / Board</th>
-                        <th>Total Percentage</th>
-                        <th>Rank</th>
+                        <th>Examination</th>
+                        <th>Month pf Passing</th>
+                        <th>Year of Passing</th>
+                        <th>Percentage</th>
+                        <th>Attempt</th>
                     </tr>
 
-                    <?php for ($i = 0; $i <= 5; $i++) { ?>
+                   <?php for ($i = 0; $i <= 5; $i++) { ?>
                         <tr>
-                        <input type="hidden" name="pg_other_edu_id[]" value="<?php echo @$edu_master_info[$i]->pg_other_edu_id; ?>" />
-                        <td><input type="text" name="course[]" class="form-control required" value="<?php echo @$edu_master_info[$i]->course; ?>" /></td>
-                        <td><input type="text" name="year[]" value="<?php echo @$edu_master_info[$i]->year; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="uni_institute[]" value="<?php echo @$edu_master_info[$i]->uni_institute; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="board[]" value="<?php echo @$edu_master_info[$i]->board; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="total_percentage[]" value="<?php echo @$edu_master_info[$i]->total_percentage; ?>" class="form-control required"/></td>
-                        <td><input type="text" name="rank[]" value="<?php echo @$edu_master_info[$i]->rank; ?>" class="form-control required"/></td>
+                        <input type="hidden" name="pg_edu_id[]" value="<?php echo @$edu_master_info[$i]->pg_edu_id; ?>" />
+                        <td><input type="text" name="exam[]" class="form-control required" value="<?php echo @$edu_master_info[$i]->exam; ?>" /></td>
+                        <td><input type="number" min="1" max="12" name="month[]" value="<?php echo @$edu_master_info[$i]->month; ?>" class="form-control required"/></td>
+                        <td><input type="number" min="1970" max="<?php echo date('Y'); ?>" name="year[]" value="<?php echo @$edu_master_info[$i]->year; ?>" class="form-control required"/></td>
+                        <td><input type="text" min="1" max="100" name="percentage[]" value="<?php echo @$edu_master_info[$i]->percentage; ?>" class="form-control required"/></td>
+                        <td><input type="number" min="1" name="attempt[]" value="<?php echo @$edu_master_info[$i]->attempt; ?>" class="form-control required"/></td>
                         </tr>
                     <?php } ?>
                 </table>
@@ -677,7 +995,7 @@
                     <span class="text-danger">*</span>
                 </label>
                 <div class = "col-md-10">
-                    <input type="text" name="expire_date"  value="<?php echo date('d-m-Y', strtotime(@$foreign_info[0]->expire_date)); ?>" class="form-control required" placeholder = "dd-mm-yyyy" id="expire_date"/>
+                    <input type="text" name="expire_date"  value="<?php echo @$foreign_info[0]->issue; ?>" class="form-control required" placeholder = "dd-mm-yyyy" id="expire_date"/>
                 </div>
             </div>
 
@@ -749,10 +1067,10 @@
                         sign: {
                             extension: "jpg|jpeg|png"
                         },
-                        marksheet_1: {
+                        ssc_marksheet: {
                             extension: "jpg|jpeg|png"
                         },
-                        marksheet_2: {
+                        hsc_marksheet: {
                             extension: "jpg|jpeg|png"
                         },
                         migration_certificate: {
@@ -771,6 +1089,8 @@
                     messages: {
                         student_image: {extension: '* Select Ony JPG, JPEG, PNG files.'},
                         sign: {extension: '* Select Ony JPG, JPEG, PNG files.'},
+                        ssc_marksheet: {extension: '* Select Ony JPG, JPEG, PNG files.'},
+                        hsc_marksheet: {extension: '* Select Ony JPG, JPEG, PNG files.'},
                         leaving_certificate: {extension: '* Select Ony JPG, JPEG, PNG files.'},
                         cast_certificate: {extension: '* Select Ony JPG, JPEG, PNG files.'},
                         aids_certificate: {extension: '* Select Ony JPG, JPEG, PNG files.'}
@@ -791,8 +1111,8 @@
         </script>
         <h3 class="text-center">Upload Require Documents</h3>
         <form action="<?php echo ADMISSION_URL . 'forms/update_ug_images/' . $student_id ?>" method="post" class="form-horizontal" id="info_images" enctype="multipart/form-data">
-            <input type="hidden" name="form_number" value="<?php echo @$basic_info[0]->form_number; ?>" />
             <div class = "form-group">
+                <input type="hidden" name="form_number" value="<?php echo @$basic_info[0]->form_number; ?>" />
                 <label for = "question" class = "col-md-2 control-label">
                     Student Image
                     <span class="text-danger">*</span>
@@ -830,6 +1150,45 @@
                 <div class = "col-md-2">
                     <?php if (@$image_details[0]->sign != '') { ?>
                         <a data-target="#view_image" data-toggle="modal" href="<?php echo ADMISSION_URL . 'forms/view_image/' . $student_id . '/sign'; ?>" class="btn btn-default">View Image</a>
+                    <?php } else { ?>
+                        <a href="#" class="btn btn-default disabled">No Image</a>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <div class = "form-group">
+                <label for = "question" class = "col-md-2 control-label">
+                     Marksheet
+                    <span class="text-danger">&nbsp;</span>
+                </label>
+                <div class = "col-md-8">
+
+                    <?php if (@$image_details[0]->ssc_marksheet != '') { ?>
+                        <input type="file" name="ssc_marksheet" class="form-control"/>
+                    <?php } else { ?>
+                        <input type="file" name="ssc_marksheet" class="form-control"/>
+                    <?php } ?>
+                </div>
+                <div class = "col-md-2">
+                    <?php if (@$image_details[0]->ssc_marksheet != '') { ?>
+                        <a data-target="#view_image" data-toggle="modal" href="<?php echo ADMISSION_URL . 'forms/view_image/' . $student_id . '/ssc_marksheet'; ?>" class="btn btn-default">View Image</a>
+                    <?php } else { ?>
+                        <a href="#" class="btn btn-default disabled">No Image</a>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <div class = "form-group">
+                <label for = "question" class = "col-md-2 control-label">
+                    Marksheet
+                    <span class="text-danger">&nbsp;</span>
+                </label>
+                <div class = "col-md-8">
+                    <input type="file" name="hsc_marksheet" class="form-control"/>
+                </div>
+                <div class = "col-md-2">
+                    <?php if (@$image_details[0]->hsc_marksheet != '') { ?>
+                        <a data-target="#view_image" data-toggle="modal" href="<?php echo ADMISSION_URL . 'forms/view_image/' . $student_id . '/hsc_marksheet'; ?>" class="btn btn-default">View Image</a>
                     <?php } else { ?>
                         <a href="#" class="btn btn-default disabled">No Image</a>
                     <?php } ?>

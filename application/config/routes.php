@@ -72,7 +72,7 @@ $route['admission/forms/update_ug_education/(:num)'] = "admission/forms/updateUG
 //MDS-MD-MS-SUPER SPECIALITY
 $route['admission/forms/add_pg'] = "admission/forms/addPGNewForm";
 $route['admission/forms/save_pg'] = "admission/forms/savePGNewForm";
-$route['admission/forms/update_pg_basic/(:num)'] = "admission/forms/updatePGBasicForm/$1";
+$route['admission/forms/update_pg/(:num)'] = "admission/forms/updatePGBasicForm/$1";
 $route['admission/forms/update_pg_education/(:num)'] = "admission/forms/updatePGEduForm/$1";
 //--PG OTHER
 $route['admission/forms/add_pg_other'] = "admission/forms/addPGOtherNewForm";

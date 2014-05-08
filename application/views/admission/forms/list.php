@@ -154,13 +154,6 @@ if ($session->role == 3) {
     <div class="col-md-12">
         <div class="col-md-12 padding-killer">
             <div class="col-md-2 text-center">
-                <label class="">Degree</label>
-                <select class="form-control text-center" id="degree">
-                        <option value="UG">UG</option>
-                        <option value="PG">PG</option>
-                </select>
-            </div>
-            <div class="col-md-2 text-center">
                 <label class="">Admission Year</label>
                 <select class="form-control text-center" id="year">
                     <?php foreach ($admission_details as $year) { ?>

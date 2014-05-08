@@ -12,6 +12,24 @@
             }
         });
 
+        $('input:radio[name="rotational_intership"]').change(function() {
+            var rn = $(this).val();
+            if (rn == 'Y') {
+                $('#rotational_intership_text').html('Yes, Completion Date');
+            } else {
+                $('#rotational_intership_text').html('No, likely Completed on');
+            }
+        });
+
+        $('input:radio[name="register_mci_dci"]').change(function() {
+            var rn = $(this).val();
+            if (rn == 'Y') {
+                $('#register').show();
+            } else {
+                $('#register').hide();
+            }
+        });
+
         $('input:radio[name="cid"]').change(function() {
             var cid = $(this).val();
             $.ajax({
@@ -29,7 +47,7 @@
                     alert('error');
                 }
             });
-            
+
             $.ajax({
                 type: 'GET',
                 url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseCenter/' + $(this).attr("data-degree"),
@@ -82,7 +100,7 @@
         });
 
 <?php $date = date('m/d/Y', strtotime(get_current_date_time()->get_date_for_db())); ?>
-        $("#dob").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
+        $(".dob").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
     })
 
     function countCheckBoxes(id, name, value) {
@@ -226,7 +244,7 @@
                         <span class="text-danger">*</span>
                     </label>
                     <div class="col-md-8">
-                        <input type="text" name="dob" id="dob" class="form-control required" placeholder = "Date of Birth" />
+                        <input type="text" name="dob" class="dob form-control required" placeholder = "Date of Birth" />
                     </div>
                 </div>
             </div>
@@ -306,6 +324,122 @@
                         </label>
                         <span class="error_generate"></span>
                     </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class = "col-md-6">
+                    <label for = "question" class = "col-md-4 control-label">
+                        Rotational Internship
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class = "col-md-8">
+                        <label class="radio-inline" for="radios-4">
+                            <input type="radio" name="rotational_intership" id="radios-4" value="Y" class="required" />Yes
+                        </label> 
+                        <label class="radio-inline" for="radios-5">
+                            <input type="radio" name="rotational_intership" id="radios-5" value="N" class="required" />No
+                        </label>
+                        <span class="error_generate"></span>
+                    </div>
+                </div>
+
+                <div class = "col-md-6">
+                    <label for="question" class="col-md-4 control-label">
+                        <span id="rotational_intership_text">Yes, Completion Date</span>
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="intership_date" class="dob form-control required"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class = "col-md-6">
+                    <label for = "question" class = "col-md-4 control-label">
+                        Registered MCI/DCI
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class = "col-md-8">
+                        <label class="radio-inline" for="radios-4">
+                            <input type="radio" name="register_mci_dci" id="radios-4" value="Y" class="required" />Yes
+                        </label> 
+                        <label class="radio-inline" for="radios-5">
+                            <input type="radio" name="register_mci_dci" id="radios-5" value="N" class="required" />No
+                        </label>
+                        <span class="error_generate"></span>
+                    </div>
+                </div>
+
+                <div class = "col-md-6">
+                    &nbsp;
+                </div>
+            </div>
+
+            <div class="form-group" id="register">
+                <div class = "col-md-6">
+                    <label for = "question" class = "col-md-4 control-label">
+                        Registration No
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class = "col-md-8">
+                        <input type="text" name="reg_no"  class="form-control required" placeholder = "Registation No" />
+                    </div>
+                </div>
+
+                <div class = "col-md-6">
+                    <label for="question" class="col-md-4 control-label">
+                        Registration Date
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input type="text" name="reg_date" class="dob form-control required"/>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group" id="register">
+                <div class = "col-md-6">
+                    <label for = "question" class = "col-md-4 control-label">
+                        Past College
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class = "col-md-8">
+                        <input type="text" name="past_college"  class="form-control required" placeholder = "Past College" />
+                    </div>
+                </div>
+
+                <div class = "col-md-6">
+                    <label for="question" class="col-md-4 control-label">
+                        Past University
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-8">
+                       <input type="text" name="past_university"  class="form-control required" placeholder = "Past University" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class = "col-md-6">
+                    <label for = "question" class = "col-md-5 control-label">
+                        College Registered as MCI/DCI
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class = "col-md-4">
+                        <label class="radio-inline" for="radios-4">
+                            <input type="radio" name="college_mci_dci" id="radios-4" value="Y" class="required" />Yes
+                        </label> 
+                        <label class="radio-inline" for="radios-5">
+                            <input type="radio" name="college_mci_dci" id="radios-5" value="N" class="required" />No
+                        </label>
+                        <span class="error_generate"></span>
+                    </div>
+                </div>
+
+                <div class = "col-md-6">
+                    &nbsp;
                 </div>
             </div>
 

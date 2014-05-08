@@ -15,6 +15,14 @@ Class student_basic_pg_details_model extends CI_model {
     public $center_pref_1;
     public $center_pref_2;
     public $center_pref_3;
+    public $rotational_intership;
+    public $intership_date;
+    public $register_mci_dci;
+    public $reg_no;
+    public $reg_date;
+    public $past_college;
+    public $past_university;
+    public $college_mci_dci;
     public $create_id;
     public $create_date_time;
     public $modify_id;
@@ -42,6 +50,14 @@ Class student_basic_pg_details_model extends CI_model {
         $new->center_pref_1 = $old->center_pref_1;
         $new->center_pref_2 = $old->center_pref_2;
         $new->center_pref_3 = $old->center_pref_3;
+        $new->rotational_intership = $old->rotational_intership;
+        $new->intership_date = $old->intership_date;
+        $new->register_mci_dci = $old->register_mci_dci;
+        $new->reg_no = $old->reg_no;
+        $new->reg_date = $old->reg_date;
+        $new->past_college = $old->past_college;
+        $new->past_university = $old->past_university;
+        $new->college_mci_dci = $old->college_mci_dci;
         $new->create_id = $old->create_id;
         $new->create_date_time = $old->create_date_time;
         $new->modify_id = $old->modify_id;
@@ -80,6 +96,30 @@ Class student_basic_pg_details_model extends CI_model {
 
         if ($this->center_pref_3 != '')
             $arr['center_pref_3'] = $this->center_pref_3;
+
+        if ($this->rotational_intership != '')
+            $arr['rotational_intership'] = $this->rotational_intership;
+
+        if ($this->intership_date != '')
+            $arr['intership_date'] = $this->intership_date;
+
+        if ($this->register_mci_dci != '')
+            $arr['register_mci_dci'] = $this->register_mci_dci;
+
+        if ($this->reg_no != '')
+            $arr['reg_no'] = $this->reg_no;
+
+        if ($this->reg_date != '')
+            $arr['reg_date'] = $this->reg_date;
+
+        if ($this->past_college != '')
+            $arr['past_college'] = $this->past_college;
+
+        if ($this->past_university != '')
+            $arr['past_university'] = $this->past_university;
+
+        if ($this->college_mci_dci != '')
+            $arr['college_mci_dci'] = $this->college_mci_dci;
 
         if ($this->create_id != '')
             $arr['create_id'] = $this->create_id;
@@ -155,7 +195,12 @@ Class student_basic_pg_details_model extends CI_model {
     function updateData() {
         $array = $this->toArray();
         unset($array['student_detail_id']);
-        $this->db->where('student_detail_id', $this->student_detail_id);
+        unset($array['student_id']);
+        if ($this->student_id != '') {
+            $this->db->where('student_id', $this->student_id);
+        } else {
+            $this->db->where('student_detail_id', $this->student_detail_id);
+        }
         $this->db->update($this->table_name, $array);
         return TRUE;
     }
@@ -170,7 +215,7 @@ Class student_basic_pg_details_model extends CI_model {
             return FALSE;
         }
     }
-    
+
     function generateHallTicketNumber($center_peref_1, $year) {
         $res = $this->getWhere(array('center_pref_1' => $center_peref_1), 1, 'student_id', 'desc');
 
