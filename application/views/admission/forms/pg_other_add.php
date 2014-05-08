@@ -16,12 +16,10 @@
             var cid = $(this).val();
             $.ajax({
                 type: 'GET',
-                url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
+                url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid + '/0',
                 success: function(data)
                 {
                     $('#preference_1').empty();
-                    $('#preference_2').empty();
-                    $('#preference_3').empty();
                     $('#preference_1').append(data);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown)
@@ -29,14 +27,19 @@
                     alert('error');
                 }
             });
-            
+        });
+
+        $('input:radio[name="cid"]').change(function() {
+            var cid = $(this).val();
             $.ajax({
                 type: 'GET',
-                url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseCenter/' + $(this).attr("data-degree"),
+                url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
                 success: function(data)
                 {
-                    $('#center_table').empty();
-                    $('#center_table').append(data);
+                    $('#preference_1').empty();
+                    $('#preference_2').empty();
+                    $('#preference_3').empty();
+                    $('#preference_1').append(data);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown)
                 {
@@ -85,23 +88,9 @@
         $("#dob").datepicker({dateFormat: 'dd-mm-yy', maxDate:<?php echo $date; ?>, changeMonth: true, changeYear: true, yearRange: "1900:<?php echo date('Y'); ?>"});
     })
 
-    function countCheckBoxes(id, name, value) {
-        var checkbox = document.getElementsByName(name);
-        var checkboxCount = 0;
-        for (var i = 0, length = checkbox.length; i < length; i++) {
-            if (checkbox[i].checked) {
-                checkboxCount++;
-            }
-        }
-
-        if (checkboxCount > value) {
-            $("#" + id).attr('checked', false);
-            $('#info').modal('show');
-        }
-    }
 </script>
 
-<h2 class="text-center">New Admission</h2>
+<h2 class="text-center">New PG Admission</h2>
 
 <ul id="add_new_form" class="nav nav-tabs">
     <li class=""><a href="#basic_info" data-toggle="tab">Basic Information</a></li>
@@ -114,7 +103,7 @@
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane in active" id="basic_info">
         <h3 class="text-center">Basic Information</h3>
-        <form action="<?php echo ADMISSION_URL . 'forms/save_pg' ?>" method="post" id="manage" class="form-horizontal">
+        <form action="<?php echo ADMISSION_URL . 'forms/save_pg_other' ?>" method="post" id="manage" class="form-horizontal">
             <div class="form-group">
                 <div class="col-md-12 text-center">
                     Fields marked with  <span class="text-danger">*</span>  are mandatory.
@@ -132,7 +121,7 @@
                         <?php foreach ($course_details as $course) { ?>
                             <tr>
                                 <td>
-                                    <input type="radio" data-degree="<?php echo @$course->degree; ?>" name="cid" id="<?php echo @$course->course_id; ?>" value="<?php echo @$course->course_id; ?>" class="required"/> <?php echo @$course->name; ?>
+                                    <input type="radio" name="cid" id="<?php echo @$course->course_id; ?>" value="<?php echo @$course->course_id; ?>" class="required"/> <?php echo @$course->name; ?>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -141,33 +130,24 @@
 
                 <div class="col-md-6">
                     <label class="col-md-12 text-center">
-                        Select Exam Center
+                        Select Preference
                         <span class="text-danger">*</span>
                     </label>
                     <span class="error_generate text-center"></span>
-                    <div id="center_table">
-                    </div>
+                    <select class="form-control" required="required" name="preference_1" id="preference_1">
+                        <option value="">Select First Preference</option>
+                    </select>
+                    <br />
+                    <select class="form-control" required="required" name="preference_2" id="preference_2">
+                        <option value="">Select Second Preference</option>
+                    </select>
+                    <br />
+                    <select class="form-control" required="required" name="preference_3" id="preference_3">
+                        <option value="">Select Third Preference</option>
+                    </select>
                 </div>
             </div>
 
-            <div class="col-md-12">
-                <label class="col-md-12 text-center">
-                    Select Preference
-                    <span class="text-danger">*</span>
-                </label>
-                <span class="error_generate text-center"></span>
-                <select class="form-control" required="required" name="preference_1" id="preference_1">
-                    <option value="">Select First Preference</option>
-                </select>
-                <br />
-                <select class="form-control" required="required" name="preference_2" id="preference_2">
-                    <option value="">Select Second Preference</option>
-                </select>
-                <br />
-                <select class="form-control" required="required" name="preference_3" id="preference_3">
-                    <option value="">Select Third Preference</option>
-                </select>
-            </div>
             <hr />
 
             <div class = "form-group">

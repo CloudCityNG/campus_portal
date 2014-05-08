@@ -112,24 +112,19 @@ if ($session->role == 3) {
         <div class="col-md-12">
             <hr>
         </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <a href="<?php echo ADMISSION_URL . 'forms/add_ug'; ?>" class="col-md-12 btn btn-primary">
                     UG Form
                 </a>
             </div>
-            <div class="col-md-2">
-                <a href="<?php echo ADMISSION_URL . 'forms/add_ug'; ?>" class="col-md-12 btn btn-primary">
-                    PG MDS/MD/MS Form
+            <div class="col-md-4">
+                <a href="<?php echo ADMISSION_URL . 'forms/add_pg'; ?>" class="col-md-12 btn btn-primary">
+                    PG MDS/MD/MS/Super Speciality Form
                 </a>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <a href="<?php echo ADMISSION_URL . 'forms/add_pg_other'; ?>" class="col-md-12 btn btn-primary">
                     PG Other Form
-                </a>
-            </div>
-            <div class="col-md-2">
-                <a href="<?php echo ADMISSION_URL . 'forms/add_ug'; ?>" class="col-md-12 btn btn-primary">
-                    Super Speciality
                 </a>
             </div>
         <div class="clear"></div>

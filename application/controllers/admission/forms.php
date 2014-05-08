@@ -15,11 +15,10 @@ class forms extends CI_Controller {
             redirect(base_url() . 'login', 'refresh');
         }
 
-//$this->output->enable_profiler(TRUE);
-
         $this->load->model('courses_model');
         $this->load->model('exam_centers_model');
         $this->load->model('student_basic_info_model');
+        $this->load->model('student_basic_ug_details_model');
         $this->load->model('student_edu_master_model');
         $this->load->model('student_edu_details_model');
         $this->load->model('student_language_model');
@@ -28,7 +27,8 @@ class forms extends CI_Controller {
         $this->load->model('admission_details_model');
         $this->load->model('admission_candidate_status_model');
         $this->load->model('course_specialization_model');
-        $this->load->model('student_basic_info_pg_other_model');
+        $this->load->model('student_basic_pg_other_details_model');
+        $this->load->model('student_basic_pg_details_model');
         $this->load->model('student_edu_pg_other_model');
     }
 
@@ -157,28 +157,22 @@ class forms extends CI_Controller {
         }
     }
 
+    // -- UG -- 
     function addUGNewForm() {
-        $this->admin_layout->setField('page_title', 'UG New Admission');
+        $this->admin_layout->setField('page_title', 'New Admission');
         $data['course_details'] = $this->courses_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
         $data['center_details'] = $this->exam_centers_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
-        $this->admin_layout->view('admission/forms/add', $data);
+        $this->admin_layout->view('admission/forms/ug_add', $data);
     }
 
     function saveUGNewForm() {
         $obj = new student_basic_info_model();
 
-        $center_p1 = $this->input->post('p1');
-        $center_p2 = $this->input->post('p2');
-        $center_p3 = $this->input->post('p3');
-
         $admission_details = $this->admission_details_model->getWhere(array('degree' => 'UG', 'admission_year' => get_current_date_time()->year));
         $obj->admission_id = $admission_details[0]->admission_id;
         $obj->form_number = $obj->generateFormNumber($this->input->post('cid'), date('y', strtotime(get_current_date_time()->year)), get_current_date_time()->month, get_current_date_time()->day);
-        $obj->hall_ticket = $obj->generateHallTicketNumber($center_p1[0], get_current_date_time()->year);
-        $obj->course_id = $this->input->post('cid');
-        $obj->center_pref_1 = $center_p1[0];
-        $obj->center_pref_2 = $center_p2[0];
-        $obj->center_pref_3 = $center_p3[0];
+        $obj->hall_ticket = $obj->course_id = $this->input->post('cid');
+        $obj->degree = 'UG';
         $obj->firstname = $this->input->post('firstname');
         $obj->middlename = ($this->input->post('middlename') == '') ? NULL : $this->input->post('middlename');
         $obj->lastname = $this->input->post('lastname');
@@ -211,6 +205,22 @@ class forms extends CI_Controller {
         $student_id = $obj->insertData();
 
         if (!empty($student_id)) {
+            $center_p1 = $this->input->post('p1');
+            $center_p2 = $this->input->post('p2');
+            $center_p3 = $this->input->post('p3');
+
+            $obj_details = new student_basic_ug_details_model();
+            $obj_details->student_id = $student_id;
+            $obj_details->hallticket = $obj_details->generateHallTicketNumber($center_p1[0], get_current_date_time()->year);
+            $obj_details->center_pref_1 = $center_p1[0];
+            $obj_details->center_pref_2 = $center_p2[0];
+            $obj_details->center_pref_3 = $center_p3[0];
+            $obj_details->create_id = $session->admin_id;
+            $obj_details->create_date_time = get_current_date_time()->get_date_time_for_db();
+            $obj_details->modify_id = $session->admin_id;
+            $obj_details->modify_date_time = get_current_date_time()->get_date_time_for_db();
+            $obj_details->insertData();
+
             $this->session->set_flashdata('success', 'Data Inserted Successfully');
             redirect(ADMISSION_URL . 'forms/edit/' . $student_id . '/' . $obj->form_number . '/edu_info', 'refresh');
         } else {
@@ -219,17 +229,181 @@ class forms extends CI_Controller {
         }
     }
 
+    // -- PG Other --
+    function addPGOtherNewForm() {
+        $this->admin_layout->setField('page_title', 'New Admission');
+        $data['course_details'] = $this->courses_model->getPgCourse(array('PG', 'Certificate'), 'N');
+        $this->admin_layout->view('admission/forms/pg_other_add', $data);
+    }
+
+    function savePGOtherNewForm() {
+        $obj = new student_basic_info_model();
+
+        $admission_details = $this->admission_details_model->getWhere(array('degree' => 'PG', 'admission_year' => get_current_date_time()->year));
+        $obj->admission_id = $admission_details[0]->admission_id;
+        $obj->form_number = $obj->generateFormNumber($this->input->post('cid'), date('y', strtotime(get_current_date_time()->year)), get_current_date_time()->month, get_current_date_time()->day);
+        $obj->course_id = $this->input->post('cid');
+        $obj_course = new courses_model();
+        $course_detail = $obj_course->getWhere(array('course_id' => $this->input->post('cid')));
+        if ($course_detail[0]->degree == 'PG') {
+            $obj->degree = 'PG_OTHER';
+        } else {
+            $obj->degree = $course_detail[0]->degree;
+        }
+
+        $obj->firstname = $this->input->post('firstname');
+        $obj->middlename = ($this->input->post('middlename') == '') ? NULL : $this->input->post('middlename');
+        $obj->lastname = $this->input->post('lastname');
+        $obj->address = $this->input->post('address');
+        $obj->pincode = $this->input->post('pincode');
+        $obj->mobile_s = $this->input->post('mobile_s');
+        $obj->mobile_p = $this->input->post('mobile_p');
+        $obj->gender = $this->input->post('gender');
+        $obj->email_p = $this->input->post('email_p');
+        $obj->email_s = $this->input->post('email_s');
+        $obj->parent_1 = $this->input->post('parent_1');
+        $obj->parent_1_occupation = $this->input->post('parent_1_occupation');
+        $obj->parent_2 = $this->input->post('parent_2');
+        $obj->dob = date('Y-m-d', strtotime($this->input->post('dob')));
+        $obj->marital_status = $this->input->post('marital_status');
+        $obj->nationality = $this->input->post('nationality');
+        $obj->religion = $this->input->post('religion');
+        $obj->community = ($this->input->post('community') == '') ? NULL : $this->input->post('community');
+        $obj->category = ($this->input->post('category') == '') ? NULL : $this->input->post('category');
+        $obj->hostel = $this->input->post('hostel');
+        $obj->transoprt = $this->input->post('transoprt');
+        $obj->status = 1;
+
+        $session = $this->session->userdata('admin_session');
+        $obj->create_id = $session->admin_id;
+        $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
+        $obj->modify_id = $session->admin_id;
+        $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
+
+        $student_id = $obj->insertData();
+
+        if (!empty($student_id)) {
+            $obj_details = new student_basic_pg_other_details_model();
+            $obj_details->student_id = $student_id;
+            $obj_details->course_special_id = 0;
+            $obj_details->preference_1 = $this->input->post('preference_1');
+            $obj_details->preference_2 = $this->input->post('preference_2');
+            $obj_details->preference_3 = $this->input->post('preference_3');
+            $obj_details->create_id = $session->admin_id;
+            $obj_details->create_date_time = get_current_date_time()->get_date_time_for_db();
+            $obj_details->modify_id = $session->admin_id;
+            $obj_details->modify_date_time = get_current_date_time()->get_date_time_for_db();
+            $obj_details->insertData();
+
+            $this->session->set_flashdata('success', 'Data Inserted Successfully');
+            redirect(ADMISSION_URL . 'forms/edit/' . $student_id . '/' . $obj->form_number . '/edu_info', 'refresh');
+        } else {
+            $this->session->set_flashdata('error', 'Error in inserting the Data');
+            redirect(ADMISSION_URL . 'forms/pg_add', 'refresh');
+        }
+    }
+
+    // -- PG MD/MS/MDS/Super Speciality --
+    function addPGNewForm() {
+        $this->admin_layout->setField('page_title', 'New Admission');
+        $data['course_details'] = $this->courses_model->getPgCourse(array('PG', 'SS', 'Diploma'), 'Y');
+        $this->admin_layout->view('admission/forms/pg_add', $data);
+    }
+
+    function savePGNewForm() {
+        $obj = new student_basic_info_model();
+
+        $admission_details = $this->admission_details_model->getWhere(array('degree' => 'PG', 'admission_year' => get_current_date_time()->year));
+        $obj->admission_id = $admission_details[0]->admission_id;
+        $obj->form_number = $obj->generateFormNumber($this->input->post('cid'), date('y', strtotime(get_current_date_time()->year)), get_current_date_time()->month, get_current_date_time()->day);
+        $obj->course_id = $this->input->post('cid');
+
+        $obj_course = new courses_model();
+        $course_detail = $obj_course->getWhere(array('course_id' => $this->input->post('cid')));
+        $obj->degree = $course_detail[0]->degree;
+
+        $obj->firstname = $this->input->post('firstname');
+        $obj->middlename = ($this->input->post('middlename') == '') ? NULL : $this->input->post('middlename');
+        $obj->lastname = $this->input->post('lastname');
+        $obj->address = $this->input->post('address');
+        $obj->pincode = $this->input->post('pincode');
+        $obj->mobile_s = $this->input->post('mobile_s');
+        $obj->mobile_p = $this->input->post('mobile_p');
+        $obj->gender = $this->input->post('gender');
+        $obj->email_p = $this->input->post('email_p');
+        $obj->email_s = $this->input->post('email_s');
+        $obj->parent_1 = $this->input->post('parent_1');
+        $obj->parent_1_occupation = $this->input->post('parent_1_occupation');
+        $obj->parent_2 = $this->input->post('parent_2');
+        $obj->dob = date('Y-m-d', strtotime($this->input->post('dob')));
+        $obj->marital_status = $this->input->post('marital_status');
+        $obj->nationality = $this->input->post('nationality');
+        $obj->religion = $this->input->post('religion');
+        $obj->community = ($this->input->post('community') == '') ? NULL : $this->input->post('community');
+        $obj->category = ($this->input->post('category') == '') ? NULL : $this->input->post('category');
+        $obj->hostel = $this->input->post('hostel');
+        $obj->transoprt = $this->input->post('transoprt');
+        $obj->status = 1;
+
+        $session = $this->session->userdata('admin_session');
+        $obj->create_id = $session->admin_id;
+        $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
+        $obj->modify_id = $session->admin_id;
+        $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
+
+        $student_id = $obj->insertData();
+
+        if (!empty($student_id)) {
+            $center_p1 = $this->input->post('p1');
+            $center_p2 = $this->input->post('p2');
+            $center_p3 = $this->input->post('p3');
+
+            $obj_details = new student_basic_pg_details_model();
+            $obj_details->student_id = $student_id;
+            $obj_details->hallticket = $obj_details->generateHallTicketNumber($center_p1[0], get_current_date_time()->year);
+            $obj_details->course_special_id = 0;
+            $obj_details->center_pref_1 = $center_p1[0];
+            $obj_details->center_pref_2 = $center_p2[0];
+            $obj_details->center_pref_3 = $center_p3[0];
+            $obj_details->preference_1 = $this->input->post('preference_1');
+            $obj_details->preference_2 = $this->input->post('preference_2');
+            $obj_details->preference_3 = $this->input->post('preference_3');
+            $obj_details->create_id = $session->admin_id;
+            $obj_details->create_date_time = get_current_date_time()->get_date_time_for_db();
+            $obj_details->modify_id = $session->admin_id;
+            $obj_details->modify_date_time = get_current_date_time()->get_date_time_for_db();
+            $obj_details->insertData();
+
+            $this->session->set_flashdata('success', 'Data Inserted Successfully');
+            redirect(ADMISSION_URL . 'forms/edit/' . $student_id . '/' . $obj->form_number . '/edu_info', 'refresh');
+        } else {
+            $this->session->set_flashdata('error', 'Error in inserting the Data');
+            redirect(ADMISSION_URL . 'forms/pg_add', 'refresh');
+        }
+    }
+
+    function getPGCourseCenter($degree) {
+        $data['center_details'] = $this->exam_centers_model->getWhere(array('degree' => $degree, 'status' => 'A'));
+        echo $this->load->view('admission/forms/get_center_table', $data, true);
+    }
+
+    function getPGCourseSpecialization($course_id) {
+        $records = $this->course_specialization_model->getWhere(array('course_id' => $course_id));
+        echo '<option value="">Select Preference </option>';
+        foreach ($records as $value) {
+            echo '<option value="' . $value->course_special_id . '">' . $value->name . '</option>';
+        }
+    }
+
     function editForm($student_id, $form_number, $tab) {
         $this->admin_layout->setField('page_title', 'Admission');
 
-        $basic_info = $this->student_basic_info_model->getWhere(array('form_number' => $form_number));
-        $basic_other_info = $this->student_basic_info_pg_other_model->getWhere(array('form_number' => $form_number));
+        $data['basic_info'] = $this->student_basic_info_model->getWhere(array('form_number' => $form_number));
 
         $data['tab'] = $tab;
         $data['student_id'] = $student_id;
 
         if (!empty($basic_info)) {
-            $data['basic_info'] = $basic_info;
             $data['course_details'] = $this->courses_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
             $data['center_details'] = $this->exam_centers_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
             $data['edu_master_info'] = $this->student_edu_master_model->getWhere(array('student_id' => $student_id));
@@ -238,7 +412,7 @@ class forms extends CI_Controller {
             $data['foreign_info'] = $this->student_foregin_details_model->getWhere(array('student_id' => $basic_info[0]->student_id, 'degree' => 'UG'));
             $data['image_details'] = $this->studnet_images_model->getWhere(array('student_id' => $basic_info[0]->student_id, 'degree' => 'UG'));
 
-            $this->admin_layout->view('admission/forms/edit', $data);
+            $this->admin_layout->view('admission/forms/ug_edit', $data);
         } else if (!empty($basic_other_info)) {
             $data['basic_info'] = $basic_other_info;
 
@@ -247,7 +421,7 @@ class forms extends CI_Controller {
             $data['course_details'] = $this->courses_model->getWhere(array('entrance_exam' => 'N', 'degree' => 'PG', 'status' => 'A'));
             $data['foreign_info'] = $this->student_foregin_details_model->getWhere(array('student_id' => $basic_other_info[0]->student_id, 'degree' => 'PG_OTHER'));
             $data['edu_master_info'] = $this->student_edu_pg_other_model->getWhere(array('student_id' => $student_id));
-            $this->admin_layout->view('admission/forms/pg_edit', $data);
+            $this->admin_layout->view('admission/forms/pg_other_edit', $data);
         }
     }
 
@@ -391,73 +565,8 @@ class forms extends CI_Controller {
         redirect(ADMISSION_URL . 'forms/edit/' . $student_id . '/' . $this->input->post('form_number') . '/languages', 'refresh');
     }
 
-    function addPGOtherNewForm() {
-        $this->admin_layout->setField('page_title', 'PG Admission');
-        $data['course_details'] = $this->courses_model->getWhere(array('entrance_exam' => 'N', 'degree' => 'PG', 'status' => 'A'));
-        $this->admin_layout->view('admission/forms/pg_add', $data);
-    }
-
-    function getPGOtherCourseSpecialization($course_id) {
-        $records = $this->course_specialization_model->getWhere(array('course_id' => $course_id));
-        echo '<option value="">Select Preference </option>';
-        foreach ($records as $value) {
-            echo '<option value="' . $value->course_special_id . '">' . $value->name . '</option>';
-        }
-    }
-
-    function savePGOtherNewForm() {
-        $obj = new student_basic_info_pg_other_model();
-
-        $admission_details = $this->admission_details_model->getWhere(array('degree' => 'PG', 'admission_year' => get_current_date_time()->year));
-        $obj->admission_id = $admission_details[0]->admission_id;
-        $obj->form_number = $obj->generateFormNumber($this->input->post('cid'), date('y', strtotime(get_current_date_time()->year)), get_current_date_time()->month, get_current_date_time()->day);
-        $obj->course_id = $this->input->post('cid');
-        $obj->course_special_id = 0;
-        $obj->preference_1 = $this->input->post('preference_1');
-        $obj->preference_2 = $this->input->post('preference_2');
-        $obj->preference_3 = $this->input->post('preference_3');
-        $obj->firstname = $this->input->post('firstname');
-        $obj->middlename = ($this->input->post('middlename') == '') ? NULL : $this->input->post('middlename');
-        $obj->lastname = $this->input->post('lastname');
-        $obj->address = $this->input->post('address');
-        $obj->pincode = $this->input->post('pincode');
-        $obj->mobile_s = $this->input->post('mobile_s');
-        $obj->mobile_p = $this->input->post('mobile_p');
-        $obj->gender = $this->input->post('gender');
-        $obj->email_p = $this->input->post('email_p');
-        $obj->email_s = $this->input->post('email_s');
-        $obj->parent_1 = $this->input->post('parent_1');
-        $obj->parent_1_occupation = $this->input->post('parent_1_occupation');
-        $obj->parent_2 = $this->input->post('parent_2');
-        $obj->dob = date('Y-m-d', strtotime($this->input->post('dob')));
-        $obj->marital_status = $this->input->post('marital_status');
-        $obj->nationality = $this->input->post('nationality');
-        $obj->religion = $this->input->post('religion');
-        $obj->community = ($this->input->post('community') == '') ? NULL : $this->input->post('community');
-        $obj->category = ($this->input->post('category') == '') ? NULL : $this->input->post('category');
-        $obj->hostel = $this->input->post('hostel');
-        $obj->transoprt = $this->input->post('transoprt');
-        $obj->status = 1;
-
-        $session = $this->session->userdata('admin_session');
-        $obj->create_id = $session->admin_id;
-        $obj->create_date_time = get_current_date_time()->get_date_time_for_db();
-        $obj->modify_id = $session->admin_id;
-        $obj->modify_date_time = get_current_date_time()->get_date_time_for_db();
-
-        $student_id = $obj->insertData();
-
-        if (!empty($student_id)) {
-            $this->session->set_flashdata('success', 'Data Inserted Successfully');
-            redirect(ADMISSION_URL . 'forms/edit/' . $student_id . '/' . $obj->form_number . '/edu_info', 'refresh');
-        } else {
-            $this->session->set_flashdata('error', 'Error in inserting the Data');
-            redirect(ADMISSION_URL . 'forms/pg_add', 'refresh');
-        }
-    }
-
     function updatePGOtherBasicForm($student_id) {
-        $obj = new student_basic_info_pg_other_model();
+        $obj = new student_basic_pg_other_details_model();
 
         $obj->student_id = $student_id;
         $obj->firstname = $this->input->post('firstname');
@@ -553,7 +662,7 @@ class forms extends CI_Controller {
                 $obj->student_id = $student_id;
 
                 $basic_info = $this->student_basic_info_model->getWhere(array('form_number' => $this->input->post('form_number')));
-                $basic_other_info = $this->student_basic_info_pg_other_model->getWhere(array('form_number' => $this->input->post('form_number')));
+                $basic_other_info = $this->student_basic_pg_other_details_model->getWhere(array('form_number' => $this->input->post('form_number')));
 
                 if (!empty($basic_info)) {
                     $obj->degree = 'UG';
@@ -606,7 +715,7 @@ class forms extends CI_Controller {
 
         $obj->student_id = $student_id;
         $basic_info = $this->student_basic_info_model->getWhere(array('form_number' => $this->input->post('form_number')));
-        $basic_other_info = $this->student_basic_info_pg_other_model->getWhere(array('form_number' => $this->input->post('form_number')));
+        $basic_other_info = $this->student_basic_pg_other_details_model->getWhere(array('form_number' => $this->input->post('form_number')));
 
         if (!empty($basic_info)) {
             $obj->degree = 'UG';
@@ -646,7 +755,7 @@ class forms extends CI_Controller {
         $obj->student_id = $student_id;
 
         $basic_info = $this->student_basic_info_model->getWhere(array('form_number' => $this->input->post('form_number')));
-        $basic_other_info = $this->student_basic_info_pg_other_model->getWhere(array('form_number' => $this->input->post('form_number')));
+        $basic_other_info = $this->student_basic_pg_other_details_model->getWhere(array('form_number' => $this->input->post('form_number')));
 
 
 

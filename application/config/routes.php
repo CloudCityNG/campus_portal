@@ -69,15 +69,18 @@ $route['admission/forms/edit_ug_status/(:num)'] = "admission/forms/editUGStudent
 $route['admission/forms/update_ug_status/(:num)'] = "admission/forms/updateUGStudentStatus/$1";
 $route['admission/forms/update_ug_basic/(:num)'] = "admission/forms/updateUGBasicForm/$1";
 $route['admission/forms/update_ug_education/(:num)'] = "admission/forms/updateUGEduForm/$1";
+//MDS-MD-MS-SUPER SPECIALITY
+$route['admission/forms/add_pg'] = "admission/forms/addPGNewForm";
+$route['admission/forms/save_pg'] = "admission/forms/savePGNewForm";
+$route['admission/forms/update_pg_basic/(:num)'] = "admission/forms/updatePGBasicForm/$1";
+$route['admission/forms/update_pg_education/(:num)'] = "admission/forms/updatePGEduForm/$1";
 //--PG OTHER
 $route['admission/forms/add_pg_other'] = "admission/forms/addPGOtherNewForm";
-$route['admission/forms/getPGOtherCourseSpecialization/(:num)'] = "admission/forms/getPGOtherCourseSpecialization/$1";
 $route['admission/forms/save_pg_other'] = "admission/forms/savePGOtherNewForm";
 $route['admission/forms/update_pg_other_basic/(:num)'] = "admission/forms/updatePGOtherBasicForm/$1";
 $route['admission/forms/update_pg_other_education/(:num)'] = "admission/forms/updatePGOtherEduForm/$1";
-
-//--
-
+//--Common
+$route['admission/forms/getPGCourseSpecialization/(:num)'] = "admission/forms/getPGCourseSpecialization/$1";
 $route['admission/forms/update_ug_language/(:num)'] = "admission/forms/updateUGLanguagesForm/$1";
 $route['admission/forms/update_ug_foreign/(:num)'] = "admission/forms/updateUGForeignForm/$1";
 $route['admission/forms/update_ug_images/(:num)'] = "admission/forms/updateUGImagesForm/$1";

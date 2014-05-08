@@ -7,12 +7,9 @@ Class student_basic_info_model extends CI_model {
 
     public $student_id;
     public $admission_id;
+    public $degree;
     public $form_number;
-    public $hall_ticket;
     public $course_id;
-    public $center_pref_1;
-    public $center_pref_2;
-    public $center_pref_3;
     public $firstname;
     public $middlename;
     public $lastname;
@@ -55,11 +52,8 @@ Class student_basic_info_model extends CI_model {
         $new->student_id = $old->student_id;
         $new->admission_id = $old->admission_id;
         $new->form_number = $old->form_number;
-        $new->hall_ticket = $old->hall_ticket;
+        $new->degree = $old->degree;
         $new->course_id = $old->course_id;
-        $new->center_pref_1 = $old->center_pref_1;
-        $new->center_pref_2 = $old->center_pref_2;
-        $new->center_pref_3 = $old->center_pref_3;
         $new->firstname = $old->firstname;
         $new->middlename = $old->middlename;
         $new->lastname = $old->lastname;
@@ -100,20 +94,11 @@ Class student_basic_info_model extends CI_model {
         if ($this->form_number != '')
             $arr['form_number'] = $this->form_number;
 
-        if ($this->hall_ticket != '')
-            $arr['hall_ticket'] = $this->hall_ticket;
+        if ($this->degree != '')
+            $arr['degree'] = $this->degree;
 
         if ($this->course_id != '')
             $arr['course_id'] = $this->course_id;
-
-        if ($this->center_pref_1 != '')
-            $arr['center_pref_1'] = $this->center_pref_1;
-
-        if ($this->center_pref_2 != '')
-            $arr['center_pref_2'] = $this->center_pref_2;
-
-        if ($this->center_pref_3 != '')
-            $arr['center_pref_3'] = $this->center_pref_3;
 
         if ($this->firstname != '')
             $arr['firstname'] = $this->firstname;
@@ -285,20 +270,6 @@ Class student_basic_info_model extends CI_model {
         $new_number = str_pad(($last_id + 1), 5, '0', STR_PAD_LEFT);
         $id = $year . $month . $short_code . $day . 'SV' . $new_number;
         return $id;
-    }
-
-    function generateHallTicketNumber($center_peref_1, $year) {
-        $res = $this->getWhere(array('center_pref_1' => $center_peref_1), 1, 'student_id', 'desc');
-
-        if (!empty($res)) {
-            $last_id = substr($res[0]->hall_ticket, 4);
-        } else {
-            $this->load->model('exam_centers_model');
-            $exam = $this->exam_centers_model->getWhere(array('center_id' => $center_peref_1));
-            $last_id = $exam[0]->code;
-        }
-
-        return $year . ($last_id + 1);
     }
 
     function getStudentDetails($no, $status) {
