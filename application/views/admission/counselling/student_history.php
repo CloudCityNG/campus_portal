@@ -1,3 +1,60 @@
+<script>
+    $(function() {
+    $('input:radio[name="course_id"]').change(function() {
+    var cid = $(this).val();
+            $.ajax({
+            type: 'GET',
+                    url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
+                    success: function(data)
+                    {
+                    $('#preference_1').empty();
+                            $('#preference_2').empty();
+                            $('#preference_3').empty();
+                            $('#preference_1').append(data);
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown)
+                    {
+                    alert('error');
+                    }
+            });
+    });
+            $('#preference_1').change(function() {
+    var cid = $('input:radio[name="course_id"]:checked').val();
+            $.ajax({
+            type: 'GET',
+                    url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
+                    success: function(data)
+                    {
+                    $('#preference_2').empty();
+                            $('#preference_3').empty();
+                            $('#preference_2').append(data);
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown)
+                    {
+                    alert('error');
+                    }
+            });
+    });
+            $('#preference_2').change(function() {
+    var cid = $('input:radio[name="course_id"]:checked').val();
+            var p = $('#preference_2').val();
+            $.ajax({
+            type: 'GET',
+                    url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
+                    success: function(data)
+                    {
+                    $('#preference_3').empty();
+                            $('#preference_3').append(data);
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown)
+                    {
+                    alert('error');
+                    }
+            });
+    });
+    }
+</script>
+
 <div class="row">
 
     <div class="col-md-12">
@@ -18,12 +75,37 @@
                     <span class="text-danger">*</span>
                 </label>
                 <span class="error_generate text-center"></span>
-                <div class="col-md-6">  
+                <div class="col-md-10">  
                     <?php foreach ($course_details as $course) { ?>
                         <label class="radio-inline" for="radios-6">
                             <input type="radio" name="course_id" id="radios-6" value="<?php echo @$course->course_id; ?>" class="required" <?php echo(@$basic_info[0]->course_id == $course->course_id) ? 'checked="checked"' : ''; ?>><?php echo @$course->name; ?>
                         </label>
                     <?php } ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="question" class="col-md-2 control-label">
+                    Preference selected
+
+                </label>
+                <div class="col-md-10"> 
+                    <select class="form-control" name="preference_1" id="preference_1">
+                        <?php foreach ($course_specialization as $spl) { ?>
+                            <option value="<?php echo $spl->course_special_id; ?>" <?php echo (@$basic_details[0]->preference_1 == $spl->course_special_id) ? 'selected="selected"' : ''; ?>><?php echo $spl->name; ?></option>
+                        <?php } ?>
+                    </select>
+                    <br />
+                    <select class="form-control" name="preference_2" id="preference_2">
+                        <?php foreach ($course_specialization as $spl) { ?>
+                            <option value="<?php echo $spl->course_special_id; ?>" <?php echo (@$basic_details[0]->preference_2 == $spl->course_special_id) ? 'selected="selected"' : ''; ?>><?php echo $spl->name; ?></option>
+                        <?php } ?>
+                    </select>
+                    <br />
+                    <select class="form-control" name="preference_3" id="preference_3">
+                        <?php foreach ($course_specialization as $spl) { ?>
+                            <option value="<?php echo $spl->course_special_id; ?>" <?php echo (@$basic_details[0]->preference_3 == $spl->course_special_id) ? 'selected="selected"' : ''; ?>><?php echo $spl->name; ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -126,33 +208,6 @@
                             </td>
                             <td>
                                 <?php echo @$merit_info[0]->marks; ?>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                PCB
-                            </td>
-                            <td>
-                                <?php echo @$edu_master_info[0]->pcb_percentage; ?>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                PCBE
-                            </td>
-                            <td>
-                                <?php echo @$edu_master_info[0]->pcbe_percentage; ?>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                H.S.C Pertentage
-                            </td>
-                            <td>
-                                <?php echo @$edu_master_info[0]->total_percentage; ?>
                             </td>
                         </tr>
                     </table>

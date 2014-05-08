@@ -19,10 +19,14 @@ class counselling extends CI_Controller {
         $this->load->model('entrance_exam_marks_model', 'eemm');
         $this->load->model('courses_model');
         $this->load->model('student_basic_info_model');
-        $this->load->model('student_edu_master_model');
         $this->load->model('studnet_images_model');
         $this->load->model('admission_details_model');
         $this->load->model('admission_candidate_status_model', 'acsm');
+        $this->load->model('student_basic_ug_details_model');
+        $this->load->model('student_basic_pg_details_model');
+        $this->load->model('student_basic_pg_other_details_model');
+        $this->load->model('course_specialization_model');
+        
     }
 
     public function index() {
@@ -49,10 +53,25 @@ class counselling extends CI_Controller {
 
         if ($data['basic_info'][0]->status == 3) {
             $data['student_id'] = $student_id;
-            $data['course_details'] = $this->courses_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
+
+            if ($data['basic_info'][0]->degree == 'UG') {
+                $data['course_details'] = $this->courses_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
+                $data['basic_details'] = $this->student_basic_ug_details_model->getWhere(array('student_id' => $student_id));
+            }
+
+            if ($data['basic_info'][0]->degree == 'PG_OTHER' || $data['basic_info'][0]->degree == 'Certificate') {
+                $data['course_details'] = $this->courses_model->getPgCourse(array('PG', 'Certificate'), 'N');
+                $data['basic_details'] = $this->student_basic_pg_other_details_model->getWhere(array('student_id' => $student_id));
+            }
+
+            if ($data['basic_info'][0]->degree == 'PG' || $data['basic_info'][0]->degree == 'SS' || $data['basic_info'][0]->degree == 'Diploma') {
+                $data['course_details'] = $this->courses_model->getPgCourse(array('PG', 'SS', 'Diploma'), 'Y');
+                $data['basic_details'] = $this->student_basic_pg_details_model->getWhere(array('student_id' => $student_id));
+            }
+
+            $data['course_specialization'] = $this->course_specialization_model->getWhere(array('course_id' => $data['basic_info'][0]->course_id));
             $data['candidate_status_info'] = $this->acsm->getWhere(array('status' => 'A'));
             $data['merit_info'] = $this->eemm->getWhere(array('student_id' => $student_id));
-            $data['edu_master_info'] = $this->student_edu_master_model->getWhere(array('student_id' => $student_id));
             $data['image_details'] = $this->studnet_images_model->getWhere(array('student_id' => $student_id));
 
             $this->admin_layout->view('admission/counselling/student_history', $data);
