@@ -20,7 +20,7 @@
                     <span class="text-danger">&nbsp;</span>
                 </label>
                 <div class = "col-md-8">
-                    <input value="<?php echo @$basic_info[0]->hall_ticket; ?>" class="form-control" disabled="disabled"/>
+                    <input value="<?php echo getHallTicket(@$basic_info[0]->student_id, @$basic_info[0]->degree); ?>" class="form-control" disabled="disabled"/>
                 </div>
             </div>
 
