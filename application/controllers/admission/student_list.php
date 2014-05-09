@@ -23,30 +23,63 @@ class student_list extends CI_Controller {
 
     public function index() {
         $this->admin_layout->setField('page_title', 'Student List');
-        $data['admission_details'] = $this->admission_details_model->getDistinctYear('PG');
-        $data['course_details'] = $this->courses_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
+        $data['admission_details'] = $this->admission_details_model->getDistinctYear('UG');
+        $data['course_details'] = $this->courses_model->getWhere(array('status' => 'A'));
         $data['candidate_status_info'] = $this->acsm->getWhere(array('status' => 'A'));
         $this->admin_layout->view('admission/student_list/list', $data);
     }
 
-    function getList($year, $course, $status) {
+    function getPGCourseSpecialization($course_id) {
+        $this->load->model('course_specialization_model');
+        $records = $this->course_specialization_model->getWhere(array('course_id' => $course_id));
+        if (!empty($records)) {
+            echo '<option value="0">None</option>';
+            foreach ($records as $value) {
+                echo '<option value="' . $value->course_special_id . '">' . $value->name . '</option>';
+            }
+        } else {
+            echo '<option value="0">None</option>';
+        }
+    }
+
+    function getList($year, $course, $course_specialization, $status, $degree) {
         $this->load->library('datatable');
         $condition = '';
         if ($status != 0) {
-            $condition = ' AND s.status= ' . $status;
+            $condition .= ' AND s.status= ' . $status;
         }
+
+        if ($degree == 'PG_OTHER' || $degree == 'Certificate') {
+            if ($course_specialization != 0) {
+                $condition .= ' AND cs.course_special_id= ' . $course_specialization;
+            }
+            $table = " student_basic_info s, admission_details ad, admission_candidate_status, student_basic_pg_other_details spod, course_specialization cs";
+
+            $where = 'WHERE s.status =admission_candidate_status.admission_status_id AND s.admission_id=ad.admission_id AND s.student_id=spod.student_id AND spod.course_special_id = cs.course_special_id AND ad.admission_year=' . $year . ' AND s.course_id=' . $course . ' ' . $condition;
+        } else if ($degree == 'PG' || $degree == 'SS' || $degree == 'Diploma') {
+            if ($course_specialization != 0) {
+                $condition .= ' AND cs.course_special_id= ' . $course_specialization;
+            }
+            $table = " student_basic_info s, admission_details ad, admission_candidate_status, student_basic_pg_details spd, course_specialization cs";
+
+            $where = 'WHERE s.status =admission_candidate_status.admission_status_id AND s.admission_id=ad.admission_id AND s.student_id=spd.student_id AND spd.course_special_id = cs.course_special_id AND ad.admission_year=' . $year . ' AND s.course_id=' . $course . ' ' . $condition;
+        } else {
+            $table = " student_basic_info s, admission_details ad, admission_candidate_status";
+            $where = 'WHERE s.status =admission_candidate_status.admission_status_id AND s.admission_id=ad.admission_id AND ad.admission_year=' . $year . ' AND s.course_id=' . $course . ' ' . $condition;
+        }
+
         $this->datatable->aColumns = array('form_number', 'firstname', 'lastname', 'mobile_s', 'email_s', 'mobile_p', 'email_p', 'admission_candidate_status.name AS status');
         $this->datatable->eColumns = array('s.student_id');
         $this->datatable->sIndexColumn = "s.student_id";
-        $this->datatable->sTable = " student_basic_info s, admission_details ad, admission_candidate_status";
-        $this->datatable->myWhere = 'WHERE s.status =admission_candidate_status.admission_status_id AND s.admission_id=ad.admission_id AND ad.admission_year=' . $year . ' AND s.course_id=' . $course . ' ' . $condition . ' ORDER BY student_id ASC';
-
+        $this->datatable->sTable = $table;
+        $this->datatable->myWhere = $where;
+        $this->datatable->sOrder = ' ORDER BY student_id ASC';
         $this->datatable->datatable_process();
         return $this->datatable->rResult->result_array();
     }
 
-    function getJsonList($year, $course, $status) {
-        $data = $this->getList($year, $course, $status);
+    function getJsonList($year, $course, $course_specialization, $status, $degree) {
+        $data = $this->getList($year, $course, $course_specialization, $status, $degree);
         $i = 1;
         foreach ($data as $aRow) {
             $temp_arr = array();
@@ -65,9 +98,9 @@ class student_list extends CI_Controller {
         exit();
     }
 
-    function print_student_list($year, $course, $status) {
+    function print_student_list($year, $course, $course_specialization, $status, $degree) {
         if (is_numeric($year) && is_numeric($course) && is_numeric($status)) {
-            $data['table_data'] = $this->student_basic_info_model->getStudentList($year, $course, $status);
+            $data['table_data'] = $this->student_basic_info_model->getStudentList($year, $course, $course_specialization, $status, $degree);
             $data['year'] = $year;
             $data['course_details'] = $this->courses_model->getWhere(array('course_id' => $course, 'degree' => 'UG', 'status' => 'A'));
             $this->load->view('admission/student_list/print_list', $data);

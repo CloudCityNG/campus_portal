@@ -51,8 +51,8 @@ class eet extends CI_Controller {
         $this->datatable->eColumns = array('student_basic_info.student_id', 'student_basic_info.degree');
         $this->datatable->sIndexColumn = "student_basic_info.student_id";
         $this->datatable->sTable = " courses, admission_candidate_status, admission_details, student_basic_info";
-        $this->datatable->myWhere = 'LEFT JOIN entrance_exam_marks  ON student_basic_info.student_id = entrance_exam_marks.student_id Where student_basic_info.course_id = courses.course_id AND student_basic_info.status = admission_candidate_status.admission_status_id AND student_basic_info.admission_id=admission_details.admission_id AND courses.entrance_exam=\'Y\' AND admission_details.admission_year=' . $year . $condition . ' ORDER BY student_basic_info.student_id DESC';
-
+        $this->datatable->myWhere = 'LEFT JOIN entrance_exam_marks  ON student_basic_info.student_id = entrance_exam_marks.student_id Where student_basic_info.course_id = courses.course_id AND student_basic_info.status = admission_candidate_status.admission_status_id AND student_basic_info.admission_id=admission_details.admission_id AND courses.entrance_exam=\'Y\' AND admission_details.admission_year=' . $year . $condition;
+        $this->datatable->sOrder = ' ORDER BY student_basic_info.student_id DESC';
         $this->datatable->datatable_process();
 
         foreach ($this->datatable->rResult->result_array() as $aRow) {

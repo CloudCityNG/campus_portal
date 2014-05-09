@@ -6,7 +6,7 @@
         $('#print_merit').attr('href', ('<?php echo ADMISSION_URL . 'merit_list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val()));
 
         $('#year').change(function() {
-            loadTable($('#course_id').attr("data-degree"));
+            loadTable();
             $('#dispaly_merit_year').html($('#year').val());
             $('#print_merit').attr('href', ('<?php echo ADMISSION_URL . 'merit_list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val()));
         });
@@ -26,6 +26,8 @@
             "sPaginationType": "full_numbers",
             "bProcessing": true,
             "bServerSide": true,
+            "bFilter" :false,
+            "bInfo" : false,
             "iDisplayLength": 100,
             "bSort": false,
             "aoColumns": [{"sClass": ""}, {"sClass": ""}, {"sClass": "text-center"}, {"sClass": "text-center"}, {"sClass": "text-center"}],

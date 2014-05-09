@@ -80,7 +80,8 @@ class forms extends CI_Controller {
         $this->datatable->eColumns = array('student_id', $table . '.degree');
         $this->datatable->sIndexColumn = "student_id";
         $this->datatable->sTable = $table . " , courses, admission_candidate_status, admission_details";
-        $this->datatable->myWhere = 'WHERE ' . $table . '.course_id = courses.course_id AND ' . $table . '.status = admission_candidate_status.admission_status_id AND ' . $table . '.admission_id=admission_details.admission_id AND admission_details.admission_year=' . $year . $condition . ' ORDER BY student_id ASC';
+        $this->datatable->myWhere = 'WHERE ' . $table . '.course_id = courses.course_id AND ' . $table . '.status = admission_candidate_status.admission_status_id AND ' . $table . '.admission_id=admission_details.admission_id AND admission_details.admission_year=' . $year . $condition;
+        $this->datatable->sOrder = ' ORDER BY student_id ASC';
         $this->datatable->datatable_process();
 
         foreach ($this->datatable->rResult->result_array() as $aRow) {
@@ -294,7 +295,7 @@ class forms extends CI_Controller {
         if (!empty($student_id)) {
             $obj_details = new student_basic_pg_other_details_model();
             $obj_details->student_id = $student_id;
-            $obj_details->course_special_id = 0;
+            $obj_details->course_special_id = $this->input->post('preference_1');
             $obj_details->preference_1 = $this->input->post('preference_1');
             $obj_details->preference_2 = $this->input->post('preference_2');
             $obj_details->preference_3 = $this->input->post('preference_3');
@@ -370,7 +371,7 @@ class forms extends CI_Controller {
             $obj_details = new student_basic_pg_details_model();
             $obj_details->student_id = $student_id;
             $obj_details->hallticket = $obj_details->generateHallTicketNumber($center_p1[0], get_current_date_time()->year);
-            $obj_details->course_special_id = 0;
+            $obj_details->course_special_id = $this->input->post('preference_1');
             $obj_details->center_pref_1 = $center_p1[0];
             $obj_details->center_pref_2 = $center_p2[0];
             $obj_details->center_pref_3 = $center_p3[0];

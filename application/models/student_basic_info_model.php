@@ -281,17 +281,35 @@ Class student_basic_info_model extends CI_model {
         return $res->result();
     }
 
-    function getStudentList($year, $course, $status) {
-        $this->db->select('form_number,CONCAT(firstname, \' \', lastname) AS student_name, mobile_s, email_s, mobile_p, email_p, admission_candidate_status.name AS status', FALSE);
-        $this->db->from($this->table_name);
-        $this->db->join('admission_details', $this->table_name . '.admission_id=admission_details.admission_id', 'INNER');
-        $this->db->join('admission_candidate_status', $this->table_name . '.status=admission_candidate_status.admission_status_id', 'INNER');
-        $this->db->where('admission_year', $year);
-        $this->db->where('course_id', $course);
+    function getStudentList($year, $course, $course_specialization, $status, $degree) {
 
+        $condition = '';
         if ($status != 0) {
-            $this->db->where($this->table_name . '.status', $status);
+            $condition .= ' AND s.status= ' . $status;
         }
+
+        if ($degree == 'PG_OTHER' || $degree == 'Certificate') {
+            if ($course_specialization != 0) {
+                $condition .= ' AND cs.course_special_id= ' . $course_specialization;
+            }
+            $table = " student_basic_info s, admission_details ad, admission_candidate_status acs, student_basic_pg_other_details spod, course_specialization cs";
+
+            $where = ' s.status=acs.admission_status_id AND s.admission_id=ad.admission_id AND s.student_id=spod.student_id AND spod.course_special_id = cs.course_special_id AND ad.admission_year=' . $year . ' AND s.course_id=' . $course . ' ' . $condition;
+        } else if ($degree == 'PG' || $degree == 'SS' || $degree == 'Diploma') {
+            if ($course_specialization != 0) {
+                $condition .= ' AND cs.course_special_id= ' . $course_specialization;
+            }
+            $table = " student_basic_info s, admission_details ad, admission_candidate_status acs, student_basic_pg_details spd, course_specialization cs";
+
+            $where = ' s.status=acs.admission_status_id AND s.admission_id=ad.admission_id AND s.student_id=spd.student_id AND spd.course_special_id = cs.course_special_id AND ad.admission_year=' . $year . ' AND s.course_id=' . $course . ' ' . $condition;
+        } else {
+            $table = " student_basic_info s, admission_details ad, admission_candidate_status acs";
+            $where = ' s.status=acs.admission_status_id AND s.admission_id=ad.admission_id AND ad.admission_year=' . $year . ' AND s.course_id=' . $course . ' ' . $condition;
+        }
+        $this->db->_protect_identifiers=false;
+        $this->db->select('form_number,CONCAT(firstname, \' \', lastname) AS student_name, mobile_s, email_s, mobile_p, email_p, acs.name AS status', FALSE);
+        $this->db->from($table);
+        $this->db->where($where, NULL, FALSE);
         $res = $this->db->get();
         return $res->result();
     }

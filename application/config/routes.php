@@ -111,8 +111,8 @@ $route['admission/confirm/updateData/(:num)'] = "admission/admission_confirm/upd
 
 //Student List
 $route['admission/list'] = "admission/student_list/index";
-$route['admission/list/json/(:num)/(:num)/(:num)'] = "admission/student_list/getJsonList/$1/$2/$3";
-$route['admission/list/print/(:any)/(:any)/(:any)'] = "admission/student_list/print_student_list/$1/$2/$3";
+$route['admission/list/json/(:num)/(:num)/(:num)/(:num)/(:any)'] = "admission/student_list/getJsonList/$1/$2/$3/$4/$5";
+$route['admission/list/print/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admission/student_list/print_student_list/$1/$2/$3/$4/$5";
 
 //Profile & Change Password
 $route['admission/profile'] = "admission/profile/index";
