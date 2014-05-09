@@ -1,72 +1,66 @@
-<script>
-    $(function() {
-    $('input:radio[name="course_id"]').change(function() {
-    var cid = $(this).val();
+<script type="text/javascript">
+    //<![CDATA[
+    $(document).ready(function($) {
+        $('input:radio[name="course_id"]').change(function() {
+            var cid = $(this).val();
             $.ajax({
-            type: 'GET',
-                    url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
-                    success: function(data)
-                    {
+                type: 'GET',
+                url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
+                success: function(data)
+                {
                     $('#preference_1').empty();
-                            $('#preference_2').empty();
-                            $('#preference_3').empty();
-                            $('#preference_1').append(data);
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown)
-                    {
-                    alert('error');
-                    }
-            });
-    });
-            $('#preference_1').change(function() {
-    var cid = $('input:radio[name="course_id"]:checked').val();
-            $.ajax({
-            type: 'GET',
-                    url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
-                    success: function(data)
-                    {
                     $('#preference_2').empty();
-                            $('#preference_3').empty();
-                            $('#preference_2').append(data);
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown)
-                    {
+                    $('#preference_3').empty();
+                    $('#preference_1').append(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown)
+                {
                     alert('error');
-                    }
+                }
             });
-    });
-            $('#preference_2').change(function() {
-    var cid = $('input:radio[name="course_id"]:checked').val();
+        });
+        $('#preference_1').change(function() {
+            var cid = $('input:radio[name="course_id"]:checked').val();
+            $.ajax({
+                type: 'GET',
+                url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
+                success: function(data)
+                {
+                    $('#preference_2').empty();
+                    $('#preference_3').empty();
+                    $('#preference_2').append(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown)
+                {
+                    alert('error');
+                }
+            });
+        });
+        $('#preference_2').change(function() {
+            var cid = $('input:radio[name="course_id"]:checked').val();
             var p = $('#preference_2').val();
             $.ajax({
-            type: 'GET',
-                    url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
-                    success: function(data)
-                    {
+                type: 'GET',
+                url: '<?php echo ADMISSION_URL; ?>forms/getPGCourseSpecialization/' + cid,
+                success: function(data)
+                {
                     $('#preference_3').empty();
-                            $('#preference_3').append(data);
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown)
-                    {
+                    $('#preference_3').append(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown)
+                {
                     alert('error');
-                    }
+                }
             });
+        });
     });
-    }
+    //]]>
 </script>
-
 <div class="row">
-
-    <div class="col-md-12">
+    <div class="col-md-12 text-center">
         <h3>History of Student : <?php echo @$basic_info[0]->firstname . ' ' . @$basic_info[0]->lastname; ?></h3>
         <hr />
     </div>
-
-    <div class="col-md-12">
-
-    </div>
-
-
     <div class="col-md-12">
         <form action="<?php echo ADMISSION_URL . 'counselling/updateData/' . @$basic_info[0]->student_id; ?>" method="post" id="manage" class="form-horizontal">
             <div class="form-group">
@@ -77,8 +71,8 @@
                 <span class="error_generate text-center"></span>
                 <div class="col-md-10">  
                     <?php foreach ($course_details as $course) { ?>
-                        <label class="radio-inline" for="radios-6">
-                            <input type="radio" name="course_id" id="radios-6" value="<?php echo @$course->course_id; ?>" class="required" <?php echo(@$basic_info[0]->course_id == $course->course_id) ? 'checked="checked"' : ''; ?>><?php echo @$course->name; ?>
+                        <label class="radio-inline" for="<?php echo @$course->course_id; ?>">
+                            <input type="radio" name="course_id" id="<?php echo @$course->course_id; ?>" value="<?php echo @$course->course_id; ?>" class="required" <?php echo(@$basic_info[0]->course_id == $course->course_id) ? 'checked="checked"' : ''; ?>><?php echo @$course->name; ?>
                         </label>
                     <?php } ?>
                 </div>

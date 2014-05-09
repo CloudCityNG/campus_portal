@@ -26,7 +26,6 @@ class counselling extends CI_Controller {
         $this->load->model('student_basic_pg_details_model');
         $this->load->model('student_basic_pg_other_details_model');
         $this->load->model('course_specialization_model');
-        
     }
 
     public function index() {
@@ -70,11 +69,11 @@ class counselling extends CI_Controller {
             }
 
             $data['course_specialization'] = $this->course_specialization_model->getWhere(array('course_id' => $data['basic_info'][0]->course_id));
-            $data['candidate_status_info'] = $this->acsm->getWhere(array('status' => 'A'));
+            $data['candidate_status_info'] = $this->acsm->getWhere(array('status' => 'A'), NULL, NULL, 'ASC');
             $data['merit_info'] = $this->eemm->getWhere(array('student_id' => $student_id));
             $data['image_details'] = $this->studnet_images_model->getWhere(array('student_id' => $student_id));
 
-            $this->admin_layout->view('admission/counselling/student_history', $data);
+            echo $this->load->view('admission/counselling/student_history', $data, true);
         } else {
             $this->session->set_flashdata('error', 'Student Status is not Set to Counselling');
             redirect(ADMISSION_URL . 'counselling', 'refresh');

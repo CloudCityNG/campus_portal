@@ -26,13 +26,6 @@
 
         <script type="text/javascript">
             var http_host_js = '<?php echo ADMISSION_URL; ?>';
-
-            $(document).ready(function() {
-                jQuery(document).bind('keydown', 'Ctrl+l', function() {
-                    window.location = "<?php echo base_url() . 'logout'; ?>";
-                    return false;
-                });
-            });
         </script>
     </head>
     <body>
@@ -129,6 +122,5 @@
         <script src="<?php echo JS_URL; ?>DT_bootstrap.js" type="text/javascript"></script>
         <script src="<?php echo JS_URL; ?>jquery-ui.js" type="text/javascript"></script>
         <script src="<?php echo JS_URL; ?>jquery-ui-timepicker-addon.js" type="text/javascript"></script>
-        <script src="<?php echo JS_URL; ?>jquery.hotkeys-0.7.9.js"></script>
     </body>
 </html>
