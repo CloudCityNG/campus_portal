@@ -11,6 +11,7 @@ Class admin_user_model extends CI_model {
     public $full_name;
     public $email_address;
     public $dept_id;
+    public $course_id;
     public $role;
     public $status;
     public $create_id;
@@ -36,6 +37,7 @@ Class admin_user_model extends CI_model {
         $new->full_name = $old->full_name;
         $new->email_address = $old->email_address;
         $new->dept_id = $old->dept_id;
+        $new->course_id = $old->course_id;
         $new->role = $old->role;
         $new->status = $old->status;
         $new->create_id = $old->create_id;
@@ -64,6 +66,9 @@ Class admin_user_model extends CI_model {
 
         if ($this->dept_id != '')
             $arr['dept_id'] = $this->dept_id;
+        
+        if ($this->course_id != '')
+            $arr['course_id'] = $this->course_id;
 
         if ($this->role != '')
             $arr['role'] = $this->role;

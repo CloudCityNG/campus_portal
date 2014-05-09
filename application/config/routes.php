@@ -141,6 +141,16 @@ $route['student_section/change_password'] = "student_section/profile/changePassw
 $route['student_section/profile/updateProfile'] = "student_section/profile/updateProfile";
 $route['student_section/profile/updatePassword'] = "student_section/profile/updatePassword";
 
+//Admission Confirmed
+$route['student_section/confirm'] = "student_section/admission_confirm/index";
+$route['student_section/confirm/get_student'] = "student_section/admission_confirm/getStudentList";
+$route['student_section/confirm/get_student_history/(:num)'] = "student_section/admission_confirm/getStudentHistory/$1";
+$route['student_section/confirm/updateData/(:num)'] = "student_section/admission_confirm/updateStudentDetails/$1";
+
+//Student List
+$route['admission/list'] = "admission/student_list/index";
+$route['admission/list/json/(:num)/(:num)/(:num)/(:num)/(:any)'] = "admission/student_list/getJsonList/$1/$2/$3/$4/$5";
+$route['admission/list/print/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admission/student_list/print_student_list/$1/$2/$3/$4/$5";
 /*
  * **********************************************************************
  * ******************* STUDENT SECTION ROUTING END **********************

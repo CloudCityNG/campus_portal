@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 08, 2014 at 12:20 PM
+-- Generation Time: May 09, 2014 at 11:16 AM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.16
 
@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `admin_user` (
   `full_name` varchar(65) NOT NULL,
   `email_address` varchar(65) NOT NULL,
   `dept_id` int(11) NOT NULL,
+  `course_id` varchar(25) NOT NULL DEFAULT '0',
   `role` enum('1','2','3') NOT NULL DEFAULT '2',
   `status` enum('A','D') NOT NULL,
   `create_id` int(11) NOT NULL,
@@ -48,11 +49,11 @@ CREATE TABLE IF NOT EXISTS `admin_user` (
 -- Dumping data for table `admin_user`
 --
 
-INSERT INTO `admin_user` (`admin_id`, `username`, `password`, `full_name`, `email_address`, `dept_id`, `role`, `status`, `create_id`, `create_date_time`, `modify_id`, `modify_date_time`) VALUES
-(1, 'admission', '21232f297a57a5a743894a0e4a801fc3', 'Soyab Rana', 'ranasoyab@gmail.com', 1, '3', 'A', 1, '2014-04-10 00:00:00', 1, '2014-04-10 00:00:00'),
-(2, 'exam', '21232f297a57a5a743894a0e4a801fc3', 'Soyab Rana', 'ranasoyab@gmail.com', 2, '3', 'A', 1, '2014-04-10 00:00:00', 1, '2014-04-10 00:00:00'),
-(3, 'hostel', '21232f297a57a5a743894a0e4a801fc3', 'Soyab Rana', 'ranasoyab@gmail.com', 3, '3', 'A', 1, '2014-04-10 00:00:00', 1, '2014-04-10 00:00:00'),
-(4, 'student_section', '21232f297a57a5a743894a0e4a801fc3', 'Soyab Rana', 'ranasoyab@gmail.com', 4, '3', 'A', 1, '2014-04-10 00:00:00', 1, '2014-04-10 00:00:00');
+INSERT INTO `admin_user` (`admin_id`, `username`, `password`, `full_name`, `email_address`, `dept_id`, `course_id`, `role`, `status`, `create_id`, `create_date_time`, `modify_id`, `modify_date_time`) VALUES
+(1, 'admission', '21232f297a57a5a743894a0e4a801fc3', 'Soyab Rana', 'ranasoyab@gmail.com', 1, '0', '3', 'A', 1, '2014-04-10 00:00:00', 1, '2014-04-10 00:00:00'),
+(2, 'exam', '21232f297a57a5a743894a0e4a801fc3', 'Soyab Rana', 'ranasoyab@gmail.com', 2, '0', '3', 'A', 1, '2014-04-10 00:00:00', 1, '2014-04-10 00:00:00'),
+(3, 'hostel', '21232f297a57a5a743894a0e4a801fc3', 'Soyab Rana', 'ranasoyab@gmail.com', 3, '0', '3', 'A', 1, '2014-04-10 00:00:00', 1, '2014-04-10 00:00:00'),
+(4, 'student_section', '21232f297a57a5a743894a0e4a801fc3', 'Soyab Rana', 'ranasoyab@gmail.com', 4, '1,7,15', '3', 'A', 1, '2014-04-10 00:00:00', 1, '2014-04-10 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -395,10 +396,10 @@ CREATE TABLE IF NOT EXISTS `student_basic_info` (
 --
 
 INSERT INTO `student_basic_info` (`student_id`, `admission_id`, `degree`, `form_number`, `course_id`, `firstname`, `middlename`, `lastname`, `address`, `pincode`, `mobile_p`, `mobile_s`, `gender`, `email_p`, `email_s`, `parent_1`, `parent_1_occupation`, `parent_2`, `dob`, `marital_status`, `nationality`, `religion`, `community`, `category`, `hostel`, `transoprt`, `status`, `create_id`, `create_date_time`, `modify_id`, `modify_date_time`) VALUES
-(1, 1, 'UG', '1405MS08SV00001', 1, 'MBBS  2', 'MBBS 3', 'MBBS 1', 'asa', '396852', '9638527410', '9638527410', 'M', 'x@x.com', 'x@x.com', 'Chandubhai R. Rana', 'Service', 'Muntazben Rana', '1990-09-19', 'U', 'Indian', 'Muslim', 'Moleslamgarasiya', 'General', 'N', 'N', 4, 1, '2014-05-08 10:15:41', 1, '2014-05-08 17:37:13'),
-(2, 3, 'PG_OTHER', '1405MT08SV00002', 9, 'MPT 1', 'MPT 1', 'MPT 1', 'AA', '390016', '9638527410', '9638527410', 'M', 'x@x.com', 'x@x.com', 'Chandubhai R. Rana', 'Service', 'Muntazben Rana', '1990-09-19', 'U', 'Indian', 'Muslim', 'Moleslamgarasiya', 'Other', 'N', 'N', 3, 1, '2014-05-08 15:29:33', 1, '2014-05-08 15:29:33'),
+(1, 1, 'UG', '1405MS08SV00001', 1, 'MBBS  2', 'MBBS 3', 'MBBS 1', 'asa', '396852', '9638527410', '9638527410', 'M', 'x@x.com', 'x@x.com', 'Chandubhai R. Rana', 'Service', 'Muntazben Rana', '1990-09-19', 'U', 'Indian', 'Muslim', 'Moleslamgarasiya', 'General', 'N', 'N', 4, 1, '2014-05-08 10:15:41', 1, '2014-05-09 12:40:47'),
+(2, 3, 'PG_OTHER', '1405MT08SV00002', 9, 'MPT 1', 'MPT 1', 'MPT 1', 'AA', '390016', '9638527410', '9638527410', 'M', 'x@x.com', 'x@x.com', 'Chandubhai R. Rana', 'Service', 'Muntazben Rana', '1990-09-19', 'U', 'Indian', 'Muslim', 'Moleslamgarasiya', 'Other', 'N', 'N', 5, 1, '2014-05-08 15:29:33', 1, '2014-05-09 11:08:13'),
 (3, 3, 'PG', '1405DS08SV00003', 7, 'MD 1', 'MD 1', 'MD 1', 'dsd', '390016', '9638527410', '9638527410', 'F', 'x@x.com', 'x@x.com', 'Chandubhai R. Rana', 'Service', 'Muntazben Rana', '1990-09-19', 'M', 'Indian', 'Muslim', 'Moleslamgarasiya', 'General', 'N', 'N', 3, 1, '2014-05-08 11:21:54', 1, '2014-05-08 15:31:30'),
-(5, 3, 'SS', '1405SS08SV00004', 13, 'SS', 'SS', 'SS', 'AA', '390016', '9638527410', '9638527410', 'F', 'x@x.com', 'x@x.com', 'Chandubhai R. Rana', 'Service', 'Muntazben Rana', '1990-09-19', 'M', 'Indian', 'Muslim', 'Moleslamgarasiya', 'SEBC', 'Y', 'Y', 3, 1, '2014-05-08 11:45:17', 1, '2014-05-08 11:45:17'),
+(5, 3, 'SS', '1405SS08SV00004', 13, 'SS', 'SS', 'SS', 'AA', '390016', '9638527410', '9638527410', 'F', 'x@x.com', 'x@x.com', 'Chandubhai R. Rana', 'Service', 'Muntazben Rana', '1990-09-19', 'M', 'Indian', 'Muslim', 'Moleslamgarasiya', 'SEBC', 'Y', 'Y', 4, 1, '2014-05-08 11:45:17', 1, '2014-05-09 10:07:01'),
 (6, 3, 'Diploma', '1405DP08SV00005', 15, 'Diploma', 'D', 'D', 'aa', '390016', '9638527410', '9638527410', 'F', 'x@x.com', 'x@x.com', 'Chandubhai R. Rana', 'Service', 'Muntazben Rana', '1990-09-19', 'M', 'Indian', 'Muslim', 'Moleslamgarasiya', 'ST', 'N', 'N', 3, 1, '2014-05-08 11:47:59', 1, '2014-05-08 11:47:59'),
 (7, 3, 'Certificate', '1405CC08SV00006', 16, 'CC', 'CC', 'CC', 'aa', '390016', '9638527410', '9638527410', 'F', 'x@x.com', 'x@x.com', 'Chandubhai R. Rana', 'Service', 'Muntazben Rana', '1990-09-19', 'M', 'Indian', 'Muslim', 'Moleslamgarasiya', 'ST', 'N', 'N', 3, 1, '2014-05-08 11:52:42', 1, '2014-05-08 11:52:42');
 
@@ -440,7 +441,7 @@ CREATE TABLE IF NOT EXISTS `student_basic_pg_details` (
 
 INSERT INTO `student_basic_pg_details` (`student_detail_id`, `student_id`, `hallticket`, `course_special_id`, `preference_1`, `preference_2`, `preference_3`, `center_pref_1`, `center_pref_2`, `center_pref_3`, `rotational_intership`, `intership_date`, `register_mci_dci`, `reg_no`, `reg_date`, `past_college`, `past_university`, `college_mci_dci`, `create_id`, `create_date_time`, `modify_id`, `modify_date_time`) VALUES
 (1, 3, 20141001, 0, 6, 4, 2, 7, 8, 9, 'Y', '1991-01-16', 'Y', '1q2w3e', '2001-01-30', 'SBKS', 'SVU', 'Y', 1, '2014-05-08 11:21:54', 1, '2014-05-08 15:31:31'),
-(3, 5, 20142001, 0, 65, 64, 63, 10, 10, 10, 'N', NULL, 'N', NULL, NULL, NULL, NULL, 'N', 1, '2014-05-08 11:45:17', 1, '2014-05-08 11:45:17'),
+(3, 5, 20142001, 63, 63, 66, 64, 10, 10, 10, 'N', NULL, 'N', NULL, NULL, NULL, NULL, 'N', 1, '2014-05-08 11:45:17', 1, '2014-05-08 11:45:17'),
 (4, 6, 20143001, 0, 31, 30, 30, 11, 12, 13, 'N', NULL, 'N', NULL, NULL, NULL, NULL, 'N', 1, '2014-05-08 11:47:59', 1, '2014-05-08 11:47:59');
 
 -- --------------------------------------------------------
@@ -468,8 +469,8 @@ CREATE TABLE IF NOT EXISTS `student_basic_pg_other_details` (
 --
 
 INSERT INTO `student_basic_pg_other_details` (`student_detail_id`, `student_id`, `preference_1`, `preference_2`, `preference_3`, `course_special_id`, `create_id`, `create_date_time`, `modify_id`, `modify_date_time`) VALUES
-(1, 2, 49, 48, 46, 0, 1, '2014-05-08 10:18:24', 1, '2014-05-08 10:18:24'),
-(2, 7, 76, 74, 72, 0, 1, '2014-05-08 11:52:42', 1, '2014-05-08 11:52:42');
+(1, 2, 49, 47, 45, 49, 1, '2014-05-08 10:18:24', 1, '2014-05-08 10:18:24'),
+(2, 7, 76, 74, 72, 76, 1, '2014-05-08 11:52:42', 1, '2014-05-08 11:52:42');
 
 -- --------------------------------------------------------
 

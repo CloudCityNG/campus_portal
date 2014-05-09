@@ -65,7 +65,7 @@
                         <li <?php echo ($link == 'eet') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'eet' ?>">Entrance Exam Test</a></li>
                         <li <?php echo ($link == 'merit_list') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'merit_list' ?>">Merit List</a></li>
                         <li <?php echo ($link == 'counselling') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'counselling' ?>">Counselling</a></li>
-                        <li <?php echo ($link == 'confirm') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'confirm' ?>">Admission Confirmation</a></li>
+                        <!--<li <?php echo ($link == 'confirm') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'confirm' ?>">Admission Confirmation</a></li>-->
                         <li <?php echo ($link == 'list') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'list' ?>">Student List</a></li>
                     </ul>
 
