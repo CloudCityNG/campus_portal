@@ -97,6 +97,24 @@ class counselling extends CI_Controller {
             $obj->student_id = $student_id;
             $obj->updateData();
 
+            if ($basic_info[0]->degree == 'PG_OTHER' || $basic_info[0]->degree == 'Certificate') {
+                $obj_detail = new student_basic_pg_other_details_model();
+                $obj_detail->student_id = $student_id;
+                $obj_detail->course_special_id = $this->input->post('preference_1');
+                $obj_detail->preference_1 = $this->input->post('preference_1');
+                $obj_detail->preference_2 = $this->input->post('preference_2');
+                $obj_detail->preference_3 = $this->input->post('preference_3');
+                $obj_detail->updateData();
+            } else  if ($basic_info[0]->degree == 'PG' || $basic_info[0]->degree == 'SS' || $basic_info[0]->degree == 'Diploma') {
+                $obj_detail = new student_basic_pg_details_model();
+                $obj_detail->student_id = $student_id;
+                $obj_detail->course_special_id = $this->input->post('preference_1');
+                $obj_detail->preference_1 = $this->input->post('preference_1');
+                $obj_detail->preference_2 = $this->input->post('preference_2');
+                $obj_detail->preference_3 = $this->input->post('preference_3');
+                $obj_detail->updateData();
+            }
+
             $this->session->set_flashdata('success', 'Admission Order is Issue');
             redirect(ADMISSION_URL . 'counselling', 'refresh');
         } else {

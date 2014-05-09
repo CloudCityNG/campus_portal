@@ -1,47 +1,35 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 text-center">
         <h3>History of Student : <?php echo @$basic_info[0]->firstname . ' ' . @$basic_info[0]->lastname; ?></h3>
         <hr />
     </div>
 
     <div class="col-md-12">
-        <div class="col-md-12">
-            <form action="<?php echo ADMISSION_URL . 'confirm/updateData/' . @$basic_info[0]->student_id; ?>" method="post" id="manage" class="form-horizontal">
-                <div class="form-group">
-                    <label for="question" class="col-md-2 control-label">
-                        Update Status :
-                        <span class="text-danger">*</span>
-                    </label>
-                    <div class="col-md-4">
-                        <select name="admission_status_id" class="form-control required">
-                            <?php
-                            foreach ($candidate_status_info as $details) {
-                                if ($details->admission_status_id > 4) {
-                                    ?>
-                                    <option value="<?php echo $details->admission_status_id; ?>" <?php echo ($details->admission_status_id == @$basic_info[0]->status) ? 'selected="selected"' : ''; ?>><?php echo $details->name; ?></option>
-                                    <?php
-                                }
+        <form action="<?php echo ADMISSION_URL . 'confirm/updateData/' . @$basic_info[0]->student_id; ?>" method="post" id="manage" class="form-horizontal">
+            <div class="form-group">
+                <label for="question" class="col-md-2 control-label">
+                    Update Status :
+                    <span class="text-danger">*</span>
+                </label>
+                <div class="col-md-4">
+                    <select name="admission_status_id" class="form-control required">
+                        <?php
+                        foreach ($candidate_status_info as $details) {
+                            if ($details->admission_status_id > 4) {
+                                ?>
+                                <option value="<?php echo $details->admission_status_id; ?>" <?php echo ($details->admission_status_id == @$basic_info[0]->status) ? 'selected="selected"' : ''; ?>><?php echo $details->name; ?></option>
+                                <?php
                             }
-                            ?>
-                        </select>
-                    </div>
+                        }
+                        ?>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="question" class="col-md-2 control-label">
-                        &nbsp;
-                    </label>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary">Update Details</button>
-                    </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary">Update Details</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
-
-    <div class="col-md-12">
-        <hr />
-    </div>
-
     <div class="col-md-12">
         <table class="table">
             <tr>
@@ -114,37 +102,9 @@
                                 <?php echo @$merit_info[0]->marks; ?>
                             </td>
                         </tr>
-
-                        <tr>
-                            <td>
-                                PCB
-                            </td>
-                            <td>
-                                <?php echo @$edu_master_info[0]->pcb_percentage; ?>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                PCBE
-                            </td>
-                            <td>
-                                <?php echo @$edu_master_info[0]->pcbe_percentage; ?>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                H.S.C Pertentage
-                            </td>
-                            <td>
-                                <?php echo @$edu_master_info[0]->total_percentage; ?>
-                            </td>
-                        </tr>
                     </table>
                 </td>
             </tr>
         </table>
     </div>
-
 </div>

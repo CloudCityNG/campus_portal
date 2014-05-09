@@ -49,12 +49,12 @@ class admission_confirm extends CI_Controller {
         if ($data['basic_info'][0]->status == 4) {
             $data['student_id'] = $student_id;
             $data['course_details'] = $this->courses_model->getWhere(array('degree' => 'UG', 'status' => 'A'));
-            $data['candidate_status_info'] = $this->acsm->getWhere(array('status' => 'A'));
+            $data['candidate_status_info'] = $this->acsm->getWhere(array('status' => 'A'), NULL, NULL, 'ASC');
             $data['merit_info'] = $this->eemm->getWhere(array('student_id' => $student_id));
             $data['edu_master_info'] = $this->student_edu_master_model->getWhere(array('student_id' => $student_id));
             $data['image_details'] = $this->studnet_images_model->getWhere(array('student_id' => $student_id));
 
-            $this->admin_layout->view('admission/admission_confirm/student_history', $data);
+            echo $this->load->view('admission/admission_confirm/student_history', $data, true);
         } else {
             $this->session->set_flashdata('error', 'Student Status is not Set to Admission Order');
             redirect(ADMISSION_URL . 'confirm', 'refresh');

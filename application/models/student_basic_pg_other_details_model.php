@@ -135,7 +135,12 @@ Class student_basic_pg_other_details_model extends CI_model {
     function updateData() {
         $array = $this->toArray();
         unset($array['student_detail_id']);
-        $this->db->where('student_detail_id', $this->student_detail_id);
+        unset($array['student_id']);
+        if ($this->student_id != '') {
+            $this->db->where('student_id', $this->student_id);
+        } else {
+            $this->db->where('student_detail_id', $this->student_detail_id);
+        }
         $this->db->update($this->table_name, $array);
         return TRUE;
     }
