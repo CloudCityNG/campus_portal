@@ -5,7 +5,7 @@
     </div>
 
     <div class="col-md-12">
-        <form action="<?php echo ADMISSION_URL . 'confirm/updateData/' . @$basic_info[0]->student_id; ?>" method="post" id="manage" class="form-horizontal">
+        <form action="<?php echo STUDENT_SECTION_URL . 'confirm/updateData/' . @$basic_info[0]->student_id; ?>" method="post" id="manage" class="form-horizontal">
             <div class="form-group">
                 <label for="question" class="col-md-2 control-label">
                     Update Status :

@@ -171,7 +171,23 @@ Class courses_model extends CI_model {
         $this->db->where('status', 'A');
         $this->db->where_in('degree', $course_array);
         $res = $this->db->get();
-       
+
+        if ($res->num_rows > 0) {
+            return $res->result();
+        } else {
+            return false;
+        }
+    }
+
+    function getCourseByStudentSection() {
+        $this->db->select(' * ');
+        $this->db->from($this->table_name);
+        $session = $this->session->userdata('admin_session');
+        if (isset($session->course_id) && $session->course_id != 0) {
+            $this->db->where_in('course_id', explode(',', $session->course_id));
+        }
+        $res = $this->db->get();
+
         if ($res->num_rows > 0) {
             return $res->result();
         } else {

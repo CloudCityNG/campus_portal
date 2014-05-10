@@ -277,7 +277,7 @@ Class student_basic_info_model extends CI_model {
         $this->db->from($this->table_name);
         $session = $this->session->userdata('admin_session');
         if (isset($session->course_id) && $session->course_id != 0) {
-            $this->db->where_in(explode(',', $session->course_id));
+            $this->db->where_in('course_id', explode(',', $session->course_id));
         }
         $this->db->like('form_number', $no, FALSE);
         $this->db->where('status', $status);

@@ -7,11 +7,11 @@ class student_list extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->admin_layout->setLayout('template/layout_admission');
+        $this->admin_layout->setLayout('template/layout_student_section');
 
         $session = $this->session->userdata('admin_session');
-        if (empty($session) || $session->type != 'admission') {
-            $this->session->set_flashdata('error', 'Login First');
+        if (empty($session) && $session->type != 'student_section') {
+            $this->session->set_flashdata('error', 'Login First Dear');
             redirect(base_url() . 'login', 'refresh');
         }
 
@@ -24,9 +24,9 @@ class student_list extends CI_Controller {
     public function index() {
         $this->admin_layout->setField('page_title', 'Student List');
         $data['admission_details'] = $this->admission_details_model->getDistinctYear('UG');
-        $data['course_details'] = $this->courses_model->getWhere(array('status' => 'A'));
-        $data['candidate_status_info'] = $this->acsm->getWhere(array('status' => 'A'));
-        $this->admin_layout->view('admission/student_list/list', $data);
+        $data['course_details'] = $this->courses_model->getCourseByStudentSection();
+        $data['candidate_status_info'] = $this->acsm->getWhere(array('admission_status_id >' => 3, 'admission_status_id <' => 6, 'status' => 'A'));
+        $this->admin_layout->view('student_section/student_list/list', $data);
     }
 
     function getPGCourseSpecialization($course_id) {
@@ -103,10 +103,10 @@ class student_list extends CI_Controller {
             $data['table_data'] = $this->student_basic_info_model->getStudentList($year, $course, $course_specialization, $status, $degree);
             $data['year'] = $year;
             $data['course_details'] = $this->courses_model->getWhere(array('course_id' => $course, 'degree' => 'UG', 'status' => 'A'));
-            $this->load->view('admission/student_list/print_list', $data);
+            $this->load->view('student_section/student_list/print_list', $data);
         } else {
             $this->session->set_flashdata('error', 'Do not Change the URL.');
-            redirect(ADMISSION_URL . 'list', 'refresh');
+            redirect(STUDENT_SECTION_URL . 'list', 'refresh');
         }
     }
 

@@ -4,11 +4,11 @@
         loadTable();
         $('#dispaly_year').html($('#year').val());
         $('#dispaly_course').html($('#course_id option:selected').text());
-        $('#print_list').attr('href', ('<?php echo ADMISSION_URL . 'list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')));
+        $('#print_list').attr('href', ('<?php echo STUDENT_SECTION_URL . 'list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')));
         $('#year').change(function() {
             $('#dispaly_year').html($('#year').val());
             $('#dispaly_course').html($('#course_id option:selected').text());
-            $('#print_list').attr('href', ('<?php echo ADMISSION_URL . 'list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')));
+            $('#print_list').attr('href', ('<?php echo STUDENT_SECTION_URL . 'list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')));
             loadTable();
         });
 
@@ -18,7 +18,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: '<?php echo ADMISSION_URL; ?>student_list/getPGCourseSpecialization/' + $('#course_id').val(),
+                url: '<?php echo STUDENT_SECTION_URL; ?>student_list/getPGCourseSpecialization/' + $('#course_id').val(),
                 success: function(data)
                 {
                     $('#course_special_id').empty();
@@ -30,21 +30,21 @@
                 }
             });
 
-            $('#print_list').attr('href', ('<?php echo ADMISSION_URL . 'list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')));
+            $('#print_list').attr('href', ('<?php echo STUDENT_SECTION_URL . 'list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')));
             loadTable();
         });
 
         $('#course_special_id').change(function() {
             $('#dispaly_year').html($('#year').val());
             $('#dispaly_course').html($('#course_id option:selected').text());
-            $('#print_list').attr('href', ('<?php echo ADMISSION_URL . 'list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')));
+            $('#print_list').attr('href', ('<?php echo STUDENT_SECTION_URL . 'list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')));
             loadTable();
         });
 
         $('#admission_status_id').change(function() {
             $('#dispaly_year').html($('#year').val());
             $('#dispaly_course').html($('#course_id option:selected').text());
-            $('#print_list').attr('href', ('<?php echo ADMISSION_URL . 'list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')));
+            $('#print_list').attr('href', ('<?php echo STUDENT_SECTION_URL . 'list/print/'; ?>' + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')));
             loadTable();
         });
 
@@ -68,7 +68,7 @@
                 {"sClass": "text-center"}, {"sClass": "text-center"},
                 {"sClass": "text-center"}, {"sClass": "text-center"}
             ],
-            "sAjaxSource": "<?php echo ADMISSION_URL . "list/json/"; ?>" + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')
+            "sAjaxSource": "<?php echo STUDENT_SECTION_URL . "list/json/"; ?>" + $('#year').val() + '/' + $('#course_id').val() + '/' + $('#course_special_id').val() + '/' + $('#admission_status_id').val() + '/' + $('#course_id').find(':selected').data('degree')
         });
     }
 </script>

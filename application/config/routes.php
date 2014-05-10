@@ -148,9 +148,9 @@ $route['student_section/confirm/get_student_history/(:num)'] = "student_section/
 $route['student_section/confirm/updateData/(:num)'] = "student_section/admission_confirm/updateStudentDetails/$1";
 
 //Student List
-$route['admission/list'] = "admission/student_list/index";
-$route['admission/list/json/(:num)/(:num)/(:num)/(:num)/(:any)'] = "admission/student_list/getJsonList/$1/$2/$3/$4/$5";
-$route['admission/list/print/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admission/student_list/print_student_list/$1/$2/$3/$4/$5";
+$route['student_section/list'] = "student_section/student_list/index";
+$route['student_section/list/json/(:num)/(:num)/(:num)/(:num)/(:any)'] = "student_section/student_list/getJsonList/$1/$2/$3/$4/$5";
+$route['student_section/list/print/(:any)/(:any)/(:any)/(:any)/(:any)'] = "student_section/student_list/print_student_list/$1/$2/$3/$4/$5";
 /*
  * **********************************************************************
  * ******************* STUDENT SECTION ROUTING END **********************

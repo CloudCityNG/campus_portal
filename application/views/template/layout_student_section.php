@@ -59,6 +59,7 @@
                     <?php $link = $this->uri->segment(2); ?>   
                     <ul class="nav navbar-nav">
                         <li <?php echo ($link == 'confirm') ? 'class="active"' : ''; ?>><a href="<?php echo STUDENT_SECTION_URL . 'confirm' ?>">Admission Confirmation</a></li>
+                        <li <?php echo ($link == 'list') ? 'class="active"' : ''; ?>><a href="<?php echo STUDENT_SECTION_URL . 'list' ?>">Student List</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">
