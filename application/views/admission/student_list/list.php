@@ -18,9 +18,10 @@
 
             $.ajax({
                 type: 'GET',
-                url: '<?php echo ADMISSION_URL; ?>student_list/getPGCourseSpecialization/' + $('#course_id').val(),
+                url: '<?php echo ADMISSION_URL; ?>list/coursecpecialization/' + $('#course_id').val(),
                 success: function(data)
                 {
+                    console.log(data);
                     $('#course_special_id').empty();
                     $('#course_special_id').append(data);
                 },
@@ -81,7 +82,7 @@
     </div>
     <div class="col-md-12 padding-killer">
         <div class="col-md-2 text-center">
-            <label class="">Admission Year</label>
+            <label class="">Admission Year</label> 
             <select class="form-control text-center" id="year">
                 <?php foreach ($admission_details as $year) { ?>
                     <option value="<?php echo $year->admission_year; ?>"><?php echo $year->admission_year; ?></option>

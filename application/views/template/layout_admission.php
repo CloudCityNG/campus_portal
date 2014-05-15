@@ -67,6 +67,7 @@
                         <li <?php echo ($link == 'counselling') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'counselling' ?>">Counselling</a></li>
                         <!--<li <?php echo ($link == 'confirm') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'confirm' ?>">Admission Confirmation</a></li>-->
                         <li <?php echo ($link == 'list') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'list' ?>">Student List</a></li>
+                        <li <?php echo ($link == 'import') ? 'class="active"' : ''; ?>><a href="<?php echo ADMISSION_URL . 'import' ?>">Import Excel</a></li>
                     </ul>
 
                     <ul class="nav navbar-nav pull-right">

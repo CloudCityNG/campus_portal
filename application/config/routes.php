@@ -113,6 +113,7 @@ $route['admission/confirm/updateData/(:num)'] = "admission/admission_confirm/upd
 $route['admission/list'] = "admission/student_list/index";
 $route['admission/list/json/(:num)/(:num)/(:num)/(:num)/(:any)'] = "admission/student_list/getJsonList/$1/$2/$3/$4/$5";
 $route['admission/list/print/(:any)/(:any)/(:any)/(:any)/(:any)'] = "admission/student_list/print_student_list/$1/$2/$3/$4/$5";
+$route['admission/list/coursecpecialization/(:num)'] = "admission/student_list/getPGCourseSpecialization/$1";
 
 //Profile & Change Password
 $route['admission/profile'] = "admission/profile/index";
@@ -120,6 +121,10 @@ $route['admission/change_password'] = "admission/profile/changePassword";
 $route['admission/profile/updateProfile'] = "admission/profile/updateProfile";
 $route['admission/profile/updatePassword'] = "admission/profile/updatePassword";
 
+//Import Excel
+$route['admission/import'] = "admission/import/index";
+$route['admission/file/(:any)'] = "admission/import/uploadfile/$1";
+$route['admission/import/upload'] = "admission/import/fetchDataFromExcel";
 /*
  * **********************************************************************
  * ***************** ADMISSION DEPARTMENT ROUTING END *******************

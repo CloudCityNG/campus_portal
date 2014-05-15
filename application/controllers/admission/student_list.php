@@ -23,7 +23,7 @@ class student_list extends CI_Controller {
 
     public function index() {
         $this->admin_layout->setField('page_title', 'Student List');
-        $data['admission_details'] = $this->admission_details_model->getDistinctYear('UG');
+        $data['admission_details'] = $this->admission_details_model->getDistinctYear();
         $data['course_details'] = $this->courses_model->getWhere(array('status' => 'A'));
         $data['candidate_status_info'] = $this->acsm->getWhere(array('status' => 'A'));
         $this->admin_layout->view('admission/student_list/list', $data);
@@ -32,6 +32,7 @@ class student_list extends CI_Controller {
     function getPGCourseSpecialization($course_id) {
         $this->load->model('course_specialization_model');
         $records = $this->course_specialization_model->getWhere(array('course_id' => $course_id));
+        var_dump($records);
         if (!empty($records)) {
             echo '<option value="0">None</option>';
             foreach ($records as $value) {

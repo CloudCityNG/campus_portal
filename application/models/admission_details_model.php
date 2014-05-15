@@ -146,10 +146,10 @@ Class admission_details_model extends CI_model {
         }
     }
 
-    function getDistinctYear($degree) {
+    function getDistinctYear() {
         $this->db->select('Distinct(admission_year)');
         $this->db->from($this->table_name);
-        $this->db->where('degree', $degree);
+        $this->db->order_by('admission_year', 'DESC');
         $res = $this->db->get();
         if ($res->num_rows > 0) {
             return $res->result();
