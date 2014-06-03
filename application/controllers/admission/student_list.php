@@ -32,7 +32,6 @@ class student_list extends CI_Controller {
     function getPGCourseSpecialization($course_id) {
         $this->load->model('course_specialization_model');
         $records = $this->course_specialization_model->getWhere(array('course_id' => $course_id));
-        var_dump($records);
         if (!empty($records)) {
             echo '<option value="0">None</option>';
             foreach ($records as $value) {

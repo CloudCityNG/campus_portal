@@ -36,3 +36,13 @@ function getHallTicket($student_id, $degree) {
         return $detail[0]->hallticket;
     }
 }
+
+function getYearByAdmissionID($id) {
+    $ci = get_instance();
+    $ci->load->model('admission_details_model');
+    $detail = $ci->admission_details_model->getWhere(array('admission_id' => $id));
+
+    if (!empty($detail)) {
+        return $detail[0]->admission_year;
+    }
+}

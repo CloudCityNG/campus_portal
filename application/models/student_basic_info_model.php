@@ -261,8 +261,14 @@ Class student_basic_info_model extends CI_model {
         $short_code = $this->courses_model->getCourseShortCode($course_id);
 
         $res = $this->getAll(1, 'student_id', 'desc');
+
         if (!empty($res)) {
-            $last_id = substr($res[0]->form_number, 10);
+            $current_year = substr($res[0]->form_number, 0, 2);
+            if ($current_year == date('y')) {
+                $last_id = substr($res[0]->form_number, 10);
+            } else {
+                $last_id = 0;
+            }
         } else {
             $last_id = 0;
         }
