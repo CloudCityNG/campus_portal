@@ -181,7 +181,6 @@ class forms extends CI_Controller {
         $admission_details = $this->admission_details_model->getWhere(array('degree' => 'UG', 'admission_year' => get_current_date_time()->year));
         $obj->admission_id = $admission_details[0]->admission_id;
         $obj->form_number = $obj->generateFormNumber($this->input->post('cid'), date('y', strtotime(get_current_date_time()->year)), get_current_date_time()->month, get_current_date_time()->day);
-        $obj->hall_ticket = $obj->course_id = $this->input->post('cid');
         $obj->degree = 'UG';
         $obj->firstname = $this->input->post('firstname');
         $obj->middlename = ($this->input->post('middlename') == '') ? NULL : $this->input->post('middlename');
