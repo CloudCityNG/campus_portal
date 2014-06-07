@@ -177,10 +177,10 @@
                 <div class = "col-md-6">
                     <label for = "question" class = "col-md-4 control-label">
                         Parent Contact
-                        <span class="text-danger">*</span>
+                        <span class="text-danger"></span>
                     </label>
                     <div class = "col-md-8">
-                        <input type="text" name="mobile_p" value="<?php echo @$basic_info[0]->mobile_p; ?>" class="form-control required" placeholder = "Moblie No Parent" />
+                        <input type="text" name="mobile_p" value="<?php echo @$basic_info[0]->mobile_p; ?>" class="form-control" placeholder = "Moblie No Parent" />
                     </div>
                 </div>
             </div>
@@ -189,20 +189,20 @@
                 <div class = "col-md-6">
                     <label for = "question" class = "col-md-4 control-label">
                         Student Email Address
-                        <span class="text-danger">*</span>
+                        <span class="text-danger"></span>
                     </label>
                     <div class = "col-md-8">
-                        <input type="email" name="email_s" value="<?php echo @$basic_info[0]->email_s; ?>" class="form-control required" placeholder = "Email Address of Student" />
+                        <input type="email" name="email_s" value="<?php echo @$basic_info[0]->email_s; ?>" class="form-control" placeholder = "Email Address of Student" />
                     </div>
                 </div>
 
                 <div class = "col-md-6">
                     <label for = "question" class = "col-md-4 control-label">
                         Parent Email Address
-                        <span class="text-danger">*</span>
+                        <span class="text-danger"></span>
                     </label>
                     <div class = "col-md-8">
-                        <input type="email" name="email_p" value="<?php echo @$basic_info[0]->email_p; ?>" class="form-control required" placeholder = "Email Address of Parent" />
+                        <input type="email" name="email_p" value="<?php echo @$basic_info[0]->email_p; ?>" class="form-control" placeholder = "Email Address of Parent" />
                     </div>
                 </div>
             </div>

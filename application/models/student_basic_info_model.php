@@ -264,7 +264,7 @@ Class student_basic_info_model extends CI_model {
 
         if (!empty($res)) {
             $current_year = substr($res[0]->form_number, 0, 2);
-            if ($current_year == date('y')) {
+            if ($current_year == $year) {
                 $last_id = substr($res[0]->form_number, 10);
             } else {
                 $last_id = 0;

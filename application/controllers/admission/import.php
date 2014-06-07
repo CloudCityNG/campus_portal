@@ -81,7 +81,7 @@ class import extends CI_Controller {
                 $obj = new student_basic_info_model();
                 $obj->admission_id = $this->processInput($data[2]);
                 $obj->degree = 'UG';
-                $obj->form_number = $obj->generateFormNumber($this->processInput($data[3]), date('y', strtotime(getYearByAdmissionID($this->processInput($data[2])))), get_current_date_time()->month, get_current_date_time()->day);
+                $obj->form_number = $obj->generateFormNumber($this->processInput($data[3]), date('y', strtotime('01-01-' . getYearByAdmissionID($this->processInput($data[2])))), get_current_date_time()->month, get_current_date_time()->day);
                 $obj->course_id = $this->processInput($data[3]);
                 $obj->firstname = $this->processInput($data[8]);
                 $obj->middlename = $this->processInput($data[9]);
@@ -236,7 +236,7 @@ class import extends CI_Controller {
             } else if (!empty($data[0])) {
                 $obj = new student_basic_info_model();
                 $obj->admission_id = $this->processInput($data[2]);
-                $obj->form_number = $obj->generateFormNumber($this->processInput($data[3]), date('y', strtotime(get_current_date_time()->year)), get_current_date_time()->month, get_current_date_time()->day);
+                $obj->form_number = $obj->generateFormNumber($this->processInput($data[3]), date('y', strtotime('01-01-' . getYearByAdmissionID($this->processInput($data[2])))), get_current_date_time()->month, get_current_date_time()->day);
                 $obj->course_id = $this->processInput($data[3]);
                 $obj->degree = 'PG_OTHER';
                 $obj->firstname = $this->processInput($data[9]);
@@ -332,7 +332,7 @@ class import extends CI_Controller {
                 $count++;
                 $obj = new student_basic_info_model();
                 $obj->admission_id = $this->processInput($data[2]);
-                $obj->form_number = $obj->generateFormNumber($data[4], date('y', strtotime(get_current_date_time()->year)), get_current_date_time()->month, get_current_date_time()->day);
+                $obj->form_number = $obj->generateFormNumber($this->processInput($data[4]), date('y', strtotime('01-01-' . getYearByAdmissionID($this->processInput($data[2])))), get_current_date_time()->month, get_current_date_time()->day);
                 $obj->course_id = $this->processInput($data[4]);
                 $obj->degree = 'PG';
                 $obj->lastname = $this->processInput($data[12]);
