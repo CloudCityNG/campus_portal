@@ -789,7 +789,7 @@
                         <th>Attempt</th>
                     </tr>
 
-                   <?php for ($i = 0; $i <= 5; $i++) { ?>
+                    <?php for ($i = 0; $i <= 5; $i++) { ?>
                         <tr>
                         <input type="hidden" name="pg_edu_id[]" value="<?php echo @$edu_master_info[$i]->pg_edu_id; ?>" />
                         <td><input type="text" name="exam[]" class="form-control required" value="<?php echo @$edu_master_info[$i]->exam; ?>" /></td>
@@ -1115,13 +1115,13 @@
                 <input type="hidden" name="form_number" value="<?php echo @$basic_info[0]->form_number; ?>" />
                 <label for = "question" class = "col-md-2 control-label">
                     Student Image
-                    <span class="text-danger">*</span>
+                    <span class="text-danger">&nbsp;</span>
                 </label>
                 <div class = "col-md-8">
                     <?php if (@$image_details[0]->student_image != '') { ?>
                         <input type="file" name="student_image" id="student_image" class="form-control" />
                     <?php } else { ?>
-                        <input type="file" name="student_image" id="student_image" class="form-control required" />
+                        <input type="file" name="student_image" id="student_image" class="form-control" />
                     <?php } ?>
 
                 </div>
@@ -1137,14 +1137,14 @@
             <div class = "form-group">
                 <label for = "question" class = "col-md-2 control-label">
                     Student Signature
-                    <span class="text-danger">*</span>
+                    <span class="text-danger">&nbsp;</span>
                 </label>
                 <div class = "col-md-8">
 
                     <?php if (@$image_details[0]->sign != '') { ?>
                         <input type="file" name="sign" class="form-control"/>
                     <?php } else { ?>
-                        <input type="file" name="sign" class="form-control required"/>
+                        <input type="file" name="sign" class="form-control"/>
                     <?php } ?>
                 </div>
                 <div class = "col-md-2">
@@ -1158,7 +1158,7 @@
 
             <div class = "form-group">
                 <label for = "question" class = "col-md-2 control-label">
-                     Marksheet
+                    Marksheet
                     <span class="text-danger">&nbsp;</span>
                 </label>
                 <div class = "col-md-8">
@@ -1267,8 +1267,8 @@
 
             <div class="form-group">
                 <div class="col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary">Finish</button>
-                    <a href="<?php echo ADMISSION_URL . 'forms'; ?>" class="btn btn-inverse">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Upload Images</button>
+                    <a href="<?php echo ADMISSION_URL . 'forms'; ?>" class="btn btn-inverse">Finish</a>
                 </div>
             </div>
         </form>

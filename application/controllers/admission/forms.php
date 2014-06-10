@@ -98,8 +98,7 @@ class forms extends CI_Controller {
                 $temp_arr[] = '';
             }
             if ($session->role == 3) {
-                $temp_arr[] = '<a href="' . ADMISSION_URL . 'forms/edit/' . $aRow['student_id'] . '/' . $aRow['form_number'] . '/basic_info"  class="icon-edit" id="' . $aRow['student_id'] . '"></a> &nbsp; <a href="javascript:;
-" onclick="deleteRow(this)" class="deletepage icon-trash" id="' . $aRow['student_id'] . '"></a>';
+                $temp_arr[] = '<a href="' . ADMISSION_URL . 'forms/edit/' . $aRow['student_id'] . '/' . $aRow['form_number'] . '/basic_info"  class="icon-edit" id="' . $aRow['student_id'] . '"></a>';
             }
 
             $this->datatable->output['aaData'][] = $temp_arr;
@@ -182,6 +181,7 @@ class forms extends CI_Controller {
         $obj->admission_id = $admission_details[0]->admission_id;
         $obj->form_number = $obj->generateFormNumber($this->input->post('cid'), date('y', strtotime(get_current_date_time()->year)), get_current_date_time()->month, get_current_date_time()->day);
         $obj->degree = 'UG';
+        $obj->course_id = $this->input->post('cid');
         $obj->firstname = $this->input->post('firstname');
         $obj->middlename = ($this->input->post('middlename') == '') ? NULL : $this->input->post('middlename');
         $obj->lastname = $this->input->post('lastname');

@@ -155,7 +155,7 @@ Class student_basic_ug_details_model extends CI_model {
         $res = $this->getWhere(array('center_pref_1' => $center_peref_1), 1, 'student_id', 'desc');
 
         if (!empty($res)) {
-            $last_id = substr($res[0]->hall_ticket, 4);
+            $last_id = substr($res[0]->hallticket, 4);
         } else {
             $this->load->model('exam_centers_model');
             $exam = $this->exam_centers_model->getWhere(array('center_id' => $center_peref_1));

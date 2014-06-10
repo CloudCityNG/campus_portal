@@ -956,13 +956,13 @@
                 <input type="hidden" name="form_number" value="<?php echo @$basic_info[0]->form_number; ?>" />
                 <label for = "question" class = "col-md-2 control-label">
                     Student Image
-                    <span class="text-danger">*</span>
+                    <span class="text-danger">&nbsp;</span>
                 </label>
                 <div class = "col-md-8">
                     <?php if (@$image_details[0]->student_image != '') { ?>
                         <input type="file" name="student_image" id="student_image" class="form-control" />
                     <?php } else { ?>
-                        <input type="file" name="student_image" id="student_image" class="form-control required" />
+                        <input type="file" name="student_image" id="student_image" class="form-control" />
                     <?php } ?>
 
                 </div>
@@ -978,14 +978,14 @@
             <div class = "form-group">
                 <label for = "question" class = "col-md-2 control-label">
                     Student Signature
-                    <span class="text-danger">*</span>
+                    <span class="text-danger">&nbsp;</span>
                 </label>
                 <div class = "col-md-8">
 
                     <?php if (@$image_details[0]->sign != '') { ?>
                         <input type="file" name="sign" class="form-control"/>
                     <?php } else { ?>
-                        <input type="file" name="sign" class="form-control required"/>
+                        <input type="file" name="sign" class="form-control"/>
                     <?php } ?>
                 </div>
                 <div class = "col-md-2">
@@ -1000,14 +1000,14 @@
             <div class = "form-group">
                 <label for = "question" class = "col-md-2 control-label">
                     S.S.C Marksheet
-                    <span class="text-danger">*</span>
+                    <span class="text-danger">&nbsp;</span>
                 </label>
                 <div class = "col-md-8">
 
                     <?php if (@$image_details[0]->ssc_marksheet != '') { ?>
                         <input type="file" name="ssc_marksheet" class="form-control"/>
                     <?php } else { ?>
-                        <input type="file" name="ssc_marksheet" class="form-control required"/>
+                        <input type="file" name="ssc_marksheet" class="form-control"/>
                     <?php } ?>
                 </div>
                 <div class = "col-md-2">
@@ -1108,8 +1108,8 @@
 
             <div class="form-group">
                 <div class="col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary">Finish</button>
-                    <a href="<?php echo ADMISSION_URL . 'forms'; ?>" class="btn btn-inverse">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Upload Images</button>
+                    <a href="<?php echo ADMISSION_URL . 'forms'; ?>" class="btn btn-inverse">Finish</a>
                 </div>
             </div>
         </form>
